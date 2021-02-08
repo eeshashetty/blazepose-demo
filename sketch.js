@@ -1,132 +1,85 @@
-let video;
-let poseNet;
-let poses = [];
-let squats = 0;
-let down = false;
-let up = false;
+import { drawKeypoints } from './utils/utils.js';
 
-function setup() {
-  createCanvas(640, 480);
-  video = createCapture(VIDEO);
-  video.size(width, height);
+// console.log('in');
+const videoHeight = 480;
+const videoWidth = 640;
 
-  poseNet = ml5.poseNet(video, 'single', modelReady);
+async function setupCamera() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    throw new Error(
+        'Browser API navigator.mediaDevices.getUserMedia not available');
+  }
 
-  poseNet.on('pose', function(results) {
-    poses = results;
+  const video = document.getElementById('video');
+  video.width = videoWidth;
+  video.height = videoHeight;
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': {
+      facingMode: 'user',
+      width: videoWidth,
+      height: videoHeight,
+    },
   });
+  video.srcObject = stream;
 
-  video.hide();
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      resolve(video);
+    };
+  });
 }
 
-function modelReady() {
-  select('#status').html('squats = 0');
+async function loadVideo() {
+  const video = await setupCamera();
+  video.play();
+
+  return video;
 }
 
-function draw() {
-    translate(video.width, 0);
-    scale(-1,1);
-    image(video, 0, 0, width, height);
-    drawKeypoints()
-    drawSkeleton();
-}
+function detect(video, net) {
+  const canvas = document.getElementById('output');
+  const ctx = canvas.getContext('2d');
 
-// logic - find slope of the line connecting hip and knee
-function checkSquat(rk,lk,rh,lh) {
+  const flipPoseHorizontal = true;
 
-    // calculate slope of right hip+knee and left hip+knee
-    let a1 = Math.abs((rh.y - rk.y)/(rh.x - rk.x));
-    let a2 = Math.abs((lh.y - lk.y)/(lh.x - lk.x));
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+
+  async function poseDetect(){
     
-    // slope while standing is more than 5
-    if(a1 >=5 && a2 >= 5)
-        return "up"
+    let pose = await net.estimatePoses(video, {
+      flipHorizontal: flipPoseHorizontal,
+      decodingMethod: 'single-person'
+    })
+
+    ctx.save();
+    ctx.scale(-1,1);
+    ctx.translate(-videoWidth, 0);
+    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+    ctx.restore();
+  
+    drawKeypoints(pose[0]);
     
-    // slope while in squat is close to 0
-    else if(a1 >=0 && a1 <=1.5 && a2 >= 0 && a1 <= 1.5)
-        return "down";    
-    else
-        return "";
-}
-
-function drawKeypoints()  {
-  let rk = null;
-  let lk = null;
-  let rh = null;
-  let lh = null;
-  for (let i = 0; i < poses.length; i++) {
-    
-    let pose = poses[i].pose;
-    let keypoint = [];
-    for (let j = 0; j < pose.keypoints.length; j++) {
-        
-        keypoint = pose.keypoints[j];
-        if (keypoint.score > 0.2) {
-        
-        // assign color based on whether in squat or not
-        if(down)
-          fill(0, 255, 0);
-        else
-          fill(255, 0, 0);
-
-        noStroke();
-        ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
-
-        // save coordinates for knee and hip
-        if(keypoint.part == 'rightKnee')
-            rk = keypoint.position;
-        else if(keypoint.part == 'leftKnee')
-            lk = keypoint.position;
-        else if(keypoint.part == 'rightHip')
-            rh = keypoint.position;
-        else if(keypoint.part == 'leftHip')
-            lh = keypoint.position;
-    }
-      }
-      // continue loop if all keypoints aren't detected
-      if(rk == null || lk == null || rh == null || lh == null)
-        continue;
-      
-      else 
-        {   
-            const res = checkSquat(rk,lk,rh,lh);
-            
-            // check if in squat position
-            if(res == 'down')
-              {down = true;}
-            
-            // check if standing - if there was a "down" right before - count as one squat
-              else if(res == 'up')
-              { up = true;
-                if(down)
-                  {
-                    squats+=1;
-                    select('#status').html("squats = " + squats);
-                    up = false;
-                    down = false;
-                }
-              }
-
-        }
-    }
-    return false;
+    requestAnimationFrame(poseDetect);
   }
 
-function drawSkeleton() {
-  for (let i = 0; i < poses.length; i++) {
-    let skeleton = poses[i].skeleton;
-    for (let j = 0; j < skeleton.length; j++) {
-      let partA = skeleton[j][0];
-      let partB = skeleton[j][1];
-      
-      // assign color based on whether in squat or not
-      if(down) {
-        stroke(0,255,0);
-      } else {
-        stroke(255,0,0);
-      }
-      strokeWeight(5);
-      line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
-    }
-  }
+  poseDetect();
+
 }
+
+async function main() {
+  const net = await posenet.load();
+  let video;
+  try {
+    console.log('in');
+    video = await loadVideo();
+  } catch(e) {
+    console.log(e);
+  }
+
+  detect(video, net);
+}
+
+main();

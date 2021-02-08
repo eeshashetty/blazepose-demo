@@ -3,10 +3,13 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta property="og:title" content="Posenet Squat Demo" />
+  <meta property="og:type" content="website" />
   <title>PoseNet Squat Demo</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+  <script src="https://unpkg.com/ml5@0.1.1/dist/ml5.min.js" type="text/javascript"></script>
+  
   <style>
 
     p {
@@ -22,13 +25,7 @@
 
 <body>
     <p id='status' style="font-size: 25px;">Loading model...</p>
-    <div id='main' style='display:none'>
-      <video id="video" playsinline style="display: none;">
-      </video>
-    </div>
-
-    <canvas id="output"/>
-    <script type="module" src="sketch.js"></script>
+    <script src="sketch.js"></script>
 </body>
 
 </html>
