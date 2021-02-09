@@ -4,6 +4,13 @@ let down = false;
 let up = false;
 let squats = 0;
 let poses = [];
+let x = [];
+let y = [];
+let xc, yc;
+let newc = true;
+let frame = 0;
+let count = 0;
+let wait = -1;
 
 async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -47,23 +54,83 @@ function detect(video, net) {
 
   canvas.width = videoWidth;
   canvas.height = videoHeight;
+  
+  function genCircle(ctx) {
+    ctx.scale(-1,1);
+    ctx.translate(-videoWidth, 0);
+    ctx.beginPath();
+    ctx.globalAlpha = 0.6;
+    
+    if(newc)
+    {
+      if(wait>3 || wait == -1)
+      {
+        count++;
+        let X = [Math.floor((0.1 + Math.random()*0.05) * videoWidth), Math.floor((0.9 - Math.random()*0.05) * videoWidth)];
+        xc = (X[Math.floor(Math.random()*2)]);
+        yc = Math.floor((0.3 + Math.random()*0.4) * videoHeight);
+    
+        newc = false;
+        wait = 0;
+      }
+    }
+
+    ctx.rect(videoWidth*3/10,0,videoWidth*4/10,videoHeight/8);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "yellow";
+    ctx.textAlign = "center";
+    ctx.fillText("Use Hands " + (count-1), videoWidth/2, videoHeight*3/40);
+  }
 
   async function poseDetect(){
     
-    poses = await net.estimatePoses(video, {
-      flipHorizontal: flipPoseHorizontal,
-      decodingMethod: 'single-person'
-    })
+    // poses = await net.estimatePoses(video, {
+    //   flipHorizontal: flipPoseHorizontal,
+    //   decodingMethod: 'single-person'
+    // })
 
     ctx.save();
     ctx.scale(-1,1);
     ctx.translate(-videoWidth, 0);
     ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+
+    if(count <= 20)
+    {  
+      genCircle(ctx);
+     
+      var data = ctx.getImageData(xc-50, yc-50, 100, 100);
+
+      ctx.beginPath();
+      ctx.globalAlpha = 0.6;
+      ctx.arc(xc, yc, 50, 0, 2 * Math.PI);
+      ctx.fillStyle = 'black';
+      ctx.fill();
+      ctx.stroke();
+      let diff = 0;
+      
+      for(let i = 0; i<data.data.length; i++) {
+        diff += Math.abs(x[i] - data.data[i]);
+      }
+
+      diff = diff/data.data.length;
+      
+      if(diff > 4 && frame>40)
+        {
+          wait++;
+          newc = true;
+        }
+
+      x = data.data;
+      
+      
+      // drawKeypoints(ctx);
+      // drawSkeleton(poses[0].keypoints, 0.5, ctx);
+      
+      frame++;
+    }
     ctx.restore();
-  
-    drawKeypoints(ctx);
-    drawSkeleton(poses[0].keypoints, 0.5, ctx);
-    
     requestAnimationFrame(poseDetect);
   }
 

@@ -21,6 +21,11 @@
       width: max-content;
       font-family: sans-serif;
     }
+
+    #stack {
+      display: inline;
+    }
+    
   </style>
 </head>
 
@@ -30,7 +35,12 @@
       <video id="video" playsinline style="display: none;">
       </video>
       </div>
-      <canvas id="output" />
+      <div>
+      <canvas id="output"></canvas><br>
+      <div id = "stack">
+      <canvas id="ex"></canvas>
+      </div>
+    </div>
 
     <script type="module" src="sketch.js"></script>
 </body>
