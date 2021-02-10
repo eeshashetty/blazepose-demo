@@ -11,6 +11,8 @@ let newc = true;
 let frame = 0;
 let count = 0;
 let wait = -1;
+let game = 1;
+let start = true;
 
 async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -66,10 +68,15 @@ function detect(video, net) {
       if(wait>3 || wait == -1)
       {
         count++;
-        let X = [Math.floor((0.1 + Math.random()*0.05) * videoWidth), Math.floor((0.9 - Math.random()*0.05) * videoWidth)];
-        xc = (X[Math.floor(Math.random()*2)]);
-        yc = Math.floor((0.3 + Math.random()*0.4) * videoHeight);
-    
+        if(count%2 == 0)
+          xc = Math.floor((0.1 + Math.random()*0.05) * videoWidth)
+        else
+          xc = Math.floor((0.9 - Math.random()*0.05) * videoWidth)
+        
+        if(game == 1)
+          yc = Math.floor((0.3 + Math.random()*0.4) * videoHeight);
+        else if(game == 2)
+        yc = Math.floor((0.55 + Math.random()*0.25) * videoHeight);
         newc = false;
         wait = 0;
       }
@@ -81,22 +88,42 @@ function detect(video, net) {
     ctx.font = "30px Arial";
     ctx.fillStyle = "yellow";
     ctx.textAlign = "center";
-    ctx.fillText("Use Hands " + (count-1), videoWidth/2, videoHeight*3/40);
+    let str = (game==1)?"Use Hands ":"Use Legs ";
+    ctx.fillText(str + (count-1), videoWidth/2, videoHeight*3/40);
   }
 
   async function poseDetect(){
     
-    // poses = await net.estimatePoses(video, {
-    //   flipHorizontal: flipPoseHorizontal,
-    //   decodingMethod: 'single-person'
-    // })
+    poses = await net.estimatePoses(video, {
+      flipHorizontal: flipPoseHorizontal,
+      decodingMethod: 'single-person'
+    })
 
     ctx.save();
     ctx.scale(-1,1);
     ctx.translate(-videoWidth, 0);
     ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
 
-    if(count <= 20)
+    if(start) {
+       
+
+      ctx.scale(-1,1);
+      ctx.translate(-videoWidth, 0);
+      ctx.rect(0,0,videoWidth,videoHeight/8);
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "yellow";
+      ctx.textAlign = "center";
+      ctx.fillText("Stand Between the Lines", videoWidth/2, videoHeight*3/40);
+  
+      drawSegment([0.1*videoHeight, 0], [0.1*videoHeight, videoWidth], "yellow", ctx);
+      drawSegment([0.95*videoHeight, 0], [0.95*videoHeight, videoWidth], "yellow", ctx);
+
+      drawKeypoints(ctx);
+      drawSkeleton(poses[0].keypoints, 0.5, ctx);
+
+    }
+
+    else if(count <= 5)
     {  
       genCircle(ctx);
      
@@ -104,8 +131,8 @@ function detect(video, net) {
 
       ctx.beginPath();
       ctx.globalAlpha = 0.6;
-      ctx.arc(xc, yc, 50, 0, 2 * Math.PI);
-      ctx.fillStyle = 'black';
+      ctx.arc(xc, yc, 30, 0, 2 * Math.PI);
+      ctx.fillStyle = 'lightblue';
       ctx.fill();
       ctx.stroke();
       let diff = 0;
@@ -124,12 +151,15 @@ function detect(video, net) {
 
       x = data.data;
       
-      
-      // drawKeypoints(ctx);
-      // drawSkeleton(poses[0].keypoints, 0.5, ctx);
-      
       frame++;
     }
+
+    else {
+      if(game == 1)
+      {game = 2;
+      count = 1;}
+    }
+      
     ctx.restore();
     requestAnimationFrame(poseDetect);
   }
@@ -137,6 +167,42 @@ function detect(video, net) {
   poseDetect();
 
 }
+function drawKeypoints(ctx)  {
+  let nose = false;
+  let rightAnkle = false;
+  let leftAnkle = false;
+  let keypoint = [];
+  let pose = poses[0];
+  for (let j = 0; j < pose.keypoints.length; j++) {
+      
+      keypoint = pose.keypoints[j];
+      if (keypoint.score > 0.2) {
+     
+      ctx.beginPath();
+      ctx.arc(keypoint.position.x, keypoint.position.y, 5, 0, 2*Math.PI);
+      
+      // assign color based on whether in squat or not
+      ctx.fillStyle = down ? "#00ff00" : "#ff0000";
+      
+      ctx.fill();
+
+      // save coordinates for knee and hip
+      if(keypoint.part == 'nose' && keypoint.position.y > 0.25 * videoHeight)
+        nose = true;
+      else if(keypoint.part == 'rightAnkle' && keypoint.position.y < 0.95 * videoHeight)
+        rightAnkle = true;
+      else if(keypoint.part == 'leftAnkle' && keypoint.position.y < 0.95 * videoHeight)
+        leftAnkle = true;
+      }
+  }
+
+  console.log(nose, rightAnkle, leftAnkle);
+  if(leftAnkle && rightAnkle && nose) {
+    start = false;
+  }
+
+  
+  }
 
 function checkSquat(rightKnee,leftKnee,rightHip,leftHip) {
 
@@ -155,7 +221,7 @@ function checkSquat(rightKnee,leftKnee,rightHip,leftHip) {
       return "";
 }
 
-function drawKeypoints(ctx)  {
+function squatPoints(ctx)  {
   let rightKnee = null;
   let leftKnee = null;
   let rightHip = null;
@@ -192,6 +258,8 @@ function drawKeypoints(ctx)  {
           leftAnkle = keypoint.position;
   }
   }
+
+  console.log(pose.keypoints.length)
   // return if all keypoints aren't detected
   if(rightKnee == null || leftKnee == null || rightHip == null || leftHip == null || rightAnkle == null || leftAnkle == null)
       return;
@@ -219,10 +287,10 @@ function drawKeypoints(ctx)  {
       }
   }
 
-function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
+function drawSegment([ay, ax], [by, bx], color, ctx) {
   ctx.beginPath();
-  ctx.moveTo(ax * scale, ay * scale);
-  ctx.lineTo(bx * scale, by * scale);
+  ctx.moveTo(ax, ay);
+  ctx.lineTo(bx, by);
   ctx.lineWidth = 5;
   ctx.strokeStyle = color;
   ctx.stroke();
@@ -240,8 +308,7 @@ function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
 
   adjacentKeyPoints.forEach((keypoints) => {
     drawSegment(
-        toTuple(keypoints[0].position), toTuple(keypoints[1].position), color,
-        scale, ctx);
+        toTuple(keypoints[0].position), toTuple(keypoints[1].position), color, ctx);
   });
 }
 
