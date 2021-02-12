@@ -59,4 +59,5 @@ async function main() {
   detect(video, net);
 }
 
+
 main();

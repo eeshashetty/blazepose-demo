@@ -70,7 +70,8 @@ export function Game2(poses, ctx) {
       }
       
     } else {
-        endScreen(ctx);
+        start = true;
+        window.game++;
     }
 }
 
@@ -113,15 +114,4 @@ export function Game1(ctx) {
         count = 0;
         wait = -1;
     }
-}
-
-
-function endScreen(ctx) {
-    ctx.scale(-1,1);
-    ctx.translate(-window.videoWidth, 0);
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "yellow";
-    ctx.textAlign = "center";
-    ctx.fillText("Done!", window.videoWidth/2, window.videoHeight/2);
-  
 }

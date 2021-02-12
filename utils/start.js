@@ -1,11 +1,13 @@
 import { Game1, Game2 } from "./games.js";
 import {drawSegment, drawSkeleton, drawKeypoints} from "./posenet-utils.js";
-
+import {Squat, SquatCount} from './squat.js';
 
 // global vars
 let poses = [];
+let lim = 0;
 window.start = true;
 window.game = 1;
+window.fps = 0;
 
 export function detect(video, net) {
   const canvas = document.getElementById('output'); // Initialize canvas
@@ -14,10 +16,17 @@ export function detect(video, net) {
   // Resize canvas to video resolution
   canvas.width = window.videoWidth; 
   canvas.height = window.videoHeight;
-  
+  var lastLoop = new Date();
   // Function for processing each frame on canvas
   async function poseDetect(){
     
+    if(lim < 10)
+    {
+      var thisLoop = new Date();
+      window.fps = 1000 / (thisLoop - lastLoop);
+      lastLoop = thisLoop;
+      lim++;
+    }
     const flipPoseHorizontal = true;
     
     poses = await net.estimatePoses(video, {
@@ -47,10 +56,13 @@ export function detect(video, net) {
       drawKeypoints(poses, ctx);
 
     } else {
-            if(window.game < 3)
-                Game1(ctx);
-            else if(window.game == 3)
-                Game2(poses, ctx);
+            switch(window.game) {
+              case 1: Game1(ctx); break;
+              case 2: Game1(ctx); break;
+              case 3: Game2(poses, ctx); break;
+              case 4: Squat(poses, ctx); break;
+              case 5: SquatCount(poses, ctx, new Date()); break;
+            }
         }
       
     ctx.restore();

@@ -92,7 +92,7 @@ export function drawKeypoints(poses, ctx , color="red", xc = -1, yc = -1, wait =
     ctx.arc(noseC.x, headY, 5, 0, 2*Math.PI);
     ctx.fill();
   
-    if(window.game == 3)
+    if(window.game >= 3)
     {
      if(noseC.x > xc && headY > yc && noseC.x < xc + 0.2*window.videoWidth && headY < yc + 0.13*window.videoHeight) {
         return true;
@@ -102,7 +102,7 @@ export function drawKeypoints(poses, ctx , color="red", xc = -1, yc = -1, wait =
     }
   
     if(headY >= 0.1*window.videoHeight && leftAnkle && rightAnkle)
-      window.start = false;
+      {console.log("in"); window.start = false;}
   
    }
   
