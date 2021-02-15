@@ -5,59 +5,32 @@ let video;
 window.videoHeight = 480;
 window.videoWidth = 640;
 
-// set up web cam
-async function setupCamera() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    throw new Error(
-        'Browser API navigator.mediaDevices.getUserMedia not available');
-  }
+window.fps = new FPS();
 
-  const video = document.getElementById('video');
-  
-  // Pre-setting video resolution to 640x480
-  video.width = window.videoWidth;
-  video.height = window.videoHeight;
+const pose = new Pose({
+  locateFile: (file) => {
+  return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.1/${file}`;
+},
+});
 
-  const stream = await navigator.mediaDevices.getUserMedia({
-    'audio': false,
-    'video': {
-      facingMode: 'user',
-      width: window.videoWidth,
-      height: window.videoHeight,
-    },
-  });
-  
-  video.srcObject = stream;
+pose.setOptions({
+  selfieMode: true,
+  smoothLandmarks: true,
+  minDetectionConfidence: 0.7,
+  minTrackingConfidence: 0.7
+});
+pose.onResults(detect);
 
-  return new Promise((resolve) => {
-    video.onloadedmetadata = () => {
-      resolve(video);
-    };
-  });
-}
+/**
+ * Instantiate a camera. We'll feed each frame we receive into the solution.
+ */
+const videoElement = document.getElementById('video');
 
-// load Camera
-
-async function loadVideo() {
-  const video = await setupCamera();
-  video.play();
-
-  return video;
-}
-
-// Main Function
-
-async function main() {
-  const net = await posenet.load(); // load posenet
-  
-  try {
-    video = await loadVideo();
-  } catch(e) {
-    console.log(e);
-  }
-
-  detect(video, net);
-}
-
-
-main();
+const camera = new Camera(videoElement, {
+  onFrame: async () => {
+    await pose.send({image: videoElement});
+  },
+  width: 1280,
+  height: 720
+});
+camera.start();

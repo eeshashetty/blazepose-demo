@@ -23,89 +23,16 @@ export function drawSkeleton(keypoints, minConfidence, ctx, color = "#ff0000") {
     });
 }
 
-export function drawKeypoints(poses, ctx , color="red", xc = -1, yc = -1, wait = -1) {
-    let nose = false;
-    let rightAnkle = false;
-    let leftAnkle = false;
-    let rightShoulder = false; 
-    let leftShoulder = false;
-    let rightShoulderC, leftShoulderC, noseC;
-    let keypoint = [];
-    let pose = poses[0];
-    
-    for (let j = 0; j < pose.keypoints.length; j++) {
-        
-        keypoint = pose.keypoints[j];
-        
-        if (keypoint.score > 0.2) {
-       
-        ctx.beginPath();
-        ctx.arc(keypoint.position.x, keypoint.position.y, 5, 0, 2*Math.PI);
-        
-        ctx.fillStyle = color;
-        
-        ctx.fill();
-  
-        if(keypoint.part == 'nose' && keypoint.position.y > 0.25 * window.videoHeight)
-          {
-            nose = true;
-            noseC = keypoint.position;
-          }
+export function inLine(poses, ctx , xc = -1, yc = -1, wait = -1) {
 
-        else if(keypoint.part == 'rightShoulder')
-          { 
-            rightShoulder = true;
-            rightShoulderC = keypoint.position;
-          }
-
-        else if(keypoint.part == 'leftShoulder')
-          {
-            leftShoulder = true;
-            leftShoulderC = keypoint.position;
-          }
-
-        else if(keypoint.part == 'rightAnkle' && keypoint.position.y < 0.9 * window.videoHeight)
-            rightAnkle = true;
-        
-        else if(keypoint.part == 'leftAnkle' && keypoint.position.y < 0.9 * window.videoHeight)
-            leftAnkle = true;
-        
-        }
+    let head = (poses[33].visibility > 0.9)? true : false;
+    let rightAnkle = (poses[28].visibility > 0.9)? true : false;
+    let leftAnkle = (poses[27].visibility > 0.9)? true : false;
+    let rightShoulder = (poses[12].visibility > 0.9)? true : false;
+    let leftShoulder = (poses[11].visibility > 0.9)? true : false;
+    console.log(poses[27].y,poses[28].y);
+    if(poses[33].y >= 0.1 && poses[27].y < 0.75 && poses[28].y < 0.75)
+    { 
+      window.start = false;
     }
-  
-    if(rightShoulder && leftShoulder && nose)
-  {
-    let shoulderX = (leftShoulderC.x + rightShoulderC.x)/2;
-    let shoulderY = (rightShoulderC.y + leftShoulderC.y)/2;
-  
-    let headY = noseC.y - (shoulderY - noseC.y)/2; 
-  
-    ctx.fillStyle = "#00ff00";
-    
-    ctx.beginPath();
-    ctx.arc(noseC.x, shoulderY, 5, 0, 2*Math.PI);
-    ctx.fill();
-  
-    ctx.fillStyle = "#00ff00";
-    
-    ctx.beginPath();
-    ctx.arc(noseC.x, headY, 5, 0, 2*Math.PI);
-    ctx.fill();
-  
-    if(window.game >= 3)
-    {
-     if(noseC.x > xc && headY > yc && noseC.x < xc + 0.2*window.videoWidth && headY < yc + 0.13*window.videoHeight) {
-        return true;
-      } else {
-            return false;
-        }
-    }
-  
-    if(headY >= 0.1*window.videoHeight && leftAnkle && rightAnkle)
-      {console.log("in"); window.start = false;}
-  
-   }
-  
-   return false;
-    
-}
+  }

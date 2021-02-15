@@ -1,16 +1,16 @@
-import {drawKeypoints} from './posenet-utils.js';
+// import {drawKeypoints} from './posenet-utils.js';
 
 let count = 0;
-let maxCount = 10;
+let maxCount = 3;
 let newc = true;
 let wait = -1;
 let x = [];
 let xc,yc;
-let radius = 30;
+let radius = 50;
 
 export function genShape(ctx) {
-    ctx.scale(-1,1);
-    ctx.translate(-window.videoWidth, 0);
+    // ctx.scale(-1,1);
+    // ctx.translate(-window.videoWidth, 0);
     ctx.beginPath();
     ctx.globalAlpha = 0.6;
     
@@ -28,13 +28,21 @@ export function genShape(ctx) {
           else
             xc = Math.floor((0.9 - Math.random()*0.05) * window.videoWidth)
         
-          if(window.game == 1)
+            console.log(window.game, count);
+          if(window.game == 1 && count <= maxCount)
             yc = Math.floor((0.3 + Math.random()*0.4) * window.videoHeight);
-          else if(window.game == 2)
-            yc = Math.floor((0.55 + Math.random()*0.25) * window.videoHeight);
+          else if((window.game == 1 && count==maxCount+1) || (window.game == 2 && count <= maxCount))
+
+            {yc = Math.floor((0.55 + Math.random()*0.25) * window.videoHeight)}
+          
+          else{
+              xc = Math.floor(Math.random()*(window.videoWidth - 0.2*window.videoWidth));
+            yc = Math.floor(0.1*window.videoHeight + Math.random()*((0.17*window.videoHeight)));
+          }
         }
         
         else {
+
             xc = Math.floor(Math.random()*(window.videoWidth - 0.2*window.videoWidth));
             yc = Math.floor(0.1*window.videoHeight + Math.random()*((0.17*window.videoHeight)));
         }
@@ -58,33 +66,38 @@ export function genShape(ctx) {
 
 export function Game2(poses, ctx) {
     if(count <= maxCount) {
-    genShape(ctx, 3);
+      genShape(ctx, 3);
       ctx.rect(xc,yc, 0.2*window.videoWidth, 0.13*window.videoHeight);
       ctx.fillStyle = 'black';
       ctx.fill();
+
+      let xcc =  xc/videoWidth;
+      let ycc = yc/videoHeight;
       
-      newc = drawKeypoints(poses, ctx, "red",xc = xc, yc = yc, wait = wait);
+      let head = poses[33];
       
-      if(newc) {
-          wait++;
-      }
-      
+      drawLandmarks(
+        ctx, [poses[33], poses[33]],
+        {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 20});
+    
+      if(head.x > xcc && head.y > ycc && head.x < xcc + 0.2 && head.y < ycc + 0.13) {
+              newc = true;
+              wait++;
+            } 
+
     } else {
         start = true;
         window.game++;
     }
 }
 
-export function Game1(ctx) {
+export function Game1(poses, ctx) {
     if(count<=maxCount)
     {
       genShape(ctx);
      
-      var data = ctx.getImageData(xc-(radius*1.5), yc-(radius*1.5), radius*3, radius*3);
+      // var data = ctx.getImageData(xc-(radius*1.5), yc-(radius*1.5), radius*3, radius*3);
     
-      ctx.rect(xc-(radius*1.5), yc-(radius*1.5), radius*3, radius*3);
-      ctx.fillStyle = 'black';
-      ctx.fill();
       
       ctx.beginPath();
       ctx.globalAlpha = 0.6;
@@ -93,25 +106,28 @@ export function Game1(ctx) {
       ctx.fill();
       ctx.stroke();
       
-      let diff = 0;
-      
-      for(let i = 0; i<data.data.length; i++) {
-        diff += Math.abs(x[i] - data.data[i]);
-      }
-
-      diff = diff/data.data.length;
-      
-      if(diff > 4)
-        {
-          wait++;
-          newc = true;
+      let l = (game==1)?19:31;
+      let r = (game==1)?20:32;
+      drawLandmarks(
+        ctx, [poses[l], poses[r]],
+        {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 20});
+        
+        if(poses[l].visibility > 0.9 || poses[r].visibility > 0.9) {    
+          let xcc =  xc/videoWidth;
+          let ycc = yc/videoHeight;
+          let distr = Math.pow((xcc-poses[l].x),2) + Math.pow((ycc-poses[l].y),2);
+          let distl = Math.pow((xcc-poses[r].x),2) + Math.pow((ycc-poses[r].y),2);
+          
+          if(distl <= Math.pow(radius/window.videoHeight, 2) || distr <= Math.pow(radius/window.videoHeight, 2)) {
+            wait++;
+            newc = true;
+          }
         }
 
-      x = data.data;
-      
     } else {
-        window.game++;
-        count = 0;
+        window.game+=1;
+        count = 1;
         wait = -1;
+        genShape(ctx);
     }
 }

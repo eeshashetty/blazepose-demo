@@ -1,5 +1,5 @@
 import { Game1, Game2 } from "./games.js";
-import {drawSegment, drawSkeleton, drawKeypoints} from "./posenet-utils.js";
+import {drawSegment, drawSkeleton, inLine} from "./posenet-utils.js";
 import {Squat, SquatCount} from './squat.js';
 
 // global vars
@@ -7,16 +7,77 @@ let poses = [];
 let lim = 0;
 window.start = true;
 window.game = 1;
-window.fps = 0;
+let lastLoop = new Date();
+export function detect(results) {
 
-export function detect(video, net) {
+  if(lim < 10) {
+    var thisLoop = new Date();
+    window.fps = 1000 / (thisLoop - lastLoop);
+    lastLoop = thisLoop;
+    lim++;
+  }
+
   const canvas = document.getElementById('output'); // Initialize canvas
   const ctx = canvas.getContext('2d');
+  try{
+  var headx=results.poseLandmarks[0].x;
+  var heady=results.poseLandmarks[0].y-(2*Math.abs(results.poseLandmarks[7].x-results.poseLandmarks[8].x));
+  results.poseLandmarks.push({x:headx,y:heady});
+  } catch(e) {
+    
+  } 
+  window.videoHeight = canvas.height;
+  window.videoWidth = canvas.width;
+
+  ctx.save();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(
+      results.image, 0, 0, canvas.width, canvas.height);
+
+  if(window.start) {
+    ctx.rect(0, 0, canvas.width, canvas.height/8);
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "yellow";
+    ctx.textAlign = "center";
+    ctx.fillText("Stand Between the Lines", canvas.width/2, canvas.height*3/40);
+
+    drawConnectors(
+      ctx, results.poseLandmarks, POSE_CONNECTIONS,
+      {color: '#00FF00'});
+    drawLandmarks(
+      ctx, results.poseLandmarks,
+      {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 10});
   
-  // Resize canvas to video resolution
-  canvas.width = window.videoWidth; 
-  canvas.height = window.videoHeight;
-  var lastLoop = new Date();
+
+    drawSegment([0.1*window.videoHeight, 0], [0.1*window.videoHeight, window.videoWidth], "yellow", ctx);
+    drawSegment([0.95*window.videoHeight, 0], [0.95*window.videoHeight, window.videoWidth], "yellow", ctx);
+
+    try {
+    inLine(results.poseLandmarks, ctx);
+    } catch(e) {
+
+    }
+
+  } else {
+    try{
+    switch(window.game) {
+      case 1: Game1(results.poseLandmarks, ctx); break;
+      case 2: Game1(results.poseLandmarks, ctx); break;
+      case 3: Game2(results.poseLandmarks, ctx); break;
+      case 4: Squat(results.poseLandmarks, ctx); break;
+      case 5: SquatCount(results.poseLandmarks, ctx); break;
+    }} catch(e) {
+    }
+}
+
+
+
+  ctx.restore();
+
+}
+
+/*
+
   // Function for processing each frame on canvas
   async function poseDetect(){
     
@@ -71,4 +132,4 @@ export function detect(video, net) {
 
   poseDetect();
 
-}
+*/
