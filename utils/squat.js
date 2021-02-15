@@ -19,6 +19,7 @@ export function Squat(poses, ctx) {
   
     if(down)
     {   
+        // create rectangle above head
         let yc = 0.1* window.videoHeight;
         ctx.rect(xc,yc, 0.2*window.videoWidth, 0.13*window.videoHeight);
         ctx.fillStyle = 'yellow';
@@ -27,8 +28,10 @@ export function Squat(poses, ctx) {
         let xcc =  xc/videoWidth;
         let ycc = yc/videoHeight;
         
+        // fetch head points
         let head = poses[33];
         
+        // check if head collision occurs
         if(head.x > xcc && head.y > ycc && head.x < xcc + 0.2 && head.y < ycc + 0.13) {
             count++;
             down = false; 
@@ -61,6 +64,7 @@ export function Squat(poses, ctx) {
 function checkSquat(poses) {
     if(poses[27].visibility > 0.2 && poses[28].visibility > 0.2)
         {   
+            // find squat angle
             let a = find_angle(poses[24],poses[26],poses[28]);
             let b = find_angle(poses[23],poses[25],poses[27]);
             
@@ -68,6 +72,8 @@ function checkSquat(poses) {
                 color = "white";
             } else if(a<=120 && b<=120) {
                 color = "#00ff00";
+                
+                // keep head x constant
                 xc = poses[33].x*window.videoWidth;
                 down = true;
             }

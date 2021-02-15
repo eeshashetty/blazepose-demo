@@ -20,9 +20,11 @@ export function detect(results) {
   const canvas = document.getElementById('output'); // Initialize canvas
   const ctx = canvas.getContext('2d');
   try{
-  var headx=results.poseLandmarks[0].x;
-  var heady=results.poseLandmarks[0].y-(2*Math.abs(results.poseLandmarks[7].x-results.poseLandmarks[8].x));
-  results.poseLandmarks.push({x:headx,y:heady});
+    // create head point
+    var headx=results.poseLandmarks[0].x;
+    var heady=results.poseLandmarks[0].y-(2*Math.abs(results.poseLandmarks[7].x-results.poseLandmarks[8].x));
+    results.poseLandmarks.push({x:headx,y:heady});
+    
   } catch(e) {
     
   } 
