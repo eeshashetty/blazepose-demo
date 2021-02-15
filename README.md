@@ -8,5 +8,5 @@
 - [x] Squat angle
 - [x] Line turns green on angle
 - [x] increase count
-- [] change color of rectangle on collision
+- [ ] change color of rectangle on collision
 - [x] disappear rectangle
