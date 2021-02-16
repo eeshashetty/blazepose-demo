@@ -1,5 +1,4 @@
-// import {drawKeypoints} from './posenet-utils.js';
-
+// global vars
 let count = 0;
 let maxCount = 3;
 let newc = true;
@@ -8,9 +7,8 @@ let x = [];
 let xc,yc;
 let radius = 50;
 
+// generate collision shapes
 export function genShape(ctx) {
-    // ctx.scale(-1,1);
-    // ctx.translate(-window.videoWidth, 0);
     ctx.beginPath();
     ctx.globalAlpha = 0.6;
     
@@ -64,6 +62,7 @@ export function genShape(ctx) {
     ctx.fillText(str + (count-1), window.videoWidth/2, window.videoHeight*3/40);
 }
 
+// Head Collision Game
 export function Game2(poses, ctx) {
     if(count <= maxCount) {
       genShape(ctx, 3);
@@ -86,19 +85,16 @@ export function Game2(poses, ctx) {
             } 
 
     } else {
-        start = true;
-        window.game++;
+        endScreen(ctx);
     }
 }
 
+// Hand + Leg Collision Game
 export function Game1(poses, ctx) {
     if(count<=maxCount)
     {
       genShape(ctx);
      
-      // var data = ctx.getImageData(xc-(radius*1.5), yc-(radius*1.5), radius*3, radius*3);
-    
-      
       ctx.beginPath();
       ctx.globalAlpha = 0.6;
       ctx.arc(xc, yc, radius, 0, 2 * Math.PI);
@@ -108,10 +104,13 @@ export function Game1(poses, ctx) {
       
       let l = (game==1)?19:31;
       let r = (game==1)?20:32;
+      
+      // draw keypoints
       drawLandmarks(
         ctx, [poses[l], poses[r]],
         {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 20});
         
+        // check if hand/leg collides with circle
         if(poses[l].visibility > 0.9 || poses[r].visibility > 0.9) {    
           let xcc =  xc/videoWidth;
           let ycc = yc/videoHeight;
@@ -125,9 +124,14 @@ export function Game1(poses, ctx) {
         }
 
     } else {
-        window.game+=1;
-        count = 1;
-        wait = -1;
-        genShape(ctx);
+        endScreen(ctx);
     }
+}
+
+export function endScreen(ctx) {
+  ctx.font = "40px Arial";
+  ctx.fillStyle = "yellow";
+  ctx.textAlign = "center";
+  ctx.fillText("Done!", window.videoWidth/2, window.videoHeight/2);
+  
 }

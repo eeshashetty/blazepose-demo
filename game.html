@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta property="og:title" content="Posenet Squat Demo" />
+  <meta property="og:type" content="website" />
+  
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.1/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.1/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.1/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.1/pose.js" crossorigin="anonymous"></script>
+
+  <title>PoseNet Squat Demo</title>
+
+  <style>
+
+    p {
+      background-color: black;
+      color: white;
+      border-radius: 10px;
+      padding: 20px;
+      width: max-content;
+      font-family: sans-serif;
+    }
+
+    p:hover {
+      opacity: 70%;
+    }
+
+    #stack {
+      display: inline;
+    }
+
+    #video{
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transform: scale(-1, 1);
+    }
+
+    #output {
+      height: 720px;
+      width: 1280px; 
+    }
+    a{
+      text-decoration: none;
+      color: white;
+    }
+    
+  </style>
+</head>
+
+<body>
+      
+    <video id="video" style="display: none;">
+    </video>
+      <div>
+        <p><a href="index.html">Choose Another Game</a></p><br>
+    <canvas id="output" width="1280px" height="720px"></canvas><br>
+  </div>
+    <script type="module" src="index.js"></script>
+</body>
+
+</html>
