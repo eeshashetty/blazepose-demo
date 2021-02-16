@@ -58,10 +58,18 @@
     <video id="video" style="display: none;">
     </video>
       <div>
-        <p><a href="/">Choose Another Game</a></p><br>
+        <p onclick="redirect()">Choose Another Game</a></p><br>
     <canvas id="output" width="1280px" height="720px"></canvas><br>
   </div>
-    <script type="module" src="index.js"></script>
+  <script>
+    function redirect() {
+      let loc = window.location.href;
+      loc = loc.substr(0, loc.length-10);
+      window.location.href = loc;
+    }
+  </script>  
+  <script type="module" src="index.js"></script>
+
 </body>
 
 </html>
