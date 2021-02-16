@@ -1,22 +1,21 @@
 import { Game1, Game2 } from "./games.js";
-import {drawSegment, drawSkeleton, inLine} from "./posenet-utils.js";
-import {Squat, SquatCount} from './squat.js';
+import {Squat, JumpSquat, SquatCount} from './squat.js';
 
 // global vars
-let poses = [];
 let lim = 0;
 window.start = true;
-window.game = 1;
 let lastLoop = new Date();
-export function detect(results) {
+window.game = parseInt(localStorage.getItem("game"));
 
+export function detect(results) {
+  // set FPS
   if(lim < 10) {
     var thisLoop = new Date();
     window.fps = 1000 / (thisLoop - lastLoop);
     lastLoop = thisLoop;
     lim++;
   }
-
+    
   const canvas = document.getElementById('output'); // Initialize canvas
   const ctx = canvas.getContext('2d');
   try{
@@ -51,8 +50,8 @@ export function detect(results) {
       {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 10});
   
 
-    drawSegment([0.1*window.videoHeight, 0], [0.1*window.videoHeight, window.videoWidth], "yellow", ctx);
-    drawSegment([0.95*window.videoHeight, 0], [0.95*window.videoHeight, window.videoWidth], "yellow", ctx);
+    drawSegment([0, 0.1*window.videoHeight,], [window.videoWidth, 0.1*window.videoHeight], "yellow", ctx);
+    drawSegment([0, 0.95*window.videoHeight], [window.videoWidth, 0.95*window.videoHeight], "yellow", ctx);
 
     try {
     inLine(results.poseLandmarks, ctx);
@@ -62,76 +61,42 @@ export function detect(results) {
 
   } else {
     try{
-    switch(window.game) {
-      case 1: Game1(results.poseLandmarks, ctx); break;
-      case 2: Game1(results.poseLandmarks, ctx); break;
-      case 3: Game2(results.poseLandmarks, ctx); break;
-      case 4: Squat(results.poseLandmarks, ctx); break;
-      case 5: SquatCount(results.poseLandmarks, ctx); break;
-    }} catch(e) {
-    }
-}
-
-
+      switch(window.game) {
+        case 1: Game1(results.poseLandmarks, ctx); break;
+        case 2: Game1(results.poseLandmarks, ctx); break;
+        case 3: Game2(results.poseLandmarks, ctx); break;
+        case 4: Squat(results.poseLandmarks, ctx); break;
+        case 5: JumpSquat(results.poseLandmarks, ctx); break;
+        case 6: SquatCount(results.poseLandmarks, ctx); break;
+      }} catch(e) {
+        console.log(e);
+      }
+  }
 
   ctx.restore();
 
 }
 
-/*
+// draw lines
+export function drawSegment([ax, ay], [bx, by], color, ctx) {
+  ctx.beginPath();
+  ctx.moveTo(ax, ay);
+  ctx.lineTo(bx, by);
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = color;
+  ctx.stroke();
+}
 
-  // Function for processing each frame on canvas
-  async function poseDetect(){
-    
-    if(lim < 10)
-    {
-      var thisLoop = new Date();
-      window.fps = 1000 / (thisLoop - lastLoop);
-      lastLoop = thisLoop;
-      lim++;
-    }
-    const flipPoseHorizontal = true;
-    
-    poses = await net.estimatePoses(video, {
-      flipHorizontal: flipPoseHorizontal,
-      decodingMethod: 'single-person'
-    })
+// check if person is between the lines
+export function inLine(poses, ctx , xc = -1, yc = -1, wait = -1) {
 
-    ctx.save();
-    ctx.scale(-1,1);
-    ctx.translate(-window.videoWidth, 0);
-    ctx.drawImage(video, 0, 0, window.videoWidth, window.videoHeight);
-
-    if(window.start) {
-
-      ctx.scale(-1,1);
-      ctx.translate(-window.videoWidth, 0);
-      ctx.rect(0, 0, window.videoWidth, window.videoHeight/8);
-      ctx.font = "30px Arial";
-      ctx.fillStyle = "yellow";
-      ctx.textAlign = "center";
-      ctx.fillText("Stand Between the Lines", window.videoWidth/2, window.videoHeight*3/40);
-  
-      drawSegment([0.1*window.videoHeight, 0], [0.1*window.videoHeight, window.videoWidth], "yellow", ctx);
-      drawSegment([0.95*window.videoHeight, 0], [0.95*window.videoHeight, window.videoWidth], "yellow", ctx);
-
-      drawSkeleton(poses[0].keypoints, 0.5, ctx);
-      drawKeypoints(poses, ctx);
-
-    } else {
-            switch(window.game) {
-              case 1: Game1(ctx); break;
-              case 2: Game1(ctx); break;
-              case 3: Game2(poses, ctx); break;
-              case 4: Squat(poses, ctx); break;
-              case 5: SquatCount(poses, ctx, new Date()); break;
-            }
-        }
-      
-    ctx.restore();
-    requestAnimationFrame(poseDetect);
+  let rightAnkle = (poses[28].visibility > 0.8)? true : false;
+  let leftAnkle = (poses[27].visibility > 0.8)? true : false;
+  if(rightAnkle && leftAnkle){
+    console.log(poses[27].y);
+  if(poses[33].y >= 0.1 && poses[27].y <= 0.9 && poses[28].y <= 0.9)
+  { 
+    window.start = false;
   }
-
-  poseDetect();
-
-*/
+}
+}
