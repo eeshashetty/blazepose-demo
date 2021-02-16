@@ -5,8 +5,10 @@ let count = 0;
 let down = false;
 let up = false;
 let color = "red";
-let xc;
-
+let xc, yc, xcr, xcl, xd;
+let radius = 50;
+let kick = false;
+let upc = 0;
 // count squats 
 export function Squat(poses, ctx) {
       
@@ -52,7 +54,7 @@ export function JumpSquat(poses, ctx) {
     if(down)
     {   
         // create rectangle above head
-        let yc = 0.07* window.videoHeight;
+        yc = 0.07* window.videoHeight;
         
         ctx.rect(xc,yc, 0.18*window.videoWidth, 0.05*window.videoHeight);
       
@@ -120,6 +122,68 @@ export function SquatCount(poses, ctx) {
   
 }
 
+// squat + side kick
+export function KickSquat(poses, ctx) {
+      
+    if(count < 6) {
+
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "blue";
+    ctx.textAlign = "center";
+    ctx.fillText("Squat Kicks = " + count, window.videoWidth/2, window.videoHeight*3/40);
+  
+    // generate rectangle for kick if in squat
+    if(down)
+    {   
+        // create circle on the side
+        if(window.game == 7){
+        xc = (count%2 == 0)? xcr : xcl;
+        xc = xc*window.videoWidth;
+        }
+
+        ctx.beginPath();
+        ctx.globalAlpha = 0.6;
+        console.log(xc,yc);
+        ctx.arc(xc, yc, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = kick?'#00ff00':'yellow';
+        ctx.fill();
+        ctx.closePath();
+
+        // check if leg collides with circle
+        if(poses[31].visibility > 0.9 || poses[32].visibility > 0.9) {    
+            let xcc =  xc/videoWidth;
+            let ycc = yc/videoHeight;
+            let distr = Math.pow((xcc-poses[31].x),2) + Math.pow((ycc-poses[31].y),2);
+            let distl = Math.pow((xcc-poses[32].x),2) + Math.pow((ycc-poses[32].y),2);
+            
+            if(distl <= Math.pow(radius/window.videoHeight, 2) || distr <= Math.pow(radius/window.videoHeight, 2)) {
+              count++;
+              down = false;
+              kick = true;
+            } else {
+                kick = false;
+            }
+          } else {
+              kick = false;
+          }
+
+        // draw keypoints
+        draw(color, ctx, poses);
+    } 
+    
+    else {
+        // draw keypoints
+        draw(color, ctx, poses);
+        // check squat
+        checkSquat(poses)
+    }
+} else {
+    endScreen(ctx);
+    }
+
+
+}
+
 // function to check squat (angle logic)
 function checkSquat(poses) {
     if(poses[27].visibility > 0.2 && poses[28].visibility > 0.2)
@@ -130,6 +194,20 @@ function checkSquat(poses) {
             
             if(a>=150 && b>=150) {
                 up = true;
+                if(upc == 0) {
+                if(window.game == 8) {
+                    xc = (poses[23].x+poses[24].x)*window.videoWidth/2;
+                    yc = poses[23].y*window.videoHeight;
+                } else {
+                yc = (poses[23].y)*window.videoHeight;
+                xd = Math.sqrt(Math.pow(poses[24].x - poses[28].x, 2) +
+                               Math.pow(poses[24].y - poses[28].y, 2) - 
+                               Math.pow(poses[23].x - poses[25].x, 2) -
+                               Math.pow(poses[23].y - poses[25].y, 2))
+                xcl = poses[24].x - xd;
+                xcr = poses[25].x + xd;  
+                }}
+                upc++;
                 color = "white";
             } else if(a<=100 && b<=100) {
                 color = "#00ff00";
