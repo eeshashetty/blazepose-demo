@@ -8,6 +8,8 @@ let color = "red";
 let xc, yc, xcr, xcl, xd;
 let radius = 50;
 let kick = false;
+let kickl = false;
+let kickr = false;
 let upc = 0;
 // count squats 
 export function Squat(poses, ctx) {
@@ -168,7 +170,9 @@ export function KickSquat(poses, ctx) {
           }
 
         // draw keypoints
-        draw(color, ctx, poses);
+        drawLandmarks(
+            ctx, [poses[31], poses[32]],
+            {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 20});
     } 
     
     else {
@@ -181,6 +185,81 @@ export function KickSquat(poses, ctx) {
     endScreen(ctx);
     }
 
+}
+
+export function PunchSquat(poses, ctx) {
+      
+    if(count < 6) {
+
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "blue";
+    ctx.textAlign = "center";
+    ctx.fillText("Squat Kicks = " + count, window.videoWidth/2, window.videoHeight*3/40);
+  
+    // generate rectangle for kick if in squat
+    if(down)
+    {   
+        console.log(xcr,xcl,yc);
+        // create circle on both sides
+        ctx.beginPath();
+        ctx.globalAlpha = 0.6;
+        ctx.arc(xcr, yc, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = kickr?'#00ff00':'red';
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.globalAlpha = 0.6;
+        ctx.arc(xcl, yc, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = kickl?'#00ff00':'blue';
+        ctx.fill();
+        ctx.closePath();
+
+
+        // check if hand collides with circle
+        if(poses[19].visibility > 0.9 || poses[20].visibility > 0.9) {    
+            let xcc =  xcr/videoWidth;
+            let xcd = xcl/videoWidth;
+            let ycc = yc/videoHeight;
+            let distr = Math.pow((xcc-poses[19].x),2) + Math.pow((ycc-poses[19].y),2);
+            let distl = Math.pow((xcd-poses[20].x),2) + Math.pow((ycc-poses[20].y),2);
+            
+            if(distl <= Math.pow(radius/window.videoHeight, 2)) {
+              kickl = true;
+            }
+
+            if(distr <= Math.pow(radius/window.videoHeight, 2)){
+                kickr = true;
+            }
+
+            if(kickl && kickr) {
+                count++;
+                down = false;
+                kickl = false;
+                kickr = false;
+            }  
+        }
+
+        // draw keypoints
+        drawLandmarks(
+        ctx, [poses[20]],
+        {color: 'blue', fillColor: 'blue', lineWidth: 4, radius: 20});
+
+        drawLandmarks(
+            ctx, [poses[19]],
+            {color: 'red', fillColor: 'red', lineWidth: 4, radius: 20});
+      
+    } 
+    
+    else {
+        // draw keypoints
+        draw(color, ctx, poses);
+        // check squat
+        checkSquat(poses)
+    }
+} else {
+    endScreen(ctx);
+    }
 
 }
 
@@ -195,10 +274,13 @@ function checkSquat(poses) {
             if(a>=150 && b>=150) {
                 up = true;
                 if(upc == 0) {
+
                 if(window.game == 8) {
                     xc = (poses[23].x+poses[24].x)*window.videoWidth/2;
                     yc = poses[23].y*window.videoHeight;
-                } else {
+                } 
+                
+                else if (window.game == 7) {
                 yc = (poses[23].y)*window.videoHeight;
                 xd = Math.sqrt(Math.pow(poses[24].x - poses[28].x, 2) +
                                Math.pow(poses[24].y - poses[28].y, 2) - 
@@ -206,7 +288,14 @@ function checkSquat(poses) {
                                Math.pow(poses[23].y - poses[25].y, 2))
                 xcl = poses[24].x - xd;
                 xcr = poses[25].x + xd;  
-                }}
+                }
+
+                else if(window.game == 9) {
+                    xcr = (2*poses[12].x - poses[11].x)*window.videoWidth;
+                    xcl = (2*poses[11].x - poses[12].x)*window.videoWidth;
+                    yc = poses[9].y*window.videoHeight;
+                }
+            }
                 upc++;
                 color = "white";
             } else if(a<=100 && b<=100) {

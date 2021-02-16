@@ -1,5 +1,5 @@
 import { Game1, Game2 } from "./games.js";
-import {Squat, JumpSquat, SquatCount, KickSquat} from './squat.js';
+import {Squat, JumpSquat, SquatCount, KickSquat, PunchSquat} from './squat.js';
 
 // global vars
 let lim = 0;
@@ -71,6 +71,7 @@ export function detect(results) {
         case 6: SquatCount(results.poseLandmarks, ctx); break;
         case 7: KickSquat(results.poseLandmarks, ctx); break;
         case 8: KickSquat(results.poseLandmarks, ctx); break;
+        case 9: PunchSquat(results.poseLandmarks, ctx); break;
       }} catch(e) {
         console.log(e);
       }
