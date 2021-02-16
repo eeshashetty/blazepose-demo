@@ -13,13 +13,13 @@
  - [ ] red, blue color for hands+circle
 
 ### Head Collision
-- [ ] reduce height of rectangle for Head
-- [ ] Fix Head Y coordinate (relative to user's head)
-- [ ] Change color on collision
+- [x] reduce height of rectangle for Head
+- [x] Fix Head Y coordinate (relative to user's head)
+- [x] Change color on collision
 
 ### Leg Collision
-- [ ] Fix Leg Y coordinate (b/w hip and ankle)
-- [ ] Change color on collision
+- [x] Fix Leg Y coordinate (b/w hip and ankle)
+- [x] Change color on collision
 
 
 ## feb 15, 21:25
