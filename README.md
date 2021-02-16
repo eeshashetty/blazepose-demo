@@ -1,7 +1,7 @@
 # JustMoveCV
 
-demo link - https://eeshashetty.github.io/posenet-demo
-progress board - https://github.com/Shubhodeepdas83/JustMoveCV/projects/1?fullscreen=true
+- demo link - https://eeshashetty.github.io/posenet-demo
+- progress board - https://github.com/Shubhodeepdas83/JustMoveCV/projects/1?fullscreen=true
 
 ## feb 15, 21:25
 - [x] Skeleton lines
