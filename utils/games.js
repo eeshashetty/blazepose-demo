@@ -1,14 +1,16 @@
 // global vars
 let count = 0;
+let frame = 0;
 let maxCount = 3;
 let newc = true;
 let wait = -1;
 let x = [];
 let xc,yc;
 let radius = 50;
+let hip, ankle;
 
 // generate collision shapes
-export function genShape(ctx) {
+export function genShape(ctx, hip = null, ankle = null) {
     ctx.beginPath();
     ctx.globalAlpha = 0.6;
     
@@ -31,7 +33,7 @@ export function genShape(ctx) {
             yc = Math.floor((0.3 + Math.random()*0.4) * window.videoHeight);
           else if((window.game == 1 && count==maxCount+1) || (window.game == 2 && count <= maxCount))
 
-            {yc = Math.floor((0.55 + Math.random()*0.25) * window.videoHeight)}
+            { yc = Math.floor((hip + Math.random()*(ankle-hip)) * window.videoHeight) }
           
           else{
               xc = Math.floor(Math.random()*(window.videoWidth - 0.2*window.videoWidth));
@@ -40,10 +42,8 @@ export function genShape(ctx) {
         }
         
         else {
-
             xc = Math.floor(Math.random()*(window.videoWidth - 0.2*window.videoWidth));
-            yc = Math.floor(0.1*window.videoHeight + Math.random()*((0.17*window.videoHeight)));
-        }
+          }
 
         newc = false;
         wait = -1;
@@ -51,9 +51,11 @@ export function genShape(ctx) {
       }
     }
 
+    ctx.beginPath();
     ctx.rect(window.videoWidth*3/10,0,window.videoWidth*4/10,window.videoHeight/8);
     ctx.fillStyle = 'black';
     ctx.fill();
+    ctx.closePath();
     ctx.font = "30px Arial";
     ctx.fillStyle = "yellow";
     ctx.textAlign = "center";
@@ -65,10 +67,18 @@ export function genShape(ctx) {
 // Head Collision Game
 export function Game2(poses, ctx) {
     if(count <= maxCount) {
-      genShape(ctx, 3);
-      ctx.rect(xc,yc, 0.2*window.videoWidth, 0.13*window.videoHeight);
-      ctx.fillStyle = 'black';
+      if(frame == 0)
+        yc = (poses[33].y - 0.1 )*window.videoHeight;
+      
+      genShape(ctx);
+
+      ctx.beginPath();
+      
+      ctx.rect(xc,yc, 0.18*window.videoWidth, 0.05*window.videoHeight);
+      
+      ctx.fillStyle = newc?'#00ff00':'yellow';
       ctx.fill();
+      ctx.closePath();
 
       let xcc =  xc/videoWidth;
       let ycc = yc/videoHeight;
@@ -81,8 +91,11 @@ export function Game2(poses, ctx) {
     
       if(head.x > xcc && head.y > ycc && head.x < xcc + 0.2 && head.y < ycc + 0.13) {
               newc = true;
+              frame = 0;
               wait++;
             } 
+
+      frame++;
 
     } else {
         endScreen(ctx);
@@ -93,15 +106,23 @@ export function Game2(poses, ctx) {
 export function Game1(poses, ctx) {
     if(count<=maxCount)
     {
-      genShape(ctx);
+      if(window.game == 2 || window.game == 1 && count == maxCount+1 && wait == -1) {
+        hip = poses[24].y;
+        ankle = poses[28].y;
+      } else {
+        hip = null;
+        ankle = null;
+      }
+
+      genShape(ctx, hip, ankle);
      
       ctx.beginPath();
       ctx.globalAlpha = 0.6;
       ctx.arc(xc, yc, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'lightblue';
+      ctx.fillStyle = newc?'#00ff00':'yellow';
       ctx.fill();
-      ctx.stroke();
-      
+      ctx.closePath();
+
       let l = (game==1)?19:31;
       let r = (game==1)?20:32;
       

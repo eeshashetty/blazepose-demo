@@ -53,7 +53,9 @@ export function JumpSquat(poses, ctx) {
     {   
         // create rectangle above head
         let yc = 0.07* window.videoHeight;
-        ctx.rect(xc,yc, 0.1*window.videoWidth, 0.13*window.videoHeight);
+        
+        ctx.rect(xc,yc, 0.18*window.videoWidth, 0.05*window.videoHeight);
+      
         ctx.fillStyle = 'yellow';
         ctx.fill();
 

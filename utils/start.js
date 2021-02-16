@@ -7,6 +7,7 @@ window.start = true;
 let lastLoop = new Date();
 window.game = parseInt(localStorage.getItem("game"));
 
+
 export function detect(results) {
   // set FPS
   if(lim < 10) {
