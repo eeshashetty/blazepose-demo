@@ -11,6 +11,7 @@ const pose = new Pose({
 },
 });
 
+// set blazepose options
 pose.setOptions({
   selfieMode: true,
   smoothLandmarks: true,
