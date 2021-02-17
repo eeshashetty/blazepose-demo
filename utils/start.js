@@ -3,7 +3,7 @@ import {Squat, JumpSquat, SquatCount, KickSquat, PunchSquat} from './squat.js';
 
 // global vars
 let lim = 0;
-window.start = true;
+window.start = false;
 let lastLoop = new Date();
 window.game = parseInt(localStorage.getItem("game"));
 

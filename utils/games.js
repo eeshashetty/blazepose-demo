@@ -6,7 +6,7 @@ let newc = true;
 let wait = -1;
 let x = [];
 let xc,yc;
-let radius = 50;
+let radius = 30;
 let hip, ankle;
 
 // generate collision shapes
@@ -68,7 +68,7 @@ export function genShape(ctx, hip = null, ankle = null) {
 export function Game2(poses, ctx) {
     if(count <= maxCount) {
       if(frame == 0)
-        yc = (poses[33].y - 0.1 )*window.videoHeight;
+        yc = (poses[33].y - 0.5*poses[0].y)*window.videoHeight;
       
       genShape(ctx);
 

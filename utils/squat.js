@@ -6,11 +6,13 @@ let down = false;
 let up = false;
 let color = "red";
 let xc, yc, xcr, xcl, xd;
-let radius = 50;
+let radius = 30;
 let kick = false;
 let kickl = false;
 let kickr = false;
 let upc = 0;
+let wait = 0;
+
 // count squats 
 export function Squat(poses, ctx) {
       
@@ -199,7 +201,6 @@ export function PunchSquat(poses, ctx) {
     // generate rectangle for kick if in squat
     if(down)
     {   
-        console.log(xcr,xcl,yc);
         // create circle on both sides
         ctx.beginPath();
         ctx.globalAlpha = 0.6;
@@ -233,7 +234,7 @@ export function PunchSquat(poses, ctx) {
             }
 
             if(kickl && kickr) {
-                count++;
+                wait++;
                 down = false;
                 kickl = false;
                 kickr = false;
@@ -274,7 +275,9 @@ function checkSquat(poses) {
             if(a>=150 && b>=150) {
                 up = true;
                 if(upc == 0) {
-
+                if(window.game == 5) {
+                    yc = (poses[33].y - 0.5*poses[0].y)*window.videoHeight;
+                }
                 if(window.game == 8) {
                     xc = (poses[23].x+poses[24].x)*window.videoWidth/2;
                     yc = poses[23].y*window.videoHeight;
