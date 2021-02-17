@@ -6,7 +6,7 @@ let down = false;
 let up = false;
 let color = "red";
 let xc, yc, xcr, xcl, xd;
-let radius = 30;
+let radius = 35;
 let kick = false;
 let kickl = false;
 let kickr = false;
@@ -147,7 +147,6 @@ export function KickSquat(poses, ctx) {
 
         ctx.beginPath();
         ctx.globalAlpha = 0.6;
-        console.log(xc,yc);
         ctx.arc(xc, yc, radius, 0, 2 * Math.PI);
         ctx.fillStyle = kick?'#00ff00':'yellow';
         ctx.fill();
@@ -178,10 +177,12 @@ export function KickSquat(poses, ctx) {
     } 
     
     else {
+        // check squat
+        checkSquat(poses);
+        let color = down ? "#00ff00" : "#ff0000";
         // draw keypoints
         draw(color, ctx, poses);
-        // check squat
-        checkSquat(poses)
+        
     }
 } else {
     endScreen(ctx);
@@ -279,18 +280,15 @@ function checkSquat(poses) {
                     yc = (poses[33].y - 0.5*poses[0].y)*window.videoHeight;
                 }
                 if(window.game == 8) {
-                    xc = (poses[23].x+poses[24].x)*window.videoWidth/2;
+                    xcl = (0.8*poses[23].x)*window.videoWidth;
+                    xcr = (poses[24].x + 0.2*poses[23].x)*window.videoWidth;
                     yc = poses[23].y*window.videoHeight;
                 } 
                 
                 else if (window.game == 7) {
                 yc = (poses[23].y)*window.videoHeight;
-                xd = Math.sqrt(Math.pow(poses[24].x - poses[28].x, 2) +
-                               Math.pow(poses[24].y - poses[28].y, 2) - 
-                               Math.pow(poses[23].x - poses[25].x, 2) -
-                               Math.pow(poses[23].y - poses[25].y, 2))
-                xcl = poses[24].x - xd;
-                xcr = poses[25].x + xd;  
+                xcl = poses[23].x - 1.3*Math.sqrt(Math.pow(poses[25].x - poses[29].x, 2) + Math.pow(poses[25].y - poses[29].y, 2));
+                xcr = poses[24].x + 1.3*Math.sqrt(Math.pow(poses[25].x - poses[29].x, 2) + Math.pow(poses[25].y - poses[29].y, 2));  
                 }
 
                 else if(window.game == 9) {
