@@ -36,6 +36,7 @@ const minConfidencescore=0.5;
 var canvasHeight=Math.min(window.innerHeight,720);
 var canvasWidth=(16*canvasHeight)/9;
 const flipPoseHorizontal = true;
+
 // ==========================================================================================================
 
 
@@ -133,6 +134,25 @@ function game(x){
             exerciseName='Burpees';
             functionVar=1;
             break;
+        case 5:
+            // gamename.innerHTML='Jumping Jacks';
+            if (functionVar!=null){
+                $("script").last().remove();
+            }
+            $.getScript("pushup.js");
+            functionVar=1;
+            exerciseName='Push Ups';
+            break;
+        case 6:
+            // gamename.innerHTML='Burpees';
+            if (functionVar!=null){
+                $("script").last().remove();
+            }
+            $.getScript("plank.js");
+            exerciseName='Planks';
+            functionVar=1;
+            break;
+    
     
         default:
             break;
