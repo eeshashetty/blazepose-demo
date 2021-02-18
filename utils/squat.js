@@ -150,11 +150,9 @@ export function KickSquat(poses, ctx) {
     if(down)
     {   
         // game7 is side kick, game8 is front kick
-        if(window.game == 7){
-        // for game 7, generate circle on alternate sides
-            xc = (count%2 == 0)? xcr : xcl;
-            xc = xc*window.videoWidth;
-        }
+        // generate circle on alternate sides
+        xc = (count%2 == 0)? xcr : xcl;
+        xc = xc*window.videoWidth;
 
         ctx.beginPath();
         ctx.globalAlpha = 0.6;
@@ -174,7 +172,9 @@ export function KickSquat(poses, ctx) {
             let distl = Math.pow((xcc-poses[32].x),2) + Math.pow((ycc-poses[32].y),2); // check distance of left ankle from circle
             
             // a point (x1,y1) is inside a circle if (x-x1)^2 + (y-y1)^2 <= radius^2
-            if(distl <= Math.pow(radius/window.videoHeight, 2) || distr <= Math.pow(radius/window.videoHeight, 2)) {
+            let dist = (count%2==0) ? distr : distl;
+
+            if(dist <= Math.pow(radius/window.videoHeight, 2)) {
               count++;
               down = false; // reset squat
               kick = true; // trigger kick as true for green circle
@@ -194,7 +194,7 @@ export function KickSquat(poses, ctx) {
     else {
         // check squat
         checkSquat(poses);
-        let color = down ? "#00ff00" : "#ff0000";
+        let color = down ? "#00ff00" : (up?"white":"#ff0000");
         // draw keypoints
         draw(color, ctx, poses);
         
@@ -310,6 +310,16 @@ export function ShuffleSquat(poses, ctx) {
         if(count%2 == 0) {
             xcc = 0.16;
             ycc = 0.09;
+            
+            ctx.beginPath();
+            ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/3.5, 30);
+            ctx.fillStyle = (up&&down)?"#00ff00":"yellow";
+            ctx.fill();
+            ctx.strokeStyle = (up&&down)?"#00ff00":"yellow";
+            ctx.lineWidth = "8";
+            ctx.stroke();        
+            ctx.closePath();
+
             ctx.font = "25px Arial";
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
@@ -317,14 +327,24 @@ export function ShuffleSquat(poses, ctx) {
 
             ctx.beginPath();
             ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/3.5, 0.84*videoHeight);
-            ctx.globalAlpha = 0.4;
-            ctx.fillStyle = (up&&down)?"#00ff00":"yellow";
-            ctx.fill();
+            ctx.strokeStyle = (up&&down)?"#00ff00":"yellow";
+            ctx.lineWidth = "8";
+            ctx.stroke();
             ctx.closePath();
             
         } else {
             xcc = 0.56;
             ycc = 0.09;
+
+
+            ctx.beginPath();
+            ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/3.5, 30);
+            ctx.fillStyle = (up&&down)?"#00ff00":"yellow";
+            ctx.fill();
+            ctx.strokeStyle = (up&&down)?"#00ff00":"yellow";
+            ctx.lineWidth = "8";
+            ctx.stroke();        
+            ctx.closePath();
 
             ctx.font = "25px Arial";
             ctx.globalAlpha = 1;
@@ -333,9 +353,9 @@ export function ShuffleSquat(poses, ctx) {
 
             ctx.beginPath();
             ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/3.5, 0.84*videoHeight);
-            ctx.globalAlpha = 0.4;
-            ctx.fillStyle = (up&&down)?"#00ff00":"yellow";
-            ctx.fill();
+            ctx.strokeStyle = (up&&down)?"#00ff00":"yellow";
+            ctx.lineWidth = "8";
+            ctx.stroke();
             ctx.closePath();
         }
 
@@ -373,9 +393,18 @@ export function ShuffleSquat(poses, ctx) {
 
         ctx.beginPath();
         ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/3.5, 0.84*videoHeight);
-        ctx.globalAlpha = 0.4;
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = "8";
+        ctx.stroke();    
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/3.5, 30);
         ctx.fillStyle = "blue";
         ctx.fill();
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = "8";
+        ctx.stroke();        
         ctx.closePath();
 
         ctx.font = "25px Arial";
@@ -431,11 +460,11 @@ function checkSquat(poses) {
                 // for front kick
                 if(window.game == 8) {
                     // take 20% of distance from the hip
-                    xcl = (0.8*poses[23].x)*window.videoWidth;
-                    xcr = (poses[24].x + 0.2*poses[23].x)*window.videoWidth;
+                    xcl = (0.8*poses[23].x);
+                    xcr = (poses[24].x + 0.2*poses[23].x);
 
                     // y coordinate is y coordinate of hip
-                    yc = poses[23].y*window.videoHeight;
+                    yc = 1.1*poses[23].y*window.videoHeight;
                 } 
                 
                 // for side kick
@@ -454,7 +483,7 @@ function checkSquat(poses) {
                     xcl = (2*poses[11].x - poses[12].x)*window.videoWidth;
                     
                     // y coordinate is that of mouth
-                    yc = poses[9].y*window.videoHeight;
+                    yc = poses[12].y*window.videoHeight;
                 }
             }
                 upc++;

@@ -3,6 +3,7 @@ import { endScreen } from './games.js';
 let count = 0;
 let wait = 0;
 let xcc, ycc;
+let punch = false;
 
 export function PunchBag(poses, ctx) {
       
@@ -36,12 +37,17 @@ export function PunchBag(poses, ctx) {
         if(rightHand.x > xcc && rightHand.y > ycc && rightHand.x < xcc + 0.1 && rightHand.y < ycc + 0.84 ||
            leftHand.x > xcc && leftHand.y > ycc && leftHand.x < xcc + 0.1 && leftHand.y < ycc + 0.84) 
            {
-               // increment counter to let code wait for a few frames
-               wait++;
-               if(wait>5) {
-                count++;
-                wait = 0;
-               }
+               punch = true;
+            } else {
+                if(punch) {
+                    // increment counter to let code wait for a few frames
+                    wait++;
+                    if(wait>5) {
+                        count++;
+                        wait = 0;
+                        punch = false;
+                        }
+                }
             }
 
         

@@ -4,6 +4,7 @@ import { PunchBag } from './punch.js';
 
 // global vars
 let lim = 0;
+let first = 0;
 window.start = false;
 let lastLoop = new Date();
 window.game = parseInt(localStorage.getItem("game"));
@@ -46,6 +47,10 @@ export function detect(results) {
   ctx.drawImage(
       results.image, 0, 0, canvas.width, canvas.height);
 
+  if((window.game == 3 || window.game == 5) && first == 0){
+    window.start = true;
+    first++;
+  }
   // if window.start is true, it prompts user to stand between the lines
   // set to False for debugging purposes
   if(window.start) {
