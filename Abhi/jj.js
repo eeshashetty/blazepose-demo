@@ -22,7 +22,7 @@ function Exercise(results) {
             if (!clap){
                 clap=1;
                 count+=1;
-                countElement.innerHTML=count;
+                // countElement.innerHTML=count;
                 instruct.innerHTML='Jump and relax';
             }
             high=1;
@@ -34,18 +34,26 @@ function Exercise(results) {
                 clap=0;
                 count+=1;
                 instruct.innerHTML='Jump and lift your hands and put legs apart';
-                countElement.innerHTML=count;
+                // countElement.innerHTML=count;
             }
             high=1;
             low=0;
         }
+        // ctx2.beginPath();
+        // ctx2.globalAlpha=0.6;
+        // ctx2.fillStyle='black';
+        // ctx2.fillRect(0,canvasHeight*0.9,canvasWidth,canvasHeight*0.2);
+
+        // ctx2.globalAlpha=1;
+        // ctx2.fillStyle='yellow';
+        // ctx2.font = "900 "+canvasHeight*0.05+"px Arial";
+        // ctx2.fillText('Score: '+count,0,canvasHeight*0.975);
     
     drawConnectors(ctx1, results.poseLandmarks, POSE_CONNECTIONS,
                    {color: clr, lineWidth: 4});
     // drawLandmarks(ctx, results.poseLandmarks,
     //               {color: clr, lineWidth: 2});
-    // ctx.restore();
-    // console.log(results.poseLandmarks[0]);
+    
   }
   
   

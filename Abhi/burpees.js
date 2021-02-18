@@ -20,7 +20,7 @@ function inbox(landmark,bx,by,bh,bl){
 // ==========================================================================================================
 
 
-const exercise=[{x:50,y:350,l:200,h:100},{x:200,y:50,l:200,h:300},{x:350,y:150,l:200,h:300}]
+const exercise=[{x:canvasWidth*50/600,y:350*canvasHeight/500,l:200*canvasWidth/600,h:100*canvasHeight/500},{x:200*canvasWidth/600,y:50*canvasHeight/500,l:200*canvasWidth/600,h:300*canvasHeight/500},{x:350*canvasWidth/600,y:150*canvasHeight/500,l:200*canvasWidth/600,h:300*canvasHeight/500}]
 var i=0;
 
 function Exercise(results) {
@@ -43,16 +43,16 @@ function Exercise(results) {
             if (inbox(results.poseLandmarks[11],bx,by,bh,bl) && inbox(results.poseLandmarks[12],bx,by,bh,bl)){
                 i=(i+1)%3;
                 count+=1;
-                countElement.innerHTML=count;
+                // countElement.innerHTML=count;
                 
             }
         }
         else if(i==1){
             instruct.innerHTML='Jump';
-            if (inbox(results.poseLandmarks[11],bx,by,bh,bl) && inbox(results.poseLandmarks[12],bx,by,bh,bl) && inbox(results.poseLandmarks[25],bx,by,bh,bl) && inbox(results.poseLandmarks[26],bx,by,bh,bl)){
+            if (inbox(results.poseLandmarks[25],bx,by,bh,bl) && inbox(results.poseLandmarks[26],bx,by,bh,bl)){
                 i=(i+1)%3;
                 count+=1;
-                countElement.innerHTML=count;
+                // countElement.innerHTML=count;
                 
             }
         }
@@ -61,10 +61,19 @@ function Exercise(results) {
             if (inbox(results.poseLandmarks[11],bx,by,bh,bl) && inbox(results.poseLandmarks[12],bx,by,bh,bl)){
                 i=(i+1)%3;
                 count+=1;
-                countElement.innerHTML=count;
+                // countElement.innerHTML=count;
                 
             }
         }
+        // ctx2.beginPath();
+        // ctx2.globalAlpha=0.6;
+        // ctx2.fillStyle='black';
+        // ctx2.fillRect(0,canvasHeight*0.9,canvasWidth,canvasHeight*0.2);
+
+        // ctx2.globalAlpha=1;
+        // ctx2.fillStyle='yellow';
+        // ctx2.font = "900 "+canvasHeight*0.05+"px Arial";
+        // ctx2.fillText('Score: '+count,0,canvasHeight*0.975);
        
     
 

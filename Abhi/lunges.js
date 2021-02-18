@@ -24,11 +24,11 @@ function Exercise(results) {
             instruct.innerHTML='Face left and move left leg forward.';
         }
         if (results.poseLandmarks[26].y>=((results.poseLandmarks[25].y+results.poseLandmarks[27].y)/2) || results.poseLandmarks[25].y>=((results.poseLandmarks[26].y+results.poseLandmarks[28].y)/2)){
-            if (a<=100 && b<= 100){
+            if (a<=120 && b<= 120){
                 clr='green';
                 if (!lungestate){
                     count+=1;
-                    countElement.innerHTML=count;
+                    // countElement.innerHTML=count;
                     lungestate=1;
                     instructstate=(instructstate+1)%2;
                 }
@@ -37,7 +37,7 @@ function Exercise(results) {
         else{
             lungestate=0;
         }
-    
+
 
     drawConnectors(ctx1, results.poseLandmarks, POSE_CONNECTIONS,
                    {color: clr, lineWidth: 4});
