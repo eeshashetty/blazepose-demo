@@ -506,7 +506,7 @@ function checkSquat(poses) {
 }
 
 // calculate angle of hip-knee-ankle
-function find_angle(A,B,C) {
+export function find_angle(A,B,C) {
     
     var AB = Math.sqrt(Math.pow(B.x-A.x,2)+ Math.pow(B.y-A.y,2));    
     var BC = Math.sqrt(Math.pow(B.x-C.x,2)+ Math.pow(B.y-C.y,2)); 
@@ -516,7 +516,7 @@ function find_angle(A,B,C) {
 }
 
 // draw keypoints - shoulders, hips, knees, ankles
-function draw(color, ctx, poses) {
+export function draw(color, ctx, poses) {
     // overriding POSE_CONNECTIONS
     let connections = [[0,1], [1,3], [2,3], [3,5], [5,7], [0,2], [2,4], [4,6]]
 
