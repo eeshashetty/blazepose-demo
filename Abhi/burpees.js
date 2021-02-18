@@ -30,6 +30,7 @@ function Exercise(results) {
     
         ctx2.beginPath();
         ctx2.strokeStyle='yellow';
+        ctx2.lineWidth=5;
         ctx2.rect(exercise[i].x,exercise[i].y,exercise[i].l,exercise[i].h);
         ctx2.stroke();
         bx=exercise[i].x/canvasWidth;
@@ -38,18 +39,30 @@ function Exercise(results) {
         bh=exercise[i].h/canvasHeight;
 
         if (i==0){
+            instruct.innerHTML='Do pushup';
             if (inbox(results.poseLandmarks[11],bx,by,bh,bl) && inbox(results.poseLandmarks[12],bx,by,bh,bl)){
                 i=(i+1)%3;
+                count+=1;
+                countElement.innerHTML=count;
+                
             }
         }
         else if(i==1){
+            instruct.innerHTML='Jump';
             if (inbox(results.poseLandmarks[11],bx,by,bh,bl) && inbox(results.poseLandmarks[12],bx,by,bh,bl) && inbox(results.poseLandmarks[25],bx,by,bh,bl) && inbox(results.poseLandmarks[26],bx,by,bh,bl)){
                 i=(i+1)%3;
+                count+=1;
+                countElement.innerHTML=count;
+                
             }
         }
         else{
+            instruct.innerHTML='Squat';
             if (inbox(results.poseLandmarks[11],bx,by,bh,bl) && inbox(results.poseLandmarks[12],bx,by,bh,bl)){
                 i=(i+1)%3;
+                count+=1;
+                countElement.innerHTML=count;
+                
             }
         }
        

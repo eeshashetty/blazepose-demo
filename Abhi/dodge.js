@@ -33,7 +33,7 @@ function Exercise(results) {
             if (blockx>=canvasWidth || hitState){
                 if (blockx>=canvasWidth){
                     count+=1;
-                    dodgeCount.innerHTML=count;
+                    countElement.innerHTML=count;
                     audio.play()
                 }
             rst=1;
@@ -47,7 +47,7 @@ function Exercise(results) {
             if (blockx>=canvasWidth || hitState){
                 if (hitState){
                     count+=1;
-                    dodgeCount.innerHTML=count;
+                    countElement.innerHTML=count;
                     audio.play();
                 }
             rst=1;

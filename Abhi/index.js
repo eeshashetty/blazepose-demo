@@ -8,7 +8,7 @@ webcamElement.height=500;
 
 // Display Variables and Elements
 // ==========================================================================================================
-var dodgeCount = document.getElementById('count');
+var countElement = document.getElementById('count');
 var count = 0;
 var inframe = document.getElementById('inframe');
 var gamename=document.getElementById('game');
@@ -32,7 +32,6 @@ const rstbutton=document.getElementById('rstbutton');
 // ==========================================================================================================
 
 const lineWidth = 2;
-var colour='blue';
 const minConfidencescore=0.5;
 var canvasWidth=600;
 var canvasHeight=500;
@@ -48,32 +47,34 @@ canvas2.width = canvasWidth;
 canvas2.height = canvasHeight;
 
 // ==========================================================================================================
-var audio= new Audio('hit.mpeg');
+// var audio= new Audio('hit.mpeg');
 const canvas1 = document.getElementById('output1');
 const ctx1 = canvas1.getContext('2d');
-
-// since images are being fed from a webcam, we want to feed in the
-// original image and then just flip the keypoints' x coordinates. If instead
-// we flip the image, then correcting left-right keypoint pairs requires a
-// permutation on all the keypoints.
-
 canvas1.width = canvasWidth;
 canvas1.height = canvasHeight;
 
-var fullscreen=0;
+// var fullscreen=0;
 
-
+// const sampling_rate=3;
+// var sampling_count=0;
+// var check_pose=1;
+// const activityLandmark=[11,12,13,14,15,16,23,24,25,26,27,28];
+// var saved_activity=Array(50).fill(0);
+// var saved_activity_iterator=0;
+// var sampled_pose=null;
+// var total_activity=0;
 
 
 // HTML Button Functions
 // ==========================================================================================================
 function reset(){
     count=0;
-    dodgeCount.innerHTML=count;
+    countElement.innerHTML=count;
     fnstate=0;
     ctbutton.innerHTML='Start';
     blockx=-0.1*canvasWidth;
     ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+    instruct.innerHTML='';
 }
 
 function start(){
@@ -82,11 +83,12 @@ function start(){
         ctbutton.innerHTML='Start';
         blockx=-0.1*canvasWidth;
         ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+        instruct.innerHTML='';
     }
     else{
         setTimeout(function(){fnstate=1;
             ctbutton.innerHTML='Stop';},3000);
-        
+            instruct.innerHTML='';
         
     }
 }
@@ -201,16 +203,49 @@ function onResults(results) {
     var clr='blue';
     if (fnstate){
     Exercise(results);
+        // // Activity
+    // if (sampling_count<sampling_rate){
+    //     sampling_count+=1;
+    // }
+    // else {
+    //     if (sampled_pose!=null){
+    //         var activity=0;
+    //         for (let i=0;i<activityLandmark.length;i+=1){
+    //             if (results.poseLandmarks[activityLandmark[i]].visibility>minConfidence && sampled_pose[activityLandmark[i]].visibility>minConfidence){
+    //                 const dx = (results.poseLandmarks[activityLandmark[i]].x - sampled_pose[activityLandmark[i]].x)*100;
+    //                 const dy = (results.poseLandmarks[activityLandmark[i]].y - sampled_pose[activityLandmark[i]].y)*100;
+    //                 // console.log(typeof());
+    //                 var diff= Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
+    //                 activity+=diff;
+                    
+    //             }
+    //         }
+    //         activity=Math.round(activity/10);
+    //         total_activity+=activity;
+    //         console.log('Total acitvity: '+total_activity);    
+    //         saved_activity[saved_activity_iterator]=activity;
+    //         saved_activity_iterator=(saved_activity_iterator+1)%50;
+    //     }
+    //     sampled_pose=results.poseLandmarks;
+    //     check_pose=1;
+    //     sampling_count=0;
+
+    // }
+    // // Intensity
+    // var fr=6;
+    // var intensity_iterator=(saved_activity_iterator-fr)%50;
+    // var act_sum=0
+    // while(intensity_iterator!=saved_activity_iterator+1){
+    //     act_sum+=saved_activity[intensity_iterator];
+    //     intensity_iterator=(intensity_iterator+1)%50;
+    // }
+    // console.log('Intensity: '+Math.round((act_sum/fr)));
+
     }
 
-    // drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS,
-    //                {color: clr, lineWidth: 4});
-    // drawLandmarks(ctx, results.poseLandmarks,
-    //               {color: clr, lineWidth: 2});
     ctx1.restore();
     ctx2.restore();
     }
-    // console.log(results.poseLandmarks);
   }
   
   const pose = new Pose({locateFile: (file) => {
