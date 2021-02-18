@@ -2,7 +2,7 @@
 
 // ==========================================================================================================
 function inbox(landmark,bx,by,bh,bl){
-    if (landmark.x>=bx && landmark.x<=bx+bl && landmark.y>=by && landmark.y<=by+bl){
+    if (landmark.x>=bx && landmark.x<=bx+bl && landmark.y>=by && landmark.y<=by+bh){
         return true;
     }
     return false;
@@ -20,7 +20,7 @@ function inbox(landmark,bx,by,bh,bl){
 // ==========================================================================================================
 
 
-const exercise=[{x:canvasWidth*50/600,y:350*canvasHeight/500,l:200*canvasWidth/600,h:100*canvasHeight/500},{x:200*canvasWidth/600,y:50*canvasHeight/500,l:200*canvasWidth/600,h:300*canvasHeight/500},{x:350*canvasWidth/600,y:150*canvasHeight/500,l:200*canvasWidth/600,h:300*canvasHeight/500}]
+const exercise=[{x:canvasWidth*50/600,y:350*canvasHeight/500,l:200*canvasWidth/600,h:100*canvasHeight/500},{x:200*canvasWidth/600,y:50*canvasHeight/500,l:200*canvasWidth/600,h:300*canvasHeight/500},{x:350*canvasWidth/600,y:200*canvasHeight/500,l:200*canvasWidth/600,h:250*canvasHeight/500}]
 var i=0;
 
 function Exercise(results) {
@@ -49,7 +49,7 @@ function Exercise(results) {
         }
         else if(i==1){
             instruct.innerHTML='Jump';
-            if (inbox(results.poseLandmarks[25],bx,by,bh,bl) && inbox(results.poseLandmarks[26],bx,by,bh,bl)){
+            if (inbox(results.poseLandmarks[27],bx,by,bh,bl) && inbox(results.poseLandmarks[28],bx,by,bh,bl)){
                 i=(i+1)%3;
                 count+=1;
                 // countElement.innerHTML=count;
@@ -65,6 +65,8 @@ function Exercise(results) {
                 
             }
         }
+        // drawLandmarks(ctx1, results.poseLandmarks,
+        //           {color: clr, lineWidth: 2});
         // ctx2.beginPath();
         // ctx2.globalAlpha=0.6;
         // ctx2.fillStyle='black';
