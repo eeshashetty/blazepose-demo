@@ -1,6 +1,9 @@
 import { Game1, Game2 } from "./games.js";
 import {Squat, JumpSquat, SquatCount, KickSquat, PunchSquat, ShuffleSquat} from './squat.js';
 import { PunchBag } from './punch.js';
+import { LegRaise } from './LegRaise.js';
+import { punchHand } from './punchHand.js';
+import { highKnee } from './highKnee.js';
 
 // global vars
 let lim = 0;
@@ -39,8 +42,8 @@ export function detect(results) {
   } catch(e) {} 
 
   // set global var videoHeight and videoWidth
-  window.videoHeight = canvas.height;
-  window.videoWidth = canvas.width;
+  canvas.height = window.videoHeight;
+  canvas.width = window.videoWidth;
 
   ctx.save();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -91,7 +94,10 @@ export function detect(results) {
         case 9: PunchSquat(results.poseLandmarks, ctx); break;
         case 10: ShuffleSquat(results.poseLandmarks, ctx); break;
         case 11: PunchBag(results.poseLandmarks, ctx); break;
-      }} catch(e) {}
+        case 12: LegRaise(results.poseLandmarks, ctx); break;
+        case 13: punchHand(results.poseLandmarks, ctx); break;
+        case 14: highKnee(results.poseLandmarks, ctx); break;
+      }} catch(e) {console.log(e)}
   }
 
   ctx.restore();

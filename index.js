@@ -1,8 +1,11 @@
 import {detect} from './utils/start.js';
 
 // global vars
-window.videoHeight = 1280;
-window.videoWidth = 720;
+window.videoHeight = window.innerHeight;
+window.videoWidth = window.innerWidth;
+
+window.aspect_ratio=window.videoWidth/window.videoHeight;
+
 
 // set up blazepose
 const pose = new Pose({
@@ -20,6 +23,18 @@ pose.setOptions({
 });
 pose.onResults(detect);
 
+var aspect_ratio=window.videoWidth/window.videoHeight;
+
+if($(window).width()/aspect_ratio>$(window).height()){
+  window.videoHeight = $(window).height();
+  window.videoWidth = Math.floor(window.videoHeight*aspect_ratio);
+}
+else {
+  console.log("fix2");
+  window.videoWidth = $(window).width();
+  window.videoHeight = Math.floor(window.videoWidth/aspect_ratio);
+}
+
 // set up camera
 const videoElement = document.getElementById('video');
 
@@ -27,8 +42,8 @@ const camera = new Camera(videoElement, {
   onFrame: async () => {
     await pose.send({image: videoElement});
   },
-  width: 1280,
-  height: 720
+  width: window.videoWidth,
+  height: window.videoHeight
 });
 
 camera.start();
