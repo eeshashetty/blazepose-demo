@@ -4,10 +4,11 @@ import { endScreen } from './games.js';
 let count = 0;
 let xc,yc,xcr,xcl;
 let radius = 30;
-let kick = false;
+let raise = false;
 let up = false;
 let upc = 0;
 let wait = 0;
+
 export function LegRaise(poses, ctx) {
       
     let color = up?"white":"#ff0000";
@@ -26,13 +27,13 @@ export function LegRaise(poses, ctx) {
     ctx.fillText("Leg Raises = " + count, window.videoWidth/2, window.videoHeight*3/40);
      
         // generate circle on alternate sides
-    xc = (count%2==0)? xcr : xcl;
+    xc = (count<3)? xcr : xcl;
     xc = xc*window.videoWidth;
 
     ctx.beginPath();
     ctx.globalAlpha = 0.6;
     ctx.arc(xc, yc, radius, 0, 2 * Math.PI);
-    ctx.fillStyle = kick?'#00ff00':'yellow'; // yellow if not kicked, green once kicked
+    ctx.fillStyle = raise?'#00ff00':'yellow'; // yellow if not kicked, green once kicked
     ctx.fill();
     ctx.closePath();
 
@@ -47,21 +48,22 @@ export function LegRaise(poses, ctx) {
         let distl = Math.pow((xcc-poses[32].x),2) + Math.pow((ycc-poses[32].y),2); // check distance of left ankle from circle
             
         // a point (x1,y1) is inside a circle if (x-x1)^2 + (y-y1)^2 <= radius^2
-        let dist = (count%2==0) ? distr : distl;
+        let dist = (count<3) ? distr : distl;
 
         if(dist <= Math.pow(radius/window.videoHeight, 2)) {
-            wait++;
-            if(wait<5){
-            count++;
-            kick = true;
-            wait = 0;
-            }
+            raise = true;
+            console.log('in');
              // trigger kick as true for green circle
         } else {
-            kick = false;
+            if(raise) {
+                count++;
+                console.log("kick");
+                raise = false;
+            }
+            
         }
         } else {
-              kick = false;
+              raise = false;
           }
         
     } else {
