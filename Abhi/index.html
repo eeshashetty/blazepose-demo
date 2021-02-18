@@ -1,8 +1,7 @@
 <html>
 
 <head>
-    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
@@ -14,7 +13,8 @@
     <div id="console"></div>
     <div class='media' style="height: 500;">
         <video hidden  muted width="600" height="500" id="webcam" ></video>
-        <canvas id="output" width="600" height="500"></canvas>
+        <canvas id="output1" width="600" height="500"></canvas>
+        <canvas id="output2" width="600" height="500"></canvas>
     </div>
     <br>
     <div class="btn">
@@ -27,7 +27,7 @@
     </div>
 
     <div class="text">
-        <h2 style="display: inline;" >Lunge count : </h2>
+        <h2 style="display: inline;" >Count : </h2>
         <h2 style="display: inline;" id="count">
         .. 
         </h2>
@@ -35,6 +35,24 @@
     <div class="text">
         <h2 style="display: inline;" id='instruct'> </h2>
 
+    </div>
+    <div class="text">
+        <h2 style="display: inline;" id='game'> </h2>
+
+    </div>
+    <div class="btn">
+        <button id='dodge' onclick="game(1)">
+            Dodging Game
+        </button>
+        <button id='lunges' onclick="game(2)">
+            Lunges
+        </button>
+        <button id='jj' onclick="game(3)">
+            Jumping Jacks
+        </button>
+        <button id='burpee' onclick="game(4)">
+            Burpees
+        </button>
     </div>
     <!-- Load index.js after the content of the page -->
     <script src="index.js"></script>
