@@ -1,8 +1,16 @@
+const aspectratio=screen.width/screen.height;
+// console.log(aspectratio);
+var canvasWidth=1280;
+var canvasHeight=720;
+
+
 // Webcam Element
 // ==========================================================================================================
 const webcamElement = document.getElementById('webcam');
 webcamElement.height=Math.min(window.innerHeight,720);
 webcamElement.width=(16*webcamElement.height)/9;
+const media=document.getElementById('media');
+const defaultheight=Math.min(window.innerHeight,720);
 // ==========================================================================================================
 
 
@@ -25,6 +33,7 @@ var fnstate = 0;
 // ==========================================================================================================
 const ctbutton=document.getElementById('ctbutton');
 const rstbutton=document.getElementById('rstbutton');
+const fsbutton=document.getElementById('fsbutton');
 // ==========================================================================================================
 
 
@@ -33,10 +42,9 @@ const rstbutton=document.getElementById('rstbutton');
 var exerciseName='';
 const lineWidth = 2;
 const minConfidencescore=0.5;
-var canvasHeight=Math.min(window.innerHeight,720);
-var canvasWidth=(16*canvasHeight)/9;
-const flipPoseHorizontal = true;
 
+const flipPoseHorizontal = true;
+var timecounter=0;
 // ==========================================================================================================
 
 
@@ -54,7 +62,7 @@ const ctx1 = canvas1.getContext('2d');
 canvas1.width = canvasWidth;
 canvas1.height = canvasHeight;
 
-// var fullscreen=0;
+var fullscreen=0;
 
 const sampling_rate=3;
 var sampling_count=0;
@@ -92,7 +100,44 @@ function start(){
         
     }
 }
+function fullscreentoggle(){
+    var elem = document.documentElement;
+    if(!fullscreen){
 
+        /* View in fullscreen */
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+        }
+        fullscreen=1;
+
+    }
+    else{
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+        fullscreen=0;
+    }
+}
+var menu=1;
+
+function openNav() {
+    if(menu){
+        document.getElementById("myNav").style.width = "0%";
+        menu=0;
+    }
+    else{
+        document.getElementById("myNav").style.width = "100%";
+        menu=1;
+    }
+  }
 var functionVar=null;
 
 function game(x){
@@ -101,58 +146,80 @@ function game(x){
             // gamename.innerHTML='Dodging Game';
             
             if (functionVar!=null){
+                console.log($("script").last());
                 $("script").last().remove();
             }
             $.getScript("dodge.js");
-            functionVar=1;
+            functionVar="dodge.js";
             exerciseName='Dodge Game';
+            openNav();
             break;
         case 2:
             // gamename.innerHTML='Lunges';
             if (functionVar!=null){
+                console.log($("script").last());
                 $("script").last().remove();
             }
             $.getScript("lunges.js");
             exerciseName='Lunges';
-            functionVar=1;
+            functionVar="lunges.js";
+            openNav();
             break;
         case 3:
             // gamename.innerHTML='Jumping Jacks';
             if (functionVar!=null){
+                console.log($("script").last());
                 $("script").last().remove();
             }
             $.getScript("jj.js");
-            functionVar=1;
+            functionVar="jj.js";
             exerciseName='Jumping Jacks';
+            openNav();
             break;
         case 4:
             // gamename.innerHTML='Burpees';
             if (functionVar!=null){
+                console.log($("script").last());
                 $("script").last().remove();
             }
             $.getScript("burpees.js");
             exerciseName='Burpees';
-            functionVar=1;
+            functionVar="burpees.js";
+            openNav();
             break;
         case 5:
             // gamename.innerHTML='Jumping Jacks';
             if (functionVar!=null){
+                console.log($("script").last());
                 $("script").last().remove();
             }
             $.getScript("pushup.js");
-            functionVar=1;
+            functionVar="pushup.js";
             exerciseName='Push Ups';
+            openNav();
             break;
         case 6:
             // gamename.innerHTML='Burpees';
             if (functionVar!=null){
+                console.log($("script").last());
                 $("script").last().remove();
             }
             $.getScript("plank.js");
             exerciseName='Planks';
-            functionVar=1;
+            functionVar="plank.js";
+            openNav();
             break;
-    
+        case 7:
+            // gamename.innerHTML='Burpees';
+            if (functionVar!=null){
+                console.log($("script").last());
+                $("script").last().remove();
+            }
+            $.getScript("crunches.js");
+            exerciseName='Crunches';
+            functionVar="crunches.js";
+            openNav();
+            break;
     
         default:
             break;
@@ -178,6 +245,20 @@ const minConfidence=0.5;
 var initialized=0;
 
 function onResults(results) {
+    if(window.innerWidth/window.innerHeight>=aspectratio){
+        canvasHeight=window.innerHeight;
+        canvasWidth=canvasHeight*aspectratio;
+    }
+    else{
+        canvasWidth=window.innerWidth;
+        canvasHeight=canvasWidth/aspectratio;
+    }
+    webcamElement.height=canvasHeight
+    webcamElement.width=canvasWidth;
+    canvas1.height=canvasHeight;
+    canvas1.width=canvasWidth;
+    canvas2.height=canvasHeight;
+    canvas2.width=canvasWidth;
     // Adds landmark of top of head
     // 
     var headx=results.poseLandmarks[0].x;
@@ -320,3 +401,4 @@ pose.onResults(onResults);
   });
 
   camera.start();
+  setInterval(function(){timecounter+=1;},1000);

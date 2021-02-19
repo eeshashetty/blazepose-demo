@@ -11,7 +11,13 @@
 
 <body>
     <!-- <div id="console"></div> -->
-    <div class='media' style="height: 720;">
+    <button id='fsbutton' onclick="fullscreentoggle()">
+        Fullscreen
+    </button>
+    <button id='menubutton' onclick="openNav()">
+        Menu
+    </button>
+    <div id='media' style="height:100%;width: 100%;">
         <video hidden  muted width="1280" height="720" id="webcam" ></video>
         <canvas id="output1" width="1280" height="720"></canvas>
         <canvas id="output2" width="1280" height="720"></canvas>
@@ -31,29 +37,30 @@
         <h2 style="display: inline;" id='instruct'> </h2>
 
     </div>
-    <div class="text">
-        <h2 style="display: inline;" id='game'> </h2>
-
-    </div>
-    <div class="btn">
-        <button id='dodge' onclick="game(1)">
-            Dodging Game
-        </button>
-        <button id='lunges' onclick="game(2)">
-            Lunges
-        </button>
-        <button id='jj' onclick="game(3)">
-            Jumping Jacks
-        </button>
-        <button id='burpee' onclick="game(4)">
-            Burpees
-        </button>
-        <button id='pushup' onclick="game(5)">
-            Push Up
-        </button>
-        <button id='plank' onclick="game(6)">
-            Plank
-        </button>
+    <div id="myNav" class="overlay">
+        <div class="overlay-content">
+            <button id='dodge' onclick="game(1)">
+                Dodging Game
+            </button>
+            <button id='lunges' onclick="game(2)">
+                Lunges
+            </button>
+            <button id='jj' onclick="game(3)">
+                Jumping Jacks
+            </button>
+            <button id='burpee' onclick="game(4)">
+                Burpees
+            </button>
+            <button id='pushup' onclick="game(5)">
+                Push Up
+            </button>
+            <button id='plank' onclick="game(6)">
+                Plank
+            </button>
+            <button id='crunch' onclick="game(7)">
+                Crunches
+            </button>
+        </div>
     </div>
     <!-- Load index.js after the content of the page -->
     <script src="index.js"></script>
@@ -62,30 +69,73 @@
 </html>
 
 <style>
+body{
+    overflow-x: hidden;
+}
 video{
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translate(-50%);
-
+    overflow-y: scroll;
+    overflow-x: hidden;
     
 } 
  canvas{
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translate(-50%);
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-.media{
+#media{
     align-content: center;
     text-align: center;
+    overflow: hidden;
 }
 .btn{
     align-content: center;
-    text-align: center;
+    text-align: center; 
 }
 .text{
     align-content: center;
     text-align: center;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+#fsbutton{
+    position: absolute;
+    top:0;
+    left: 95%;
+    height: 5%;
+    z-index: 100;
+}
+#menubutton{
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 5%;
+    z-index: 100;
+
+}
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  align-content: center;
+ text-align: center;
 }
 </style>

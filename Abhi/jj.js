@@ -3,12 +3,13 @@ var high=1;
 var low=0;
 var clap=0;
 var clr='blue';
+POSE_CONNECTIONS=[[24,26],[26,28],[23,25],[25,27],[12,24],[11,23],[24,23],[11,12],[11,13],[13,15],[12,14],[14,16]];
 // ==========================================================================================================
 
 
 function Exercise(results) {
     
-    
+    if (results.poseLandmarks[11].visibility>0.8 && results.poseLandmarks[12].visibility>0.8 && results.poseLandmarks[13].visibility>0.8 && results.poseLandmarks[14].visibility>0.8 && results.poseLandmarks[27].visibility>0.8 && results.poseLandmarks[28].visibility>0.8 ){
         var tx=(results.poseLandmarks[24].x+results.poseLandmarks[23].x)/2;
         
         var a=find_angle(results.poseLandmarks[27],{x:tx,y:results.poseLandmarks[24].y},results.poseLandmarks[28]);
@@ -48,7 +49,7 @@ function Exercise(results) {
         // ctx2.fillStyle='yellow';
         // ctx2.font = "900 "+canvasHeight*0.05+"px Arial";
         // ctx2.fillText('Score: '+count,0,canvasHeight*0.975);
-    
+    }
     drawConnectors(ctx1, results.poseLandmarks, POSE_CONNECTIONS,
                    {color: clr, lineWidth: 4});
     // drawLandmarks(ctx, results.poseLandmarks,
