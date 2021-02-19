@@ -1,5 +1,4 @@
-import { endScreen } from "./games.js";
-import { find_angle } from './squat.js';
+import { endScreen,find_angle  } from "../index.js";
 
 let xcr,yc,xcl;
 let kickr = false;
