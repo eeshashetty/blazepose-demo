@@ -1,5 +1,4 @@
-import { draw, find_angle } from './squat.js';
-import { endScreen } from './games.js';
+import { draw, find_angle, endScreen } from '../index.js';
 
 let count = 0;
 let xc,yc,xcr,xcl;

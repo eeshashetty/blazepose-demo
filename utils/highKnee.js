@@ -1,5 +1,5 @@
-import {endScreen} from './games.js'
-import { find_angle, draw } from './squat.js';
+import {endScreen} from '../index.js'
+import { find_angle, draw } from '../index.js';
 
 let hip;
 let up = false;

@@ -1,4 +1,4 @@
-import { endScreen } from './games.js';
+import { endScreen } from '../index.js';
 
 let count = 0;
 let wait = 0;
