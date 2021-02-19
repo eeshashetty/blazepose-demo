@@ -226,16 +226,17 @@ export function inLine(poses) {
 }
 
 export function checkSquat(poses) {
-  let up, down;  
+  let up, down, progress, a,b;  
   if(poses[27].visibility > 0.2 && poses[28].visibility > 0.2)
         {   
             // find squat angle
-            let a = find_angle(poses[24],poses[26],poses[28]);
-            let b = find_angle(poses[23],poses[25],poses[27]);
+            a = find_angle(poses[24],poses[26],poses[28]);
+            b = find_angle(poses[23],poses[25],poses[27]);
             
             // standing, if angle is >= 150
             if(a>=150 && b>=150) {
                 up = true;
+                progress = false;
                 console.log("up");
             }
             
@@ -243,10 +244,15 @@ export function checkSquat(poses) {
             else if(a<=100 && b<=100) {
                 down = true;
                 up = false;
+                progress = false;
                 console.log("squat");
             }
+
+            else {
+              progress = true;
+            }
         }
-      return [up, down]
+      return [up, down, progress, a,b]
 }
 
 export function endScreen(ctx) {

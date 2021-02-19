@@ -16,7 +16,7 @@ export function headTouch(poses, ctx) {
       let a = genShape(ctx, count, xc, yc, maxCount, newc);
 
       xc = a[0];
-      yc = a[1];
+      // yc = a[1];
       newc = a[2];
 
       ctx.beginPath();
@@ -31,12 +31,8 @@ export function headTouch(poses, ctx) {
       let ycc = yc/videoHeight;
       
       let head = poses[33];
-      
-      drawLandmarks(
-        ctx, [poses[33], poses[33]],
-        {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 20});
     
-      if(head.x > xcc && head.y > ycc && head.x < xcc + 0.2 && head.y < ycc + 0.13) {
+      if(head.x > xcc && head.y > ycc && head.x < xcc + 0.18 && head.y < ycc + 0.05) {
               touch = true;
             } else {
               console.log("in");  

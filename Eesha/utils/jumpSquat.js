@@ -8,6 +8,7 @@ let up = false;
 let xc, yc;
 let upc = 0;
 let touch = false;
+let progress = true;
 let color;
 
 // squat+jump
@@ -41,33 +42,31 @@ export function JumpSquat(poses, ctx) {
         
         // check if head collision occurs
         // point is inside rectangle if x > x1 and y > y1 and x < x2 and y < y2 (x1,y1 are top left coordinates - x2,y2 are bottom right coordinates)
-        if(head.x > xcc && head.y > ycc && head.x < xcc + 0.2 && head.y < ycc + 0.13) {
+        if(head.x > xcc && head.y > ycc && head.x < xcc + 0.18 && head.y < ycc + 0.05) {
             touch = true;
         } else {
             if(touch) {
                 count++;
                 touch = false;
                 down = false;
+                upc = 0;
             } else {
                 touch = false;
             }
         }
 
-        // draw keypoints
-        draw(color, ctx, poses);
     } 
+    // check squat
+    let res = checkSquat(poses);
+    up = (res[0] == undefined)?up:res[0];
+    down = (res[1] == undefined)?down:res[1];
+    progress = (res[2] == undefined)?down:res[2];
     
-    else {
-        // draw keypoints
-        draw(color, ctx, poses);
-
-        // check squat
-        let res = checkSquat(poses);
-        up = (res[0] == undefined)?up:res[0];
-        down = (res[1] == undefined)?down:res[1];
-
-        color = down ? "#00ff00" : (up?"white":"#ff0000");
-    }
+    // draw keypoints
+    color = progress?"red":(up?"white":(down?"#00ff00":"red"));
+    console.log(progress, color);
+    draw(color, ctx, poses);
+    
 } else {
     endScreen(ctx);
     }

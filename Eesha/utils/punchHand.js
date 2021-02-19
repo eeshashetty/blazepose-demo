@@ -63,6 +63,7 @@ export function punchHand(poses, ctx) {
                 kickl = false; // reset
                 kickr = false; // reset
                 count++;
+                upc = 0;
             }
             }  
         }

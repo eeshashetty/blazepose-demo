@@ -5,7 +5,7 @@ import { endScreen, draw, checkSquat } from '../index.js';
 let count = 0;
 let down = false;
 let up = false;
-
+let progress = true;
 // squat+jump
 export function SquatCount(poses, ctx) {
 
@@ -23,12 +23,13 @@ export function SquatCount(poses, ctx) {
     let res = checkSquat(poses);
     up = (res[0] == undefined)?up:res[0];
     down = (res[1] == undefined)?down:res[1];
-    
+    progress = (res[2] == undefined)?down:res[2];
+
     // skeleton color is green if in squat, white if standing up
-    let color = down ? "#00ff00" : (up ? "white": "#ff0000");
+    let color = progress?"red":(up?"white":(down?"#00ff00":"red"));
 
     // start counting once in squat
-    if(down) {
+    if(down && !progress && !up) {
         count++;
     } else {
         count = 0; // reset to 0 if leaves squat

@@ -5,6 +5,7 @@ import { endScreen, find_angle, draw, checkSquat } from '../index.js';
 let count = 0;
 let down = false;
 let up = false;
+let progress = true;
 let xcr,xcl, yc;
 let upc = 0;
 let color;
@@ -73,6 +74,7 @@ export function PunchSquat(poses, ctx) {
                     kickl = false; // reset
                     kickr = false; // reset
                     count++;
+                    upc = 0;
                 }
                 }  
             }
@@ -89,14 +91,16 @@ export function PunchSquat(poses, ctx) {
         } 
         
         else {
-            // draw keypoints
-            draw(color, ctx, poses);
-            // check squat
+            // check squat   
             let res = checkSquat(poses);
             up = (res[0] == undefined)?up:res[0];
             down = (res[1] == undefined)?down:res[1];
+            progress = (res[2] == undefined)?down:res[2];
+            color = progress?"red":(up?"white":(down?"#00ff00":"red"));
 
-            color = down ? "#00ff00" : (up?"white":"#ff0000");
+            // draw keypoints
+            draw(color, ctx, poses);
+    
         }
     } else {
         endScreen(ctx);

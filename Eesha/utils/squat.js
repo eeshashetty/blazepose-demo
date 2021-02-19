@@ -5,7 +5,9 @@ import { endScreen, draw, checkSquat } from '../index.js';
 let count = 0;
 let down = false;
 let up = false;
-
+let progress = true;
+let a = 0;
+let b = 0;
 // count squats 
 export function Squat(poses, ctx) {
     
@@ -18,6 +20,18 @@ export function Squat(poses, ctx) {
     ctx.textAlign = "center";
     ctx.fillText("Squats = " + count, window.videoWidth/2, window.videoHeight*3/40);
   
+    ctx.beginPath();
+    ctx.rect(window.videoWidth/2.5, window.videoHeight*0.1, 0.2*window.videoWidth, 0.1*window.videoHeight);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText("Angle = " + a + ", " + b, window.videoWidth/2, window.videoHeight*0.16);
+    ctx.closePath()
     // one squat occurs when person goes in squat position and stands up after - hence up and down are both true
     if(up && down)
     {   
@@ -26,7 +40,7 @@ export function Squat(poses, ctx) {
         down = false; // reset
     } 
         
-    let color = down?"#00ff00":(up?"white":"red");
+    let color = progress?"red":(up?"white":(down?"#00ff00":"red"));
     // draw keypoints
     draw(color, ctx, poses);
 
@@ -34,10 +48,9 @@ export function Squat(poses, ctx) {
     let res = checkSquat(poses);
     up = (res[0] == undefined)?up:res[0];
     down = (res[1] == undefined)?down:res[1];
-
-    console.log(up,down);
-    // console.log(up,down);
-
+    progress = (res[2] == undefined)?down:res[2];
+    a = (res[3] == undefined)?down:res[3];
+    b = (res[4] == undefined)?down:res[4];
     } else {
         endScreen(ctx);
     }

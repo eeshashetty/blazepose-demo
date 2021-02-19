@@ -26,7 +26,7 @@ export function LegRaise(poses, ctx) {
     ctx.fillText("Leg Raises = " + count, window.videoWidth/2, window.videoHeight*3/40);
      
         // generate circle on alternate sides
-    xc = (count<3)? xcr : xcl;
+    xc = (count%2==0)? xcr : xcl;
     xc = xc*window.videoWidth;
 
     ctx.beginPath();
@@ -47,7 +47,7 @@ export function LegRaise(poses, ctx) {
         let distl = Math.pow((xcc-poses[32].x),2) + Math.pow((ycc-poses[32].y),2); // check distance of left ankle from circle
             
         // a point (x1,y1) is inside a circle if (x-x1)^2 + (y-y1)^2 <= radius^2
-        let dist = (count<3) ? distr : distl;
+        let dist = (count%2==0) ? distr : distl;
 
         if(dist <= Math.pow(radius/window.videoHeight, 2)) {
             raise = true;
@@ -58,6 +58,7 @@ export function LegRaise(poses, ctx) {
                 count++;
                 console.log("kick");
                 raise = false;
+                upc = 0;
             }
             
         }

@@ -32,11 +32,11 @@ export function ShuffleSquat(poses, ctx) {
             
             // generate box area on alternate sides on alternate counts
             if(count%2 == 0) {
-                xcc = 0.16;
+                xcc = 0.19;
                 ycc = 0.09;
                 
                 ctx.beginPath();
-                ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/3.5, 30);
+                ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/4, 30);
                 ctx.fillStyle = (up&&down)?"#00ff00":"yellow";
                 ctx.fill();
                 ctx.strokeStyle = (up&&down)?"#00ff00":"yellow";
@@ -45,12 +45,12 @@ export function ShuffleSquat(poses, ctx) {
                 ctx.closePath();
     
                 ctx.font = "25px Arial";
-                ctx.fillStyle = "white";
+                ctx.fillStyle = "black";
                 ctx.textAlign = "center";
-                ctx.fillText("squat here", 0.18*window.videoWidth, 0.08*window.videoHeight);  
+                ctx.fillText("squat here", 0.25*window.videoWidth, 0.08*window.videoHeight);  
     
                 ctx.beginPath();
-                ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/3.5, 0.84*videoHeight);
+                ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/4, 0.84*videoHeight);
                 ctx.strokeStyle = (up&&down)?"#00ff00":"yellow";
                 ctx.lineWidth = "8";
                 ctx.stroke();
@@ -62,7 +62,7 @@ export function ShuffleSquat(poses, ctx) {
     
     
                 ctx.beginPath();
-                ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/3.5, 30);
+                ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/4, 30);
                 ctx.fillStyle = (up&&down)?"#00ff00":"yellow";
                 ctx.fill();
                 ctx.strokeStyle = (up&&down)?"#00ff00":"yellow";
@@ -72,11 +72,11 @@ export function ShuffleSquat(poses, ctx) {
     
                 ctx.font = "25px Arial";
                 ctx.globalAlpha = 1;
-                ctx.fillStyle = "white";
+                ctx.fillStyle = "black";
                 ctx.fillText("squat here", 0.80*window.videoWidth, 0.08*window.videoHeight);
     
                 ctx.beginPath();
-                ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/3.5, 0.84*videoHeight);
+                ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/4, 0.84*videoHeight);
                 ctx.strokeStyle = (up&&down)?"#00ff00":"yellow";
                 ctx.lineWidth = "8";
                 ctx.stroke();
@@ -87,7 +87,7 @@ export function ShuffleSquat(poses, ctx) {
             let hip = poses[34];
             
             // check if person is standing inside the box
-            if(hip.x > xcc && hip.y > ycc && hip.x < xcc + 0.28 && hip.y < ycc + 0.84) {
+            if(hip.x > xcc && hip.y > ycc && hip.x < xcc + 0.25 && hip.y < ycc + 0.84) {
                 // check squat
                 let res = checkSquat(poses);
                 up = (res[0] == undefined)?up:res[0];
@@ -114,18 +114,18 @@ export function ShuffleSquat(poses, ctx) {
     
         // person has not stood in the center yet
         if(first) {
-            let xcc = 0.36;
+            let xcc = 0.38;
             let ycc = 0.09;
     
             ctx.beginPath();
-            ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/3.5, 0.84*videoHeight);
+            ctx.rect(xcc*videoWidth, ycc*videoHeight, videoWidth/4, 0.84*videoHeight);
             ctx.strokeStyle = "blue";
             ctx.lineWidth = "8";
             ctx.stroke();    
             ctx.closePath();
     
             ctx.beginPath();
-            ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/3.5, 30);
+            ctx.rect(xcc*videoWidth, ycc*videoHeight - 30, videoWidth/4, 30);
             ctx.fillStyle = "blue";
             ctx.fill();
             ctx.strokeStyle = "blue";
@@ -142,7 +142,7 @@ export function ShuffleSquat(poses, ctx) {
             let hip = poses[34];
             
             // check if person is standing in the box
-            if(hip.x > xcc && hip.y > ycc && hip.x < xcc + 0.28 && hip.y < ycc + 0.84) {
+            if(hip.x > xcc && hip.y > ycc && hip.x < xcc + 0.25 && hip.y < ycc + 0.84) {
                 first = false; // start shuffle squats
             }
     

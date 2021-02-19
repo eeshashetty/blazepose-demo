@@ -8,8 +8,8 @@ let up = false;
 let xc, yc, xcl, xcr;
 let upc = 0;
 let kick = false;
-let radius = 30;
-
+let radius = 50;
+let progress = true;
 // squat+jump
 export function KickSquat(poses, ctx) {
     if(upc == 0) {
@@ -58,6 +58,7 @@ export function KickSquat(poses, ctx) {
                     count++;
                     down = false; // reset squat
                     kick = false;
+                    upc = 0;
                 }
             }
           } else {
@@ -70,17 +71,16 @@ export function KickSquat(poses, ctx) {
             {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 20});
     } 
     
-    else {
-        // check squat
-        let res = checkSquat(poses);
-        up = (res[0] == undefined)?up:res[0];
-        down = (res[1] == undefined)?down:res[1];
+    // check squat
+    let res = checkSquat(poses);
+    up = (res[0] == undefined)?up:res[0];
+    down = (res[1] == undefined)?down:res[1];
+    progress = (res[2] == undefined)?down:res[2];
+    let color = progress?"red":(up?"white":(down?"#00ff00":"red"));
 
-        let color = down ? "#00ff00" : (up?"white":"#ff0000");
-        // draw keypoints
-        draw(color, ctx, poses);
+    // draw keypoints
+    draw(color, ctx, poses);
         
-    }
     } else {
         endScreen(ctx);
     }
