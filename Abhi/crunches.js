@@ -7,11 +7,16 @@ function inbox(landmark,bx,by,bh,bl){
     return false;
 }
 
-
-
-var instructstate=0;
+var waiting=0;
+var touched=0;
+var inpose=0;
+var poselist=[];
 var down=0;
+var xcenter=null;
+var ycenter=null;
+var radius=null;
 POSE_CONNECTIONS=[[24,26],[26,28],[23,25],[25,27],[12,24],[11,23],[24,23],[11,12],[11,13],[13,15],[12,14],[14,16]];
+var skeleton='white';
 // ==========================================================================================================
 
 
@@ -20,55 +25,73 @@ POSE_CONNECTIONS=[[24,26],[26,28],[23,25],[25,27],[12,24],[11,23],[24,23],[11,12
 
 function Exercise(results) {
 
-    var clr='yellow';
-    if (results.poseLandmarks[11].y>0.5 &&((results.poseLandmarks[25].y<results.poseLandmarks[23].y)||(results.poseLandmarks[26].y<results.poseLandmarks[24].y))){
-
-        if ((results.poseLandmarks[11].visibility>0.8 && results.poseLandmarks[15].visibility>0.8 && results.poseLandmarks[13].visibility>0.8 && results.poseLandmarks[23].visibility>0.8 && results.poseLandmarks[25].visibility>0.8 && results.poseLandmarks[27].visibility>0.8)){
-    
+    if (results.poseLandmarks[11].y>0.5 || results.poseLandmarks[12].y>0.5){
+        if (!inpose){
             
             a=find_angle(results.poseLandmarks[23],results.poseLandmarks[25],results.poseLandmarks[27]);
-            // b=find_angle(results.poseLandmarks[24],results.poseLandmarks[26],results.poseLandmarks[28]);
-            if(a<150 ){
-                // clr='yellow';
-                if(inbox(results.poseLandmarks[15],results.poseLandmarks[23].x,0.5,0.1,0.1)){
-                    clr='green';
-                    if(!down){
-                        count+=1;
-                        down=1;
-                    }
+            b=find_angle(results.poseLandmarks[24],results.poseLandmarks[26],results.poseLandmarks[28]);
+            if ((a<150 || b<150) && ((results.poseLandmarks[11].y>results.poseLandmarks[25].y)||(results.poseLandmarks[12].y>results.poseLandmarks[26].y))){
+                if (poselist.length<50){
+                    poselist.push(results.poseLandmarks);
                 }
                 else{
-                    down=0;
+                    skeleton='green';
+                    inpose=1;
+                    for (let index = 0; index < 50; index++) {
+                        if (poselist[index][23].visibility>0.8) {
+                            xcenter+=poselist[index][23].x;
+                            ycenter+=(poselist[index][25].y-Math.abs(poselist[index][23].y-poselist[index][25].y));
+                        }
+                        else{
+                            xcenter+=poselist[index][24].x;
+                            ycenter+=(poselist[index][26].y-Math.abs(poselist[index][24].y-poselist[index][26].y));
+                        }
+                        
+                    }
+                    xcenter=xcenter*canvasWidth/50;
+                    ycenter=ycenter*canvasHeight/50;
+                    radius=canvasHeight/15;
                 }
             }
-            
-            
         }
-        else if (results.poseLandmarks[12].visibility>0.8 && results.poseLandmarks[14].visibility>0.8 && results.poseLandmarks[16].visibility>0.8 && results.poseLandmarks[24].visibility>0.8 && results.poseLandmarks[26].visibility>0.8 && results.poseLandmarks[28].visibility>0.8){
-            a=find_angle(results.poseLandmarks[24],results.poseLandmarks[26],results.poseLandmarks[28]);
-            // b=find_angle(results.poseLandmarks[24],results.poseLandmarks[26],results.poseLandmarks[28]);
-            if(a<150){
-                // clr='yellow';
-                if(inbox(results.poseLandmarks[16],results.poseLandmarks[24].x,0.5,0.1,0.1)){
-                    clr='green';
-                    if(!down){
-                        count+=1;
-                        down=1;
-                    }
+        else{
+            
+            lefthand=Math.pow((xcenter-results.poseLandmarks[19].x*canvasWidth),2) + Math.pow((ycenter-results.poseLandmarks[19].y*canvasHeight),2);
+            righthand=Math.pow((xcenter-results.poseLandmarks[20].x*canvasWidth),2) + Math.pow((ycenter-results.poseLandmarks[20].y*canvasHeight),2);
+            if(lefthand<=(radius*radius) || righthand<=(radius*radius)){
+                if(!touched){
+                    count+=1;
+                    touched=1;
                 }
-                else{
-                    down=0;
+                
+            }
+            if(!touched){
+                ctx1.beginPath();
+                ctx1.fillStyle='yellow';
+                ctx1.arc(xcenter, ycenter, radius, 0, 2 * Math.PI);
+                ctx1.fill();
+            }
+            else{
+                waiting+=1;
+                if(waiting==20){
+                    touched=0;
+                    waiting=0;
                 }
             }
-            
         }
     }
-    ctx1.fillStyle=clr;
-    ctx1.fillRect(canvasWidth*0.40,0.45*canvasHeight, 0.2*canvasWidth, 0.1*canvasHeight);
+    else{
+        skeleton='white';
+        inpose=0;
+        xcenter=null;
+        ycenter=null;
+        poselist=[];
+    }
+
       
 
     drawConnectors(ctx1, results.poseLandmarks, POSE_CONNECTIONS,
-                   {color: clr, lineWidth: 4});
+                   {color: skeleton, lineWidth: 4});
     // drawLandmarks(ctx1, results.poseLandmarks,
     //               {color: clr, lineWidth: 2});
     // console.log(results.poseLandmarks);
