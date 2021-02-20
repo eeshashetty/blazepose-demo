@@ -41,8 +41,7 @@ function Exercise(results) {
                     down=0;
                 }
             }
-            ctx1.fillstyle=clr;
-            ctx1.fillRect(results.poseLandmarks[23].x*canvasWidth,0.5*canvasHeight, 0.1*canvasWidth, 0.1*canvasHeight);
+            
             
         }
         else if (results.poseLandmarks[12].visibility>0.8 && results.poseLandmarks[14].visibility>0.8 && results.poseLandmarks[16].visibility>0.8 && results.poseLandmarks[24].visibility>0.8 && results.poseLandmarks[26].visibility>0.8 && results.poseLandmarks[28].visibility>0.8){
@@ -61,15 +60,15 @@ function Exercise(results) {
                     down=0;
                 }
             }
-            ctx1.fillStyle=clr;
-            ctx1.fillRect(results.poseLandmarks[24].x*canvasWidth,0.5*canvasHeight, 0.1*canvasWidth, 0.1*canvasHeight);
-
+            
         }
     }
+    ctx1.fillStyle=clr;
+    ctx1.fillRect(canvasWidth*0.40,0.45*canvasHeight, 0.2*canvasWidth, 0.1*canvasHeight);
       
 
-    // drawConnectors(ctx1, results.poseLandmarks, POSE_CONNECTIONS,
-    //                {color: clr, lineWidth: 4});
+    drawConnectors(ctx1, results.poseLandmarks, POSE_CONNECTIONS,
+                   {color: clr, lineWidth: 4});
     // drawLandmarks(ctx1, results.poseLandmarks,
     //               {color: clr, lineWidth: 2});
     // console.log(results.poseLandmarks);
