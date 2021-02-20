@@ -378,7 +378,17 @@ function game(x){
         initialized=0;
             openNav();
         break;
-            
+        
+        case 21:
+            if (functionVar!=null){
+                $("script").last().remove();
+            }
+            $.getScript("crunches.js");
+            exerciseName='Crunches';
+            functionVar=1;
+            initialized=0;
+                openNav();
+            break;
     
         default:
             break;
