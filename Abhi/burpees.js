@@ -20,8 +20,8 @@ function inbox(landmark,bx,by,bh,bl){
 // ==========================================================================================================
 
 
-const exercise=[{y:350*canvasHeight/500,l:200*canvasWidth/600,h:100*canvasHeight/500},{y:50*canvasHeight/500,l:200*canvasWidth/600,h:300*canvasHeight/500},{y:200*canvasHeight/500,l:200*canvasWidth/600,h:250*canvasHeight/500}]
-var xcordinate=[canvasWidth*50/600,200*canvasWidth/600,350*canvasWidth/600];
+var exercise=[{y:0.7*canvasHeight,l:0.3*canvasWidth,h:0.2*canvasHeight},{y:50*canvasHeight/500,l:0.3*canvasWidth,h:0.6*canvasHeight},{y:200*canvasHeight/500,l:0.3*canvasWidth,h:0.5*canvasHeight}]
+var xcordinate=[0.05*canvasWidth,0.35*canvasWidth,0.65*canvasWidth];
 var i=0;
 var rectx=0;
 var xidx=Math.floor(Math.random()*3);
@@ -29,7 +29,9 @@ rectx=xcordinate.splice(xidx,1)[0];
 
 function Exercise(results) {
 
-
+    exercise=[{y:0.7*canvasHeight,l:0.3*canvasWidth,h:0.2*canvasHeight},{y:50*canvasHeight/500,l:0.3*canvasWidth,h:0.6*canvasHeight},{y:200*canvasHeight/500,l:0.3*canvasWidth,h:0.5*canvasHeight}]
+    xcordinate=[0.05*canvasWidth,0.35*canvasWidth,0.65*canvasWidth];
+    // console.log( results.poseLandmarks[12].x, results.poseLandmarks[11].x)
     var clr='blue';
     
         ctx2.beginPath();
@@ -58,7 +60,7 @@ function Exercise(results) {
         }
         else if(i==1){
             // instruct.innerHTML='Jump';
-            if (results.poseLandmarks[0].visibility>0.8  && results.poseLandmarks[33].y<by){
+            if (results.poseLandmarks[0].visibility>0.8  && results.poseLandmarks[33].y<by && results.poseLandmarks[12].x>=bx && results.poseLandmarks[11].x<=bx+bl){
                 i=(i+1)%3;
                 count+=1;
                 // countElement.innerHTML=count;
