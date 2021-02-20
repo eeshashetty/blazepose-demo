@@ -31,8 +31,8 @@ var fnstate = 0;
 
 // Button Elements
 // ==========================================================================================================
-const ctbutton=document.getElementById('ctbutton');
-const rstbutton=document.getElementById('rstbutton');
+// const ctbutton=document.getElementById('ctbutton');
+// const rstbutton=document.getElementById('rstbutton');
 const fsbutton=document.getElementById('fsbutton');
 // ==========================================================================================================
 
@@ -152,6 +152,7 @@ function game(x){
             $.getScript("dodge.js");
             functionVar="dodge.js";
             exerciseName='Dodge Game';
+            initialized=0;
             openNav();
             break;
         case 2:
@@ -163,6 +164,7 @@ function game(x){
             $.getScript("lunges.js");
             exerciseName='Lunges';
             functionVar="lunges.js";
+            initialized=0;
             openNav();
             break;
         case 3:
@@ -174,6 +176,7 @@ function game(x){
             $.getScript("jj.js");
             functionVar="jj.js";
             exerciseName='Jumping Jacks';
+            initialized=0;
             openNav();
             break;
         case 4:
@@ -185,6 +188,7 @@ function game(x){
             $.getScript("burpees.js");
             exerciseName='Burpees';
             functionVar="burpees.js";
+            initialized=0;
             openNav();
             break;
         case 5:
@@ -196,6 +200,7 @@ function game(x){
             $.getScript("pushup.js");
             functionVar="pushup.js";
             exerciseName='Push Ups';
+            initialized=0;
             openNav();
             break;
         case 6:
@@ -207,6 +212,7 @@ function game(x){
             $.getScript("plank.js");
             exerciseName='Planks';
             functionVar="plank.js";
+            initialized=0;
             openNav();
             break;
         case 7:
@@ -218,6 +224,7 @@ function game(x){
             $.getScript("crunches.js");
             exerciseName='Crunches';
             functionVar="crunches.js";
+            initialized=0;
             openNav();
             break;
     
@@ -261,46 +268,16 @@ function onResults(results) {
     canvas2.width=canvasWidth;
     // Adds landmark of top of head
     // 
-    var headx=results.poseLandmarks[0].x;
-    var heady=results.poseLandmarks[0].y-(2*Math.abs(results.poseLandmarks[7].x-results.poseLandmarks[8].x));
-    results.poseLandmarks.push({x:headx,y:heady});
+    try{
+        var headx=results.poseLandmarks[0].x;
+        var heady=results.poseLandmarks[0].y-(2*Math.abs(results.poseLandmarks[7].x-results.poseLandmarks[8].x));
+        results.poseLandmarks.push({x:headx,y:heady});
+    }
+    catch(err){ }
     // 
     //
-    if (!initialized){
-        var txt='';
-        ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-        ctx1.drawImage(results.image, 0, 0, canvas1.width, canvas1.height);
-        if((results.poseLandmarks[0].visibility>0.8 && results.poseLandmarks[27].visibility>0.8 && results.poseLandmarks[28].visibility>0.8) && !(results.poseLandmarks[33].y<0.1 || results.poseLandmarks[33].y>0.2) && !(results.poseLandmarks[27].y<0.8 || results.poseLandmarks[27].y>0.9 || results.poseLandmarks[28].y<0.8 || results.poseLandmarks[28].y>0.9)){
-            initialized=1;
-        }
-        else{
-            var txt='';
-            var clrup='green';
-            var clrdown='green';
-            if (results.poseLandmarks[0].y<0.1 || results.poseLandmarks[0].y>0.2){
-                clrup='blue';
-                txt=txt+'Get head between the lines ';
-            }
-            if (results.poseLandmarks[27].y<0.8 || results.poseLandmarks[27].y>0.9 || results.poseLandmarks[28].y<0.8 || results.poseLandmarks[28].y>0.9){
-                clrdown='blue';
-                txt=txt+'Get ankles between the lines';
-            }
-            ctx1.font = "900 "+canvasHeight/20+"px Arial";
-            ctx1.textAlign = "center";
-            ctx1.fillStyle = 'yellow';
-            ctx1.fillText(txt, 0.5*canvasWidth, 0.8*canvasHeight);
-        
-            ctx1.fillStyle = clrup;
-            ctx1.fillRect(0, canvasHeight*0.1, canvasWidth, 5);
-            // ctx1.fillRect(0, canvasHeight*0.2, canvasWidth, 5);
-        
-            ctx1.fillStyle = clrdown;
-            // ctx1.fillRect(0, canvasHeight*0.8, canvasWidth, 5);
-            ctx1.fillRect(0, canvasHeight*0.90, canvasWidth, 5);
-        }
-    }
-    else{
-    instruct.innerHTML='';
+
+    // instruct.innerHTML='';
     ctx1.save();
     ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
     ctx1.drawImage(
@@ -313,53 +290,105 @@ function onResults(results) {
     ctx2.fillStyle='black';
     ctx2.fillRect(0,canvasHeight*0.9,canvasWidth,canvasHeight*0.1);
     var clr='blue';
-    if (fnstate){
-    Exercise(results);
-    
-
-
-    ctx2.globalAlpha=1;
-    ctx2.fillStyle='yellow';
-    ctx2.font = "900 "+canvasHeight*0.05+"px Arial";
-    ctx2.fillText('Score: '+count,0,canvasHeight*0.975);
-
-    // Activity
-    if (sampling_count<sampling_rate){
-        sampling_count+=1;
-    }
-    else {
-        if (sampled_pose!=null){
-            var activity=0;
-            for (let i=0;i<activityLandmark.length;i+=1){
-                if (results.poseLandmarks[activityLandmark[i]].visibility>minConfidence && sampled_pose[activityLandmark[i]].visibility>minConfidence){
-                    const dx = (results.poseLandmarks[activityLandmark[i]].x - sampled_pose[activityLandmark[i]].x)*100;
-                    const dy = (results.poseLandmarks[activityLandmark[i]].y - sampled_pose[activityLandmark[i]].y)*100;
-                    // console.log(typeof());
-                    var diff= Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
-                    activity+=diff;
+    if (functionVar!=null){
+        if (!initialized){
+            var txt='';
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            ctx1.drawImage(results.image, 0, 0, canvas1.width, canvas1.height);
+            var clrup='blue';
+            var clrdown='blue';
+            var txt='Get between the lines';
+            try{
+                if((results.poseLandmarks[0].visibility>0.8 && results.poseLandmarks[27].visibility>0.8 && results.poseLandmarks[28].visibility>0.8) && !(results.poseLandmarks[33].y<0.1 || results.poseLandmarks[33].y>0.2) && !(results.poseLandmarks[27].y<0.8 || results.poseLandmarks[27].y>0.9 || results.poseLandmarks[28].y<0.8 || results.poseLandmarks[28].y>0.9)){
+                    initialized=1;
+                }
+                else{
+                    txt='';
+                    if (results.poseLandmarks[33].y<0.1 || results.poseLandmarks[33].y>0.2){
+                        
+                        txt=txt+'Get head between the lines ';
+                    }
+                    else{
+                        clrup='green';
+                    }
+                    if (results.poseLandmarks[27].y<0.8 || results.poseLandmarks[27].y>0.9 || results.poseLandmarks[28].y<0.8 || results.poseLandmarks[28].y>0.9){
+                        
+                        txt=txt+'Get ankles between the lines';
+                    }
+                    else{
+                        clrdown='green';
+                    }
                     
                 }
             }
-            activity=Math.round(activity/10);
-            total_activity+=activity;
-            saved_activity[saved_activity_iterator]=activity;
-            saved_activity_iterator=(saved_activity_iterator+1)%50;
+            catch(err){}
+                ctx1.font = "900 "+canvasHeight/20+"px Arial";
+                ctx1.textAlign = "center";
+                ctx1.fillStyle = 'yellow';
+                ctx1.fillText(txt, 0.5*canvasWidth, 0.8*canvasHeight);
+                ctx1.fillStyle = clrup;
+                ctx1.fillRect(0, canvasHeight*0.1, canvasWidth, 5);
+                // ctx1.fillRect(0, canvasHeight*0.2, canvasWidth, 5);
+            
+                ctx1.fillStyle = clrdown;
+                // ctx1.fillRect(0, canvasHeight*0.8, canvasWidth, 5);
+                ctx1.fillRect(0, canvasHeight*0.90, canvasWidth, 5);
         }
-        sampled_pose=results.poseLandmarks;
-        sampling_count=0;
+        else{
+            try{
+                Exercise(results);
 
-    }
-    // Intensity
+                if (sampling_count<sampling_rate){
+                    sampling_count+=1;
+                }
+                else {
+                    if (sampled_pose!=null){
+                        var activity=0;
+                        for (let i=0;i<activityLandmark.length;i+=1){
+                            if (results.poseLandmarks[activityLandmark[i]].visibility>minConfidence && sampled_pose[activityLandmark[i]].visibility>minConfidence){
+                                const dx = (results.poseLandmarks[activityLandmark[i]].x - sampled_pose[activityLandmark[i]].x)*100;
+                                const dy = (results.poseLandmarks[activityLandmark[i]].y - sampled_pose[activityLandmark[i]].y)*100;
+                                // console.log(typeof());
+                                var diff= Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
+                                activity+=diff;
+                                
+                            }
+                        }
+                        activity=Math.round(activity/10);
+                        total_activity+=activity;
+                        saved_activity[saved_activity_iterator]=activity;
+                        saved_activity_iterator=(saved_activity_iterator+1)%50;
+                    }
+                    sampled_pose=results.poseLandmarks;
+                    sampling_count=0;
+            
+                }
+                // Intensity
+            
+                var intensity_iterator=(saved_activity_iterator-fr)%50;
+                act_sum=0;
+                while(intensity_iterator!=saved_activity_iterator){
+                    act_sum+=saved_activity[intensity_iterator];
+                    // console.log(saved_activity[intensity_iterator]);
+                    intensity_iterator=(intensity_iterator+1)%50;
+                }
+            }
+            catch(err){}
+    
 
-    var intensity_iterator=(saved_activity_iterator-fr)%50;
-    act_sum=0;
-    while(intensity_iterator!=saved_activity_iterator){
-        act_sum+=saved_activity[intensity_iterator];
-        // console.log(saved_activity[intensity_iterator]);
-        intensity_iterator=(intensity_iterator+1)%50;
+
+            ctx2.globalAlpha=1;
+            ctx2.fillStyle='yellow';
+            ctx2.font = "900 "+canvasHeight*0.05+"px Arial";
+            ctx2.fillText('Score: '+count,0,canvasHeight*0.975);
+        
+            // Activity
+
+  
+        }
     }
     
-    }
+    
     var intensity=Math.round(act_sum/fr);
     if (isNaN(intensity)){
         intensity=0;
@@ -374,7 +403,7 @@ function onResults(results) {
     // console.log(intensity);
     ctx1.restore();
     ctx2.restore();
-    }
+    
   }
   
   const pose = new Pose({locateFile: (file) => {
