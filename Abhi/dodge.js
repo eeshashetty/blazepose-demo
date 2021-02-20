@@ -33,20 +33,26 @@ function Exercise(results) {
 
         if (blocky==canvasHeight*0.2){
             ctx1.fillStyle = "yellow";
-            ctx1.fillText("Dodge", 0.5*canvasWidth, 0.8*canvasHeight);
             if (blockx/canvasWidth>=results.poseLandmarks[8].x || hitState){
-                if (blockx>=results.poseLandmarks[8].x){
+                ctx1.fillStyle='yellow';
+                ctx1.fillText("Dodge", 0.5*canvasWidth, 0.8*canvasHeight);
+
+                if(blockx>=canvasWidth || hitState){
+                    rst=1;
+                }
+                else if (blockx>=results.poseLandmarks[8].x){
                     count+=1;
+                    ctx1.fillStyle='green';
                     // countElement.innerHTML=count;
                     // audio.play()
                 }
-            rst=1;
             }
             else{
-            rst=0;}
+                rst=0;}
+                
         }
         else{
-            ctx1.fillStyle = "red";
+            ctx1.fillStyle = "purple";
             ctx1.fillText("Hit", 0.5*canvasWidth, 0.8*canvasHeight);
             if (blockx>=canvasWidth ||hitState){
                 if (hitState){
