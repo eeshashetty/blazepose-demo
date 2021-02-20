@@ -11,92 +11,99 @@
 
 <body>
     <!-- <div id="console"></div> -->
+    <button id='fsbutton' onclick="fullscreentoggle()">
+        Fullscreen
+    </button>
+    <button id='menubutton' onclick="openNav()">
+        Menu
+    </button>
     <div class='media' style="height: 720;">
         <video hidden  muted width="1280" height="720" id="webcam" ></video>
         <canvas id="output1" width="1280" height="720"></canvas>
         <canvas id="output2" width="1280" height="720"></canvas>
     </div>
     <br>
-    <div class="btn">
+    <!-- <div class="btn">
         <button id='ctbutton' onclick="start()">
             Start
         </button>
         <button id='rstbutton' onclick="reset()">
             Reset
         </button>
-    </div>
+    </div> -->
 
 
-    <div class="text">
+    <!-- <div class="text">
         <h2 style="display: inline;" id='instruct'> </h2>
 
     </div>
     <div class="text">
         <h2 style="display: inline;" id='game'> </h2>
 
-    </div>
-    <div class="btn">
-        <button id='dodge' onclick="game(1)">
-            Dodging Game
-        </button>
-        <button id='lunges' onclick="game(2)">
-            Lunges
-        </button>
-        <button id='jj' onclick="game(3)">
-            Jumping Jacks
-        </button>
-        <button id='burpee' onclick="game(4)">
-            Burpees
-        </button>
-        <button id='pushup' onclick="game(5)">
-            Push Up
-        </button>
-        <button id='plank' onclick="game(6)">
-            Plank
-        </button>
-        <button id='knee' onclick="game(7)">
-            High Knees
-        </button>
-        <button id='punch' onclick="game(8)">
-            Punching
-        </button>
-        <button id='raise' onclick="game(9)">
-            Leg Raises
-        </button>
-        <button id='punchbag' onclick="game(10)">
-            Punching Bag
-        </button>
-        <button id='shuffle' onclick="game(11)">
-            Shuffle Squats
-        </button>
-        <button id='sidekick' onclick="game(12)">
-            Squat Side-Kick
-        </button>
-        <button id='frontkick' onclick="game(13)">
-            Squat Front-Kick
-        </button>
-        <button id='sqpunches' onclick="game(14)">
-            Squat Punches
-        </button>
-        <button id='squats' onclick="game(15)">
-            Squats
-        </button>
-        <button id='jumps' onclick="game(16)">
-            Squat Jumps
-        </button>
-        <button id='hold' onclick="game(17)">
-            Squat Hold
-        </button>
-        <button id='hold' onclick="game(18)">
-            Head Touch
-        </button>
-        <button id='hold' onclick="game(19)">
-            Leg Touch
-        </button>
-        <button id='hold' onclick="game(20)">
-            Hand Touch
-        </button>
-
+    </div> -->
+    <div id="myNav" class="overlay">
+        <div class="overlay-content">
+            <button id='dodge' onclick="game(1)">
+                Dodging Game
+            </button>
+            <button id='lunges' onclick="game(2)">
+                Lunges
+            </button>
+            <button id='jj' onclick="game(3)">
+                Jumping Jacks
+            </button>
+            <button id='burpee' onclick="game(4)">
+                Burpees
+            </button>
+            <button id='pushup' onclick="game(5)">
+                Push Up
+            </button>
+            <button id='plank' onclick="game(6)">
+                Plank
+            </button>
+            <button id='knee' onclick="game(7)">
+                High Knees
+            </button>
+            <button id='punch' onclick="game(8)">
+                Punching
+            </button>
+            <button id='raise' onclick="game(9)">
+                Leg Raises
+            </button>
+            <button id='punchbag' onclick="game(10)">
+                Punching Bag
+            </button>
+            <button id='shuffle' onclick="game(11)">
+                Shuffle Squats
+            </button>
+            <button id='sidekick' onclick="game(12)">
+                Squat Side-Kick
+            </button>
+            <button id='frontkick' onclick="game(13)">
+                Squat Front-Kick
+            </button>
+            <button id='sqpunches' onclick="game(14)">
+                Squat Punches
+            </button>
+            <button id='squats' onclick="game(15)">
+                Squats
+            </button>
+            <button id='jumps' onclick="game(16)">
+                Squat Jumps
+            </button>
+            <button id='hold' onclick="game(17)">
+                Squat Hold
+            </button>
+            <button id='hold' onclick="game(18)">
+                Head Touch
+            </button>
+            <button id='hold' onclick="game(19)">
+                Leg Touch
+            </button>
+            <button id='hold' onclick="game(20)">
+                Hand Touch
+            </button>
+        </div>
     </div>
     <!-- Load index.js after the content of the page -->
     <script src="index.js"></script>
@@ -105,30 +112,75 @@
 </html>
 
 <style>
+body{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 video{
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translate(-50%);
-
+    overflow-y: scroll;
+    overflow-x: hidden;
     
 } 
  canvas{
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translate(-50%);
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-.media{
+#media{
     align-content: center;
     text-align: center;
+    overflow: hidden;
 }
 .btn{
     align-content: center;
-    text-align: center;
+    text-align: center; 
 }
 .text{
     align-content: center;
     text-align: center;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+#fsbutton{
+    position: absolute;
+    top:0;
+    /* left: 95%; */
+    right: 0%;
+    height: 5%;
+    z-index: 100;
+}
+#menubutton{
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 5%;
+    z-index: 100;
+
+}
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  align-content: center;
+ text-align: center;
 }
 </style>
