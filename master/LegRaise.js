@@ -1,5 +1,5 @@
 let xc,yc,xcr,xcl;
-let radius = 30;
+let radius = 38;
 let raise = false;
 let up = false;
 let upc = 0;
@@ -10,9 +10,11 @@ function Exercise(results) {
     let poses = results.poseLandmarks;
 
     let color = up?"white":"#ff0000";
-    console.log("here");
-    // draw keypoints
-    draw(color, ctx1, poses);
+    
+    // draw keypoints only for ankles
+    drawLandmarks(
+        ctx1, [poses[31], poses[32]],
+        {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 20});
 
     if(upc == 0) {
         yc = 1.3*(poses[23].y)*canvasHeight;
@@ -24,12 +26,8 @@ function Exercise(results) {
         upc++;
     }
 
-    ctx1.font = "30px Arial";
-    ctx1.fillStyle = "blue";
-    ctx1.textAlign = "center";
-    ctx1.fillText("Leg Raises = " + count, canvasWidth/2, canvasHeight*3/40);
      
-        // generate circle on alternate sides
+    // generate circle on alternate sides
     xc = (count%2==0)? xcr : xcl;
     xc = xc*canvasWidth;
 
