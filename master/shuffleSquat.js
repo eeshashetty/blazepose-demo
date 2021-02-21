@@ -80,9 +80,8 @@ function Exercise(results) {
         let res = checkSquat(poses);
         up = (res[0] == undefined)?up:res[0];
         down = (res[1] == undefined)?down:res[1];
-
-        // skeleton turns green if in squat, white if inside the box. otherwise red
-        color = down?"#00ff00":"white";
+        progress = (res[2] == undefined)?down:res[2];
+        color = progress?"white":(up?"white":(down?"#00ff00":"red"));
 
         // count one squat if person squatted and stood up
         if(up && down)
@@ -97,6 +96,8 @@ function Exercise(results) {
             }
 
             }
+        } else {
+            color = "red";
         }
         
         

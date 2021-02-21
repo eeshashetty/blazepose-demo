@@ -1,4 +1,4 @@
-let xcr,yc,xcl;
+let xcr,yc,xcl,xr,xl,sl,sr,y;
 let kickr = false;
 let kickl = false;
 let radius = 30;
@@ -7,26 +7,32 @@ let up = false;
 let upc = 0;
 let showr = true;
 let showl = true;
+let newc = true;
 
 function Exercise(results) {
     let poses = results.poseLandmarks;
 
     if(upc==0){
         // fix x coordinate as the distance of difference between both shoudlers from each shoulder
-        xcr = (2*poses[12].x - poses[11].x)*canvasWidth;
-        xcl = (2*poses[11].x - poses[12].x)*canvasWidth;
-        
+        xr = (2*poses[12].x - poses[11].x);
+        xl = (2*poses[11].x - poses[12].x);
+
+        sl = 0.9*poses[11].x;
+        sr = 1.1*poses[12].x;
+
         // y coordinate is that of shoulder
-        yc = poses[12].y*canvasHeight;
+        y = poses[12].y;
 
         upc++;
     }
 
+    let a = genShape(xr, xl, sr, sl, y, newc);
+    xcr = a[0];
+    xcl = a[1];
+    yc = a[2];
+    newc = a[3];
 
-    ctx1.font = "30px Arial";
-    ctx1.fillStyle = "blue";
-    ctx1.textAlign = "center";
-    ctx1.fillText("Punches = " + count, canvasWidth/2, canvasHeight*3/40);
+    console.log(xcr,xcl,yc,newc);
     
     // generate circles for punch if in squat
     // create circle on both sides
@@ -58,25 +64,35 @@ function Exercise(results) {
         
         if(distr <= Math.pow(radius/canvasHeight, 2)) {
             kickl = true; // trigger kick to change red circle to green
-            showl = false;
+            wait++;
+            if(wait>2) {
+                showl = false;
+                wait = 0;
+            }
         }
 
         if(distl <= Math.pow(radius/canvasHeight, 2)){
             kickr = true; // trigger kick to change blue circle to green
-            showr = false;
+            wait++;
+            if(wait>2) {
+                showr = false;
+                wait = 0;
+            }
         }
 
         // if both circles are punched, one punch squat
         if(kickl && kickr) {
             // wait counter is done so that the green color can be seen for a few extra frames
             wait++;
-            if(wait>10){
+            if(wait>5){
             kickl = false; // reset
             kickr = false; // reset
             count++;
             upc = 0;
+            wait = 0;
             showl = true;
             showr = true;
+            newc = true;
         }
         }  
     }
@@ -92,3 +108,18 @@ function Exercise(results) {
     
 }
 
+function genShape(xr, xl, sr, sl, y, newc) {
+    
+    if(newc)
+    { 
+        xcr = Math.floor((sr + Math.random()*(xr-sr)) * canvasWidth)
+        xcl = Math.floor((xl - Math.random()*(sl-xl)) * canvasWidth)
+        
+        yc = Math.floor((0.15 + Math.random()*(1.5*y - 0.15)) * canvasHeight);
+        
+        newc = false;
+    }
+
+    return [xcr, xcl, yc, newc]
+  
+}

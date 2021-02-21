@@ -1,7 +1,7 @@
 // global vars
 let newc = true;
 let xc,yc;
-let radius = 30;
+let radius = 38;
 let hip, ankle;
 let upc = 0;
 let touch = false;

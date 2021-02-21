@@ -4,18 +4,19 @@ let up = false;
 let xc, yc, xcl, xcr;
 let upc = 0;
 let kick = false;
-let radius = 50;
+let radius = 35;
 let progress = true;
 // squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
     
     if(upc == 0) {
-        yc = (poses[23].y)*canvasHeight;
-
+        yc = 1.1*(poses[23].y)*canvasHeight;
+        let diff = 1.3*Math.sqrt(Math.pow(poses[25].x - poses[29].x, 2) + Math.pow(poses[25].y - poses[29].y, 2));
         // take distance between knee and heel
-        xcl = poses[23].x - 1.3*Math.sqrt(Math.pow(poses[25].x - poses[29].x, 2) + Math.pow(poses[25].y - poses[29].y, 2));
-        xcr = poses[24].x + 1.3*Math.sqrt(Math.pow(poses[25].x - poses[29].x, 2) + Math.pow(poses[25].y - poses[29].y, 2));  
+        xcl = poses[23].x - diff;
+        xcr = poses[24].x + diff;  
+        
 
         upc++;
         

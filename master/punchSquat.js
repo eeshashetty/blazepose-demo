@@ -59,28 +59,36 @@ function Exercise(results) {
             let distl = Math.pow((xcd-poses[20].x),2) + Math.pow((ycc-poses[20].y),2); // distance of left hand from right circle
             
             if(distr <= Math.pow(radius/canvasHeight, 2)) {
-                wait++;
                 kickl = true; // trigger kick to change red circle to green
-                showl = false;
+                wait++;
+                if(wait>2) {
+                    showl = false;
+                    wait = 0;
+                }
             }
 
             if(distl <= Math.pow(radius/canvasHeight, 2)){
                 kickr = true; // trigger kick to change blue circle to green
-                showr = false;
+                wait++;
+                if(wait>2) {
+                    showr = false;
+                    wait = 0;
+                }
             }
 
             // if both circles are punched, one punch squat
             if(kickl && kickr) {
                 // wait counter is done so that the green color can be seen for a few extra frames
                 wait++;
-                if(wait>10){
-                down = false; // reset
+                if(wait>5){
                 kickl = false; // reset
                 kickr = false; // reset
                 count++;
                 upc = 0;
+                wait = 0;
                 showl = true;
                 showr = true;
+                down = false;
             }
             }  
         }

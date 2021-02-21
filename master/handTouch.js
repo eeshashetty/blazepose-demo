@@ -1,7 +1,7 @@
 // global vars
 let newc = true;
 let xc,yc;
-let radius = 30;
+let radius = 38;
 let touch = false;
 
 function Exercise(results) {
