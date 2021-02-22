@@ -21,8 +21,11 @@ function Exercise(results) {
     newc = a[2];
     
     ctx1.beginPath();
-    ctx1.globalAlpha = 0.6;
     ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
+    ctx1.lineWidth = 8;
+    ctx1.strokeStyle = touch?'#00ff00':'black';
+    ctx1.stroke();
+    ctx1.globalAlpha = 0.6;
     ctx1.fillStyle = touch?'#00ff00':'yellow';
     ctx1.fill();
     ctx1.closePath();

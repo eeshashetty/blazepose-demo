@@ -13,7 +13,11 @@ function Exercise(results) {
     ycc = 0.09;
     // Punching Bag - White
     ctx1.beginPath();
-    ctx1.rect(xcc*canvasWidth, ycc*canvasHeight, canvasWidth/10, 0.84*canvasHeight);
+    ctx1.rect(xcc*canvasWidth - 4, ycc*canvasHeight - 4, canvasWidth/10 + 8, 0.78*canvasHeight + 8);
+    ctx1.lineWidth = 6;
+    ctx1.strokeStyle = "white";
+    ctx1.stroke();
+    ctx1.globalAlpha = 0.4;
     ctx1.fillStyle = "white";
     ctx1.fill();
     ctx1.closePath();
@@ -21,7 +25,8 @@ function Exercise(results) {
     // Punching Bag - Red 
     // X coordinate keeps on moving down
     ctx1.beginPath();
-    ctx1.rect(xcc*canvasWidth, (ycc + count/4)*canvasHeight, canvasWidth/10, (0.84 - count/4)*canvasHeight);
+    ctx1.globalAlpha = 1;
+    ctx1.rect(xcc*canvasWidth, (ycc + count/4)*canvasHeight, canvasWidth/10, (0.78 - count/4)*canvasHeight);
     ctx1.fillStyle = "red";
     ctx1.fill();
     ctx1.closePath();

@@ -414,15 +414,20 @@ function checkSquat(poses) {
               a = find_angle(poses[24],poses[26],poses[28]);
               b = find_angle(poses[23],poses[25],poses[27]);
               
+            ctx2.globalAlpha=1;
+            ctx2.fillStyle='yellow';
+            ctx2.font = "900 "+canvasHeight*0.05+"px Arial";
+            ctx2.fillText(Math.floor(a),canvasWidth/1.2,canvasHeight*0.975);
+
               // standing, if angle is >= 150
-              if(a>=150 && b>=150) {
+              if(a>=170 && b>=170) {
                   up = true;
                   progress = false;
                   console.log("up");
               }
               
               // squat angle is <=100
-              else if(a<=100 && b<=100) {
+              else if(a<=135 && b<=135) {
                   down = true;
                   up = false;
                   progress = false;

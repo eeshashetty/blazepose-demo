@@ -4,7 +4,7 @@ let up = false;
 let xc, yc, xcl, xcr;
 let upc = 0;
 let kick = false;
-let radius = 50;
+let radius = 45;
 let progress = true;
 // squat+jump
 function Exercise(results) {
@@ -28,11 +28,15 @@ function Exercise(results) {
         xc = xc*canvasWidth;
 
         ctx1.beginPath();
-        ctx1.globalAlpha = 0.6;
         ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
+        ctx1.lineWidth = 8;
+        ctx1.strokeStyle = kick?'#00ff00':'black';
+        ctx1.stroke();
+        ctx1.globalAlpha = 0.6;
         ctx1.fillStyle = kick?'#00ff00':'yellow'; // yellow if not kicked, green once kicked
         ctx1.fill();
         ctx1.closePath();
+
 
         // check if leg collides with circle
         // first - check if ankles are visible

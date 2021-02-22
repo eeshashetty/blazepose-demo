@@ -12,7 +12,7 @@ function Exercise(results) {
     
     if(upc == 0) {
         yc = 1.1*(poses[23].y)*canvasHeight;
-        let diff = 1.3*Math.sqrt(Math.pow(poses[25].x - poses[29].x, 2) + Math.pow(poses[25].y - poses[29].y, 2));
+        let diff = 5*Math.abs(poses[24].x - poses[23].x);
         // take distance between knee and heel
         xcl = poses[23].x - diff;
         xcr = poses[24].x + diff;  
@@ -30,8 +30,11 @@ function Exercise(results) {
         xc = xc*canvasWidth;
 
         ctx1.beginPath();
-        ctx1.globalAlpha = 0.6;
         ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
+        ctx1.lineWidth = 8;
+        ctx1.strokeStyle = kick?'#00ff00':'black';
+        ctx1.stroke();
+        ctx1.globalAlpha = 0.6;
         ctx1.fillStyle = kick?'#00ff00':'yellow'; // yellow if not kicked, green once kicked
         ctx1.fill();
         ctx1.closePath();

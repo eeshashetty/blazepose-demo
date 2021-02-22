@@ -8,7 +8,7 @@ let color;
 let kickl = false;
 let kickr = false;
 let wait = 0;
-let radius = 30;
+let radius = 38;
 let showr = true;
 let showl = true;
 
@@ -33,16 +33,22 @@ function Exercise(results) {
         // coordinates generated in checkSquat()
         if(showl) {
             ctx1.beginPath();
-            ctx1.globalAlpha = 0.6;
             ctx1.arc(xcr, yc, radius, 0, 2 * Math.PI);
+            ctx1.lineWidth = 8;
+            ctx1.strokeStyle = kickl?'#00ff00':'black';
+            ctx1.stroke();
+            ctx1.globalAlpha = 0.6;
             ctx1.fillStyle = kickl?'#00ff00':'red';
             ctx1.fill();
             ctx1.closePath();
         }
         if(showr) {
             ctx1.beginPath();
-            ctx1.globalAlpha = 0.6;
             ctx1.arc(xcl, yc, radius, 0, 2 * Math.PI);
+            ctx1.lineWidth = 8;
+            ctx1.strokeStyle = kickr?'#00ff00':'black';
+            ctx1.stroke();
+            ctx1.globalAlpha = 0.6;
             ctx1.fillStyle = kickr?'#00ff00':'blue';
             ctx1.fill();
             ctx1.closePath();

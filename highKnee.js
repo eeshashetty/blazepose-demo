@@ -12,14 +12,12 @@ function Exercise(results) {
         upc++;
     }
 
-    instruct.innerHTML = "High Knees";
-
-    let xcc = hip.x - 0.2;
+    let xcc = hip.x - 0.13;
     let ycc = hip.y;
 
     
     ctx1.beginPath();
-    ctx1.rect(xcc*canvasWidth, ycc*canvasHeight, 0.4*canvasWidth, 0.05*canvasHeight);
+    ctx1.rect(xcc*canvasWidth, ycc*canvasHeight, 0.26*canvasWidth, 0.05*canvasHeight);
     ctx1.fillStyle = touch?"#00ff00":((count%2==0)?"blue":"red");
     ctx1.fill();
     ctx1.closePath();

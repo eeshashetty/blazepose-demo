@@ -1,7 +1,7 @@
 let xcr,yc,xcl,xr,xl,sl,sr,y;
 let kickr = false;
 let kickl = false;
-let radius = 30;
+let radius = 38;
 let wait = 0;
 let up = false;
 let upc = 0;
@@ -14,40 +14,46 @@ function Exercise(results) {
 
     if(upc==0){
         // fix x coordinate as the distance of difference between both shoudlers from each shoulder
-        xr = (2*poses[12].x - poses[11].x);
-        xl = (2*poses[11].x - poses[12].x);
+        xcr = (2*poses[12].x - poses[11].x)*canvasWidth;
+        xcl = (2*poses[11].x - poses[12].x)*canvasWidth;
 
         sl = 0.9*poses[11].x;
         sr = 1.1*poses[12].x;
 
         // y coordinate is that of shoulder
-        y = poses[12].y;
+        yc = poses[12].y*canvasHeight;
 
         upc++;
     }
 
-    let a = genShape(xr, xl, sr, sl, y, newc);
-    xcr = a[0];
-    xcl = a[1];
-    yc = a[2];
-    newc = a[3];
+    // let a = genShape(xr, xl, sr, sl, y, newc);
+    // xcr = a[0];
+    // xcl = a[1];
+    // yc = a[2];
+    // newc = a[3];
 
-    console.log(xcr,xcl,yc,newc);
+    // console.log(xcr,xcl,yc,newc);
     
     // generate circles for punch if in squat
     // create circle on both sides
     if(showl){
         ctx1.beginPath();
-        ctx1.globalAlpha = 0.6;
         ctx1.arc(xcr, yc, radius, 0, 2 * Math.PI);
+        ctx1.lineWidth = 8;
+        ctx1.strokeStyle = kickl?'#00ff00':'black';
+        ctx1.stroke();
+        ctx1.globalAlpha = 0.6;
         ctx1.fillStyle = kickl?'#00ff00':'red';
         ctx1.fill();
         ctx1.closePath();
     }
     if(showr){
         ctx1.beginPath();
-        ctx1.globalAlpha = 0.6;
         ctx1.arc(xcl, yc, radius, 0, 2 * Math.PI);
+        ctx1.lineWidth = 8;
+        ctx1.strokeStyle = kickr?'#00ff00':'black';
+        ctx1.stroke();
+        ctx1.globalAlpha = 0.6;
         ctx1.fillStyle = kickr?'#00ff00':'blue';
         ctx1.fill();
         ctx1.closePath();
@@ -65,7 +71,7 @@ function Exercise(results) {
         if(distr <= Math.pow(radius/canvasHeight, 2)) {
             kickl = true; // trigger kick to change red circle to green
             wait++;
-            if(wait>2) {
+            if(wait>1) {
                 showl = false;
                 wait = 0;
             }
@@ -74,7 +80,7 @@ function Exercise(results) {
         if(distl <= Math.pow(radius/canvasHeight, 2)){
             kickr = true; // trigger kick to change blue circle to green
             wait++;
-            if(wait>2) {
+            if(wait>1) {
                 showr = false;
                 wait = 0;
             }
@@ -92,7 +98,6 @@ function Exercise(results) {
             wait = 0;
             showl = true;
             showr = true;
-            newc = true;
         }
         }  
     }
