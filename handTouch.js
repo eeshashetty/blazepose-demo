@@ -3,6 +3,7 @@ let newc = true;
 let xc,yc;
 let radius = 38;
 let touch = false;
+let stroke, fill;
 
 function Exercise(results) {
     let poses = results.poseLandmarks;
@@ -15,13 +16,8 @@ function Exercise(results) {
 
     ctx1.beginPath();
     ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
-    ctx1.lineWidth = 8;
-    ctx1.strokeStyle = touch?'#00ff00':'black';
-    ctx1.stroke();
-    ctx1.globalAlpha = 0.6;
-    ctx1.fillStyle = touch?'#00ff00':'yellow';
-    ctx1.fill();
-    ctx1.closePath();
+    stroke = "black";
+    fill = "yellow";
     
     let l = 19;
     let r = 20;
@@ -39,17 +35,20 @@ function Exercise(results) {
         let distl = Math.pow((xcc-poses[r].x),2) + Math.pow((ycc-poses[r].y),2);
         
         if(distl <= Math.pow(radius/canvasHeight, 2) || distr <= Math.pow(radius/canvasHeight, 2)) {
-        touch = true;
-        } else if(distl <= Math.pow(2*radius/canvasHeight, 2) || distr <= Math.pow(2*radius/canvasHeight, 2)) {
-        if(touch) {
-            count++;
+            stroke = "#00ff00";
+            fill = "#00ff00";
             newc = true;
-            touch = false;
-        } else {
-            newc = false;
-        }
+            count++;
         }
     }
+
+    ctx1.lineWidth = 8;
+    ctx1.strokeStyle = stroke;
+    ctx1.stroke();
+    ctx1.globalAlpha = 0.6;
+    ctx1.fillStyle = fill;
+    ctx1.fill();
+    ctx1.closePath();
 
 }
 

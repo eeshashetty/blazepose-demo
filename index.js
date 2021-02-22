@@ -455,7 +455,7 @@ function draw(color, ctx, poses) {
             poses[25], poses[26],
             poses[27], poses[28],  
         ], connections,
-        {color: color});
+        {color: color, lineWidth:2.5});
     
     drawLandmarks(
         ctx, [
@@ -464,7 +464,7 @@ function draw(color, ctx, poses) {
             poses[25], poses[26],
             poses[27], poses[28],  
         ],
-        {color: color, fillColor: color, lineWidth: 4, radius: 10});
+        {color: color, fillColor: color, lineWidth: 4, radius: 3});
     
   }
   
@@ -574,7 +574,7 @@ function onResults(results) {
         else{
             try{
                 Exercise(results);
-
+            } catch(e) { console.log(e);} try {
                 if (sampling_count<sampling_rate){
                     sampling_count+=1;
                 }

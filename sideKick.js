@@ -6,6 +6,9 @@ let upc = 0;
 let kick = false;
 let radius = 35;
 let progress = true;
+let color;
+let stroke, fill;
+let c = 0;
 // squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
@@ -31,14 +34,9 @@ function Exercise(results) {
 
         ctx1.beginPath();
         ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
-        ctx1.lineWidth = 8;
-        ctx1.strokeStyle = kick?'#00ff00':'black';
-        ctx1.stroke();
-        ctx1.globalAlpha = 0.6;
-        ctx1.fillStyle = kick?'#00ff00':'yellow'; // yellow if not kicked, green once kicked
-        ctx1.fill();
-        ctx1.closePath();
-
+        stroke = "black";
+        fill = "yellow";
+        
         // check if leg collides with circle
         // first - check if ankles are visible
         if(poses[31].visibility > 0.9 || poses[32].visibility > 0.9) {    
@@ -53,18 +51,23 @@ function Exercise(results) {
             let dist = (count%2==0) ? distr : distl;
 
             if(dist <= Math.pow(radius/canvasHeight, 2)) {
-                kick = true; // trigger kick as true for green circle
-            } else if(dist <= Math.pow(2*radius/canvasHeight, 2)){
-                if(kick) {
-                    count++;
-                    down = false; // reset squat
-                    kick = false;
-                    upc = 0;
-                }
+                count++;         
+                down = false;
+                stroke = "#00ff00";
+                fill = "#00ff00";
             }
-          } else {
-              kick = false;
-          }
+        }
+
+   
+
+        ctx1.lineWidth = 8;
+        ctx1.strokeStyle = stroke;
+        ctx1.stroke();
+        ctx1.globalAlpha = 0.6;
+        ctx1.fillStyle = fill; // yellow if not kicked, green once kicked
+        ctx1.fill();
+        ctx1.closePath();
+
 
         // draw keypoints only for ankles
         drawLandmarks(
@@ -81,5 +84,24 @@ function Exercise(results) {
 
     // draw keypoints
     draw(color, ctx1, poses);
+
+    ctx2.beginPath();
+    ctx2.rect(0.85*canvasWidth,0.3*canvasHeight, 0.15*canvasWidth, 0.4*canvasHeight);
+    ctx2.globalAlpha = 0.6;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
+    ctx2.beginPath();
+    ctx2.globalAlpha = 1;
+    ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
+    ctx2.fillStyle = down?"yellow":"gray";
+    ctx2.fillText("Kick", 0.88*canvasWidth, 0.45*canvasHeight);
+    ctx2.closePath();
+
+    ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
+    ctx2.fillStyle = down?"gray":"yellow";
+    ctx2.fillText("Squat", 0.88*canvasWidth, 0.55*canvasHeight);
+
            
 }

@@ -6,13 +6,14 @@ let upc = 0;
 let kick = false;
 let radius = 45;
 let progress = true;
+let stroke, fill;
 // squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
     if(upc == 0) {
-        // take 20% of distance from the hip
-        xcl = (0.8*poses[23].x);
-        xcr = (poses[24].x + 0.2*poses[23].x);
+        // take 30% of distance from the hip
+        xcl = (0.7*poses[23].x);
+        xcr = (poses[24].x + 0.3*poses[23].x);
 
         // y coordinate is y coordinate of hip
         yc = 1.1*poses[23].y*canvasHeight;
@@ -29,14 +30,8 @@ function Exercise(results) {
 
         ctx1.beginPath();
         ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
-        ctx1.lineWidth = 8;
-        ctx1.strokeStyle = kick?'#00ff00':'black';
-        ctx1.stroke();
-        ctx1.globalAlpha = 0.6;
-        ctx1.fillStyle = kick?'#00ff00':'yellow'; // yellow if not kicked, green once kicked
-        ctx1.fill();
-        ctx1.closePath();
-
+        stroke = "black";
+        fill = "yellow";
 
         // check if leg collides with circle
         // first - check if ankles are visible
@@ -52,23 +47,27 @@ function Exercise(results) {
             let dist = (count%2==0) ? distr : distl;
 
             if(dist <= Math.pow(radius/canvasHeight, 2)) {
-                kick = true; // trigger kick as true for green circle
-            } else if(dist <= Math.pow(2*radius/canvasHeight, 2)){
-                if(kick) {
-                    count++;
-                    down = false; // reset squat
-                    kick = false;
-                    upc = 0;
-                }
-            }
-          } else {
-              kick = false;
-          }
+                count++;
+                down = false; // reset squat
+                stroke = "#00ff00";
+                fill = "#00ff00";
+                upc = 0; // trigger kick as true for green circle
+            } 
+          } 
 
         // draw keypoints only for ankles
         drawLandmarks(
             ctx1, [poses[31], poses[32]],
             {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 20});
+
+        ctx1.lineWidth = 8;
+        ctx1.strokeStyle = stroke;
+        ctx1.stroke();
+        ctx1.globalAlpha = 0.6;
+        ctx1.fillStyle = fill; // yellow if not kicked, green once kicked
+        ctx1.fill();
+        ctx1.closePath();
+
     } 
     
     // check squat
@@ -80,6 +79,25 @@ function Exercise(results) {
 
     // draw keypoints
     draw(color, ctx1, poses);
+
+    ctx2.beginPath();
+    ctx2.rect(0.85*canvasWidth,0.3*canvasHeight, 0.15*canvasWidth, 0.4*canvasHeight);
+    ctx2.globalAlpha = 0.6;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
+    ctx2.beginPath();
+    ctx2.globalAlpha = 1;
+    ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
+    ctx2.fillStyle = down?"yellow":"gray";
+    ctx2.fillText("Kick", 0.88*canvasWidth, 0.45*canvasHeight);
+    ctx2.closePath();
+
+    ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
+    ctx2.fillStyle = down?"gray":"yellow";
+    ctx2.fillText("Squat", 0.88*canvasWidth, 0.55*canvasHeight);
+
         
     
 }
