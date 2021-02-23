@@ -4,17 +4,26 @@ let raise = false;
 let up = false;
 let upc = 0;
 let wait = 0;
+let start = new Audio('audio/start.mp3');
+let bump = new Audio('audio/Gamebump.mp3');
+let s = true;
+let start = new Audio('audio/start.mp3');
 
+// squat+jump
 function Exercise(results) {
-      
     let poses = results.poseLandmarks;
+   
+    if(s) {
+      start.play()
+      s = false;
+    }
 
     let color = up?"white":"#ff0000";
     
     // draw keypoints only for ankles
     drawLandmarks(
         ctx1, [poses[31], poses[32]],
-        {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 20});
+        {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 15});
 
     if(upc == 0) {
         yc = 1.3*(poses[23].y)*canvasHeight;
@@ -55,20 +64,14 @@ function Exercise(results) {
         let dist = (count%2==0) ? distr : distl;
 
         if(dist <= Math.pow(radius/canvasHeight, 2)) {
-            raise = true;
-            console.log('in');
-             // trigger kick as true for green circle
-        } else {
-            if(raise) {
+            
+                bump.play();
                 count++;
+                play(count);
                 console.log("kick");
-                raise = false;
                 upc = 0;
             }
             
-        }
-        } else {
-              raise = false;
-          }
+        } 
         
 }

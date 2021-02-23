@@ -6,9 +6,18 @@ let hip, ankle;
 let upc = 0;
 let touch = false;
 let stroke, fill;
+let s = true;
+let start = new Audio('audio/start.mp3');
+let bump = new Audio('audio/Gamebump.mp3');
 
+// squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
+
+    if(s) {
+        start.play()
+        s = false;
+      }
 
     if(upc == 0) {
         hip = poses[24].y;
@@ -32,7 +41,7 @@ function Exercise(results) {
     // draw keypoints
     drawLandmarks(
     ctx1, [poses[l], poses[r]],
-    {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 20});
+    {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 15});
     
     // check if hand/leg collides with circle
     if(poses[l].visibility > 0.9 || poses[r].visibility > 0.9) {    
@@ -42,7 +51,9 @@ function Exercise(results) {
         let distl = Math.pow((xcc-poses[r].x),2) + Math.pow((ycc-poses[r].y),2);
         
         if(distl <= Math.pow(radius/canvasHeight, 2) || distr <= Math.pow(radius/canvasHeight, 2)) {
+            bump.play();
             count++;
+            play(count);
             stroke = "#00ff00";
             fill = "#00ff00";
             newc = true;

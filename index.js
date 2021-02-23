@@ -427,7 +427,7 @@ function checkSquat(poses) {
               }
               
               // squat angle is <=100
-              else if(a<=135 && b<=135) {
+              else if(a<=140 && b<=140) {
                   down = true;
                   up = false;
                   progress = false;
@@ -468,6 +468,28 @@ function draw(color, ctx, poses) {
     
   }
   
+// ==========================================================================================================
+
+function play(count) {
+    let one = new Audio('audio/1.mp3');
+    let two = new Audio('audio/2.mp3');
+    let three = new Audio('audio/3.mp3');
+    let great = [new Audio('audio/great.mp3'), new Audio('audio/great1.mp3'), new Audio('audio/great2.mp3'), new Audio('audio/great3.mp3'), new Audio('audio/great4.mp3'), new Audio('audio/great5.mp3'),];
+
+    if(count == 1) {
+        one.play();
+    } else if (count == 2) {
+        two.play();
+    } else if (count == 3) {
+        three.play();
+    } else if(count == 5) {
+        great[Math.floor(Math.random()*5)].play();
+    } else {
+        if(count % 5 == 0) {
+            great[Math.floor(Math.random()*5)].play();
+        }
+    }
+}  
 
 // Run main function
 // ==========================================================================================================

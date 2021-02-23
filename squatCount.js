@@ -3,9 +3,17 @@ let c = 0;
 let down = false;
 let up = false;
 let progress = true;
+let s = true;
+let start = new Audio('audio/start.mp3');
+
 // squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
+
+    if(s) {
+        start.play()
+        s = false;
+      }
 
     // check squat
     let res = checkSquat(poses);
@@ -19,8 +27,6 @@ function Exercise(results) {
     // start counting once in squat
     if(down && !progress && !up) {
         c++;
-    } else {
-        c= 0; // reset to 0 if leaves squat
     }
 
     count = Math.floor(c/fps);

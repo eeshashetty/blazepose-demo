@@ -4,11 +4,19 @@ let xc,yc;
 let touch = false;
 let frame = 0;
 let fill;
+let s = true;
+let start = new Audio('audio/start.mp3');
+let bump = new Audio('audio/Gamebump.mp3');
 
-// Head Collision Game
+// squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
-    
+
+    if(s) {
+        start.play()
+        s = false;
+      }
+ 
     if(frame == 0)
     {
       yc = (2*poses[33].y - poses[0].y);
@@ -35,8 +43,10 @@ function Exercise(results) {
     let head = poses[33];
   
     if(head.x > xcc && head.y > ycc && head.x < xcc + 0.18 && head.y < ycc + 0.05) {
+        bump.play();
         frame = 0;
         count++;
+        play(count);
         newc = true;
         fill = "#00ff00"; 
     }

@@ -4,9 +4,18 @@ let upc = 0;
 let touch = false;
 let wait = 0;
 let p;
+let s = true;
+let start = new Audio('audio/start.mp3');
 
+// squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
+   
+    if(s) {
+      start.play()
+      s = false;
+    }
+
     if(upc==0) {
         hip = poses[24];
         upc++;
@@ -32,6 +41,7 @@ function Exercise(results) {
             touch = true;
             if(wait>3) {
                 count++;
+                play(count);
                 wait = 0;
                 touch = false;
                 }

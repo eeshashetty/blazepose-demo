@@ -1,12 +1,19 @@
 let wait = 0;
 let xcc, ycc;
 let punch = false;
+let bump = new Audio('audio/Gamebump.mp3');
 
+
+let start = new Audio('audio/start.mp3');
+
+// squat+jump
 function Exercise(results) {
-    if(count == 4) {
-        count = 0;
-    }
-    
+    let poses = results.poseLandmarks;
+
+    if(s) {
+        start.play()
+        s = false;
+      }    
     let poses = results.poseLandmarks;
 
     xcc = 0.76;
@@ -41,13 +48,9 @@ function Exercise(results) {
             punch = true;
         } else {
             if(punch) {
-                // increment counter to let code wait for a few frames
-                wait++;
-                if(wait>5) {
-                    count++;
-                    wait = 0;
-                    punch = false;
-                    }
+                count++;
+                wait = 0;
+                punch = false;
             }
         }
 
@@ -55,7 +58,7 @@ function Exercise(results) {
     // draw keypoints only for hands
     drawLandmarks(
         ctx1, [rightHand, leftHand],
-        {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 20});
+        {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 15});
     
 
 

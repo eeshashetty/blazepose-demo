@@ -12,13 +12,24 @@ let radius = 38;
 let showr = true;
 let showl = true;
 let c = 0;
+let s = true;
+let start = new Audio('audio/start.mp3');
+let bump = new Audio('audio/Gamebump.mp3');
+
 // squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
-    if(upc == 0 || !showl & !showr) {
+
+    if(s) {
+        start.play()
+        s = false;
+      }
+
+      if(upc == 0 || !showl & !showr) {
         // fix x coordinate as the distance of difference between both shoudlers from each shoulder
-        xcr = (2*poses[12].x - poses[11].x)*canvasWidth;
-        xcl = (2*poses[11].x - poses[12].x)*canvasWidth;
+        xc = (poses[12].x + poses[11].x)/2
+        xcr = 0.7*xc*canvasWidth;
+        xcl = 1.3*xc*canvasWidth;
         
         // y coordinate is that of mouth
         yc = poses[12].y*canvasHeight;
@@ -43,6 +54,7 @@ function Exercise(results) {
                 
                 if(distr <= Math.pow(radius/canvasHeight, 2)) {
                     c++;
+                    bump.play();
                     stroke = '#00ff00';
                     fill = '#00ff00';
                     showl = false;
@@ -73,6 +85,7 @@ function Exercise(results) {
                 
                 if(dist <= Math.pow(radius/canvasHeight, 2)) {
                     c++;
+                    bump.play();
                     stroke = '#00ff00';
                     fill = '#00ff00';
                     showr = false;
@@ -92,16 +105,17 @@ function Exercise(results) {
             c = 0;
             down = false;
             count++;
+            play(count);
         }
     
         // draw keypoints for both hands
         drawLandmarks(
         ctx1, [poses[20]],
-        {color: 'blue', fillColor: 'blue', lineWidth: 4, radius: 20});
+        {color: 'blue', fillColor: 'blue', lineWidth: 4, radius: 15});
     
         drawLandmarks(
             ctx1, [poses[19]],
-            {color: 'red', fillColor: 'red', lineWidth: 4, radius: 20});
+            {color: 'red', fillColor: 'red', lineWidth: 4, radius: 15});
          
     } 
     
@@ -119,7 +133,7 @@ function Exercise(results) {
         }
 
     ctx2.beginPath();
-    ctx2.rect(0.85*canvasWidth,0.3*canvasHeight, 0.15*canvasWidth, 0.4*canvasHeight);
+    ctx2.rect(0.65*canvasWidth,0.27*canvasHeight, 0.2*canvasWidth, 0.35*canvasHeight);
     ctx2.globalAlpha = 0.6;
     ctx2.fillStyle = "black";
     ctx2.fill();
@@ -127,14 +141,14 @@ function Exercise(results) {
 
     ctx2.beginPath();
     ctx2.globalAlpha = 1;
-    ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
+    ctx2.font = Math.floor((canvasWidth*22)/720) + "px Arial";
     ctx2.fillStyle = down?"yellow":"gray";
-    ctx2.fillText("Punch", 0.88*canvasWidth, 0.45*canvasHeight);
+    ctx2.fillText("PUNCH", 0.71*canvasWidth, 0.4*canvasHeight);
     ctx2.closePath();
 
-    ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
+    ctx2.font = Math.floor((canvasWidth*22)/720) + "px Arial";
     ctx2.fillStyle = down?"gray":"yellow";
-    ctx2.fillText("Squat", 0.88*canvasWidth, 0.55*canvasHeight);
+    ctx2.fillText("SQUAT", 0.71*canvasWidth, 0.5*canvasHeight);
     
     
 }

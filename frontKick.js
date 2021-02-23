@@ -7,9 +7,18 @@ let kick = false;
 let radius = 45;
 let progress = true;
 let stroke, fill;
+let s = true;
+let start = new Audio('audio/start.mp3');
+let bump = new Audio('audio/Gamebump.mp3');
 // squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
+
+    if(s) {
+        start.play()
+        s = false;
+      }
+
     if(upc == 0) {
         // take 30% of distance from the hip
         xcl = (0.7*poses[23].x);
@@ -47,7 +56,9 @@ function Exercise(results) {
             let dist = (count%2==0) ? distr : distl;
 
             if(dist <= Math.pow(radius/canvasHeight, 2)) {
+                bump.play();
                 count++;
+                play(count);
                 down = false; // reset squat
                 stroke = "#00ff00";
                 fill = "#00ff00";
@@ -58,7 +69,7 @@ function Exercise(results) {
         // draw keypoints only for ankles
         drawLandmarks(
             ctx1, [poses[31], poses[32]],
-            {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 20});
+            {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 15});
 
         ctx1.lineWidth = 8;
         ctx1.strokeStyle = stroke;
@@ -81,23 +92,24 @@ function Exercise(results) {
     draw(color, ctx1, poses);
 
     ctx2.beginPath();
-    ctx2.rect(0.85*canvasWidth,0.3*canvasHeight, 0.15*canvasWidth, 0.4*canvasHeight);
+    ctx2.rect(0.65*canvasWidth,0.27*canvasHeight, 0.2*canvasWidth, 0.35*canvasHeight);
     ctx2.globalAlpha = 0.6;
     ctx2.fillStyle = "black";
     ctx2.fill();
     ctx2.closePath();
 
     ctx2.beginPath();
-    ctx2.globalAlpha = 1;
+    ctx2.globalAlpha = down?1:0.1;
     ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
-    ctx2.fillStyle = down?"yellow":"gray";
-    ctx2.fillText("Kick", 0.88*canvasWidth, 0.45*canvasHeight);
+    ctx2.fillStyle = down?"yellow":"black";
+    ctx2.fillText("KICK", 0.71*canvasWidth, 0.4*canvasHeight);
     ctx2.closePath();
 
     ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
-    ctx2.fillStyle = down?"gray":"yellow";
-    ctx2.fillText("Squat", 0.88*canvasWidth, 0.55*canvasHeight);
-
+    ctx2.globalAlpha = down?0.1:1;
+    ctx2.fillStyle = down?"black":"yellow";
+    ctx2.fillText("SQUAT", 0.71*canvasWidth, 0.5*canvasHeight);
+    
         
     
 }

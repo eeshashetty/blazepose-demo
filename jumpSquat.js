@@ -7,10 +7,18 @@ let downc = 0;
 let touch = false;
 let progress = true;
 let color;
+let s = true;
+let start = new Audio('audio/start.mp3');
+let bump = new Audio('audio/Gamebump.mp3');
 
 // squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
+   
+    if(s) {
+      start.play()
+      s = false;
+    }
 
     if(upc == 0) {
       yc = (2*poses[33].y - poses[0].y);
@@ -45,7 +53,9 @@ function Exercise(results) {
         // check if head collision occurs
         // point is inside rectangle if x > x1 and y > y1 and x < x2 and y < y2 (x1,y1 are top left coordinates - x2,y2 are bottom right coordinates)
         if(head.x > xcc && head.y > ycc && head.x < xcc + 0.18 && head.y < ycc + 0.05) {
+                bump.play();
                 count++;
+                play(count);
                 down = false;
                 upc = 0;
                 downc = 0;
@@ -77,7 +87,7 @@ function Exercise(results) {
     ctx2.globalAlpha = down?1:0.1;;
     ctx2.font = Math.floor((canvasWidth*22)/720) + "px Arial";
     ctx2.fillStyle = down?"yellow":"black";
-    ctx2.fillText("↑", 0.73*canvasWidth, 0.3*canvasHeight);
+    ctx2.fillText("", 0.73*canvasWidth, 0.3*canvasHeight);
     ctx2.font = Math.floor((canvasWidth*18)/720) + "px Arial";
     ctx2.fillText("JUMP", 0.71*canvasWidth, 0.4*canvasHeight);
     ctx2.closePath();
@@ -87,7 +97,7 @@ function Exercise(results) {
     ctx2.fillStyle = down?"black":"yellow";
     ctx2.fillText("SQUAT", 0.71*canvasWidth, 0.5*canvasHeight);
     ctx2.font = Math.floor((canvasWidth*22)/720) + "px Arial";
-    ctx2.fillText("↓", 0.73*canvasWidth, 0.62*canvasHeight);
+    ctx2.fillText("⤋", 0.73*canvasWidth, 0.62*canvasHeight);
 
 
     draw(color, ctx1, poses);
@@ -95,3 +105,4 @@ function Exercise(results) {
 
 
 }
+

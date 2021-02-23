@@ -5,8 +5,18 @@ let radius = 38;
 let touch = false;
 let stroke, fill;
 
+let s = true;
+let start = new Audio('audio/start.mp3');
+let bump = new Audio('audio/Gamebump.mp3');
+
+// squat+jump
 function Exercise(results) {
     let poses = results.poseLandmarks;
+
+    if(s) {
+        start.play()
+        s = false;
+      }
 
     let a = genShape(count, xc, yc, newc);
     xc = a[0];
@@ -35,10 +45,12 @@ function Exercise(results) {
         let distl = Math.pow((xcc-poses[r].x),2) + Math.pow((ycc-poses[r].y),2);
         
         if(distl <= Math.pow(radius/canvasHeight, 2) || distr <= Math.pow(radius/canvasHeight, 2)) {
+            bump.play();
             stroke = "#00ff00";
             fill = "#00ff00";
             newc = true;
             count++;
+            play(count);
         }
     }
 
@@ -61,7 +73,7 @@ function genShape(count, xc, yc, newc) {
         else
             xc = Math.floor((0.9 - Math.random()*0.05) * canvasWidth)
         
-        yc = Math.floor((0.3 + Math.random()*0.4) * canvasHeight);
+        yc = Math.floor((0.2 + Math.random()*0.5) * canvasHeight);
         
         newc = false;
     }
