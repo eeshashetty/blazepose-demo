@@ -67,22 +67,27 @@ function Exercise(results) {
     
 
     ctx2.beginPath();
-    ctx2.rect(0.85*canvasWidth,0.3*canvasHeight, 0.15*canvasWidth, 0.4*canvasHeight);
+    ctx2.rect(0.65*canvasWidth, 0.2*canvasHeight, 0.2*canvasWidth, 0.5*canvasHeight);
     ctx2.globalAlpha = 0.6;
     ctx2.fillStyle = "black";
     ctx2.fill();
     ctx2.closePath();
 
     ctx2.beginPath();
-    ctx2.globalAlpha = 1;
-    ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
-    ctx2.fillStyle = down?"yellow":"gray";
-    ctx2.fillText("Jump", 0.88*canvasWidth, 0.45*canvasHeight);
+    ctx2.globalAlpha = down?1:0.1;;
+    ctx2.font = Math.floor((canvasWidth*22)/720) + "px Arial";
+    ctx2.fillStyle = down?"yellow":"black";
+    ctx2.fillText("↑", 0.73*canvasWidth, 0.3*canvasHeight);
+    ctx2.font = Math.floor((canvasWidth*18)/720) + "px Arial";
+    ctx2.fillText("JUMP", 0.71*canvasWidth, 0.4*canvasHeight);
     ctx2.closePath();
 
-    ctx2.font = Math.floor((canvasWidth*25)/720) + "px Arial";
-    ctx2.fillStyle = down?"gray":"yellow";
-    ctx2.fillText("Squat", 0.88*canvasWidth, 0.55*canvasHeight);
+    ctx2.font = Math.floor((canvasWidth*18)/720) + "px Arial";
+    ctx2.globalAlpha = down?0.1:1;
+    ctx2.fillStyle = down?"black":"yellow";
+    ctx2.fillText("SQUAT", 0.71*canvasWidth, 0.5*canvasHeight);
+    ctx2.font = Math.floor((canvasWidth*22)/720) + "px Arial";
+    ctx2.fillText("↓", 0.73*canvasWidth, 0.62*canvasHeight);
 
 
     draw(color, ctx1, poses);

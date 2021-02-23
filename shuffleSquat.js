@@ -26,18 +26,40 @@ function Exercise(results) {
     stroke = "yellow";
     // generate box area on alternate sides on alternate counts
     if (count % 2 == 0) {
-        xcc = 0.25;
-        ycc = 0.09;
+        xcc = 0.2;
+        ycc = 0.15;
 
         ctx1.beginPath();
-        ctx1.rect(xcc * canvasWidth, ycc * canvasHeight, 0.19*canvasWidth, 0.84 * canvasHeight);
-        
+        ctx1.font = Math.floor((canvasWidth*30)/720) + "px Arial";
+        ctx1.fillText("↓", 0.3*canvasWidth, 0.14*canvasHeight)
+        ctx1.rect(0.22 * canvasWidth, 0.05 * canvasHeight, 0.2*canvasWidth, 0.06 * canvasHeight);
+        ctx1.fillStyle = "yellow";
+        ctx1.fill();
+        ctx1.font = Math.floor((canvasWidth*18)/720) + "px Arial";
+        ctx1.fillStyle = "black";
+        ctx1.fillText("Squat Here", 0.25*canvasWidth, 0.095*canvasHeight)
+        ctx1.closePath();
+
+        ctx1.beginPath();
+        ctx1.rect(xcc * canvasWidth, ycc * canvasHeight, 0.24*canvasWidth, 0.64 * canvasHeight);
+
     } else {
         xcc = 0.56;
-        ycc = 0.09;
+        ycc = 0.15;
 
         ctx1.beginPath();
-        ctx1.rect(xcc * canvasWidth, ycc * canvasHeight, 0.19*canvasWidth, 0.84 * canvasHeight);
+        ctx1.font = Math.floor((canvasWidth*30)/720) + "px Arial";
+        ctx1.fillText("↓", 0.66*canvasWidth, 0.14*canvasHeight)
+        ctx1.rect(0.58 * canvasWidth, 0.05 * canvasHeight, 0.2*canvasWidth, 0.06 * canvasHeight);
+        ctx1.fillStyle = "yellow";
+        ctx1.fill();
+        ctx1.font = Math.floor((canvasWidth*18)/720) + "px Arial";
+        ctx1.fillStyle = "black";
+        ctx1.fillText("Squat Here", 0.61*canvasWidth, 0.095*canvasHeight)
+        ctx1.closePath();
+
+        ctx1.beginPath();
+        ctx1.rect(xcc * canvasWidth, ycc * canvasHeight, 0.24*canvasWidth, 0.64 * canvasHeight);
         
     }
 
@@ -68,7 +90,7 @@ function Exercise(results) {
     }
 
     ctx1.strokeStyle = stroke;
-    ctx1.lineWidth = "8";
+    ctx1.lineWidth = "3";
     ctx1.stroke();
     ctx1.closePath();
 
