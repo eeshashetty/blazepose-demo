@@ -47,7 +47,7 @@ function Exercise(results) {
     ctx2.drawImage(arru, 0.77*canvasWidth, 0.13*canvasHeight, size,size);
     
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
-    ctx2.fillText("JUMP", 0.74*canvasWidth, 0.4*canvasHeight);
+    ctx2.fillText("UP", 0.74*canvasWidth, 0.4*canvasHeight);
     ctx2.closePath();
 
     let arrd = new Image();
