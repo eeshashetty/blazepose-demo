@@ -11,8 +11,8 @@ let newc = true;
 let stroke, fill;
 let red = true;
 let s = true;
-let bump = new Audio('audio/Gamebump.mp3');
-let start = new Audio('audio/start.mp3');
+let bump = new Audio('Audio files/Instructions/Gamebump.mp3');
+let start = new Audio('Audio files/Instructions/Great-Lets start.mp3');
 
 // squat+jump
 function Exercise(results) {
@@ -89,7 +89,7 @@ function Exercise(results) {
         ctx1.beginPath();
         ctx1.arc(xcl, yc, radius, 0, 2 * Math.PI);
         stroke = "black";
-        fill = "#4a73ef";
+        fill = "blue";
         
         if(!red && (poses[19].visibility > 0.9 || poses[20].visibility > 0.9)) {    
             let xcc =  xcl/canvasWidth;
@@ -119,31 +119,23 @@ function Exercise(results) {
     // draw keypoints for both hands
     drawLandmarks(
     ctx1, [poses[20]],
-    {color: '#4a73ef', fillColor: '#4a73ef', lineWidth: 4, radius: 15});
+    {color: 'blue', fillColor: 'blue', lineWidth: 4, radius: 15});
 
     drawLandmarks(
         ctx1, [poses[19]],
         {color: 'red', fillColor: 'red', lineWidth: 4, radius: 15});
     
-    ctx2.beginPath();
-    ctx2.rect(0.75*canvasWidth,0.27*canvasHeight, 0.2*canvasWidth, 0.35*canvasHeight);
-    ctx2.globalAlpha = 0.6;
-    ctx2.fillStyle = "black";
-    ctx2.fill();
-    ctx2.closePath();
-
-    ctx2.beginPath();
     ctx2.globalAlpha = red?1:0.1;
-    ctx2.font = Math.floor((canvasWidth*22)/720) + "px Arial";
     ctx2.fillStyle = red?"red":"black";
-    ctx2.fillText("RED", 0.81*canvasWidth, 0.4*canvasHeight);
+    ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
+    ctx2.fillText("RED", 0.77*canvasWidth, 0.4*canvasHeight);
     ctx2.closePath();
 
-    ctx2.font = Math.floor((canvasWidth*22)/720) + "px Arial";
+    ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
     ctx2.globalAlpha = red?0.1:1;
-    ctx2.fillStyle = red?"black":"#4a73ef";
-    ctx2.fillText("BLUE", 0.81*canvasWidth, 0.5*canvasHeight);
-    
+    ctx2.fillStyle = red?"black":"blue";
+    ctx2.globalAlpha = red?0.1:1;
+    ctx2.fillText("BLUE", 0.77*canvasWidth, 0.53*canvasHeight);
 
 }
 
@@ -162,3 +154,31 @@ function genShape(xr, xl, sr, sl, y, newc) {
     return [xcr, xcl, yc, newc]
   
 }
+
+
+function play(count) {
+    let one = new Audio('Audio files/Count/1.mp3');
+    let two = new Audio('Audio files/Count/2.mp3');
+    let three = new Audio('Audio files/Count/3.mp3');
+    let great = [
+        new Audio('Audio files/Motivation/come on.mp3'),
+        new Audio('Audio files/Motivation/Good Work.mp3'),
+        new Audio('Audio files/Motivation/Great Going.mp3'),
+        new Audio('Audio files/Motivation/Keep breathing.mp3'),
+        new Audio('Audio files/Motivation/Keep Going.mp3'),
+        new Audio('Audio files/Motivation/Keep Pushing.mp3'),
+        new Audio('Audio files/Motivation/Very Good.mp3'),
+        new Audio('Audio files/Motivation/Very nice.Keep going.mp3'),
+        new Audio('Audio files/Motivation/Very Nice.mp3'),
+        new Audio('Audio files/Motivation/you are doing good.mp3'),
+    ]
+    if(count == 1) {
+        one.play();
+    } else if (count == 2) {
+        two.play();
+    } else if (count == 3) {
+        three.play();
+    } else if(count % 6 == 0) {
+        great[Math.floor(Math.random()*great.length)].play();
+    } 
+}  

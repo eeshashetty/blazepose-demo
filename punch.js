@@ -1,10 +1,9 @@
 let wait = 0;
 let xcc, ycc;
 let punch = false;
-let bump = new Audio('audio/Gamebump.mp3');
-
-
-let start = new Audio('audio/start.mp3');
+let s = true;
+let start = new Audio('Audio files/Instructions/Great-Lets start.mp3');
+let bump = new Audio('Audio files/Instructions/Gamebump.mp3');
 
 // squat+jump
 function Exercise(results) {
@@ -14,8 +13,7 @@ function Exercise(results) {
         start.play()
         s = false;
       }    
-    let poses = results.poseLandmarks;
-
+    
     xcc = 0.76;
     ycc = 0.09;
     // Punching Bag - White
@@ -53,7 +51,10 @@ function Exercise(results) {
                 punch = false;
             }
         }
-
+        if(count==4) {
+            count = 0;
+        }
+       
         
     // draw keypoints only for hands
     drawLandmarks(
@@ -63,3 +64,4 @@ function Exercise(results) {
 
 
     }
+
