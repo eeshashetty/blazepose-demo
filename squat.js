@@ -37,28 +37,27 @@ function Exercise(results) {
     a = (res[3] == undefined)?down:res[3];
     b = (res[4] == undefined)?down:res[4];
 
-    ctx2.beginPath();
-    ctx2.rect(0.65*canvasWidth, 0.2*canvasHeight, 0.2*canvasWidth, 0.5*canvasHeight);
-    ctx2.globalAlpha = 0.6;
-    ctx2.fillStyle = "black";
-    ctx2.fill();
-    ctx2.closePath();
-
+    let arru = new Image();
+    arru.src = "Arrow icons/Arrow 8-up.png"
+    let size = (canvasWidth*80)/720;
+    
     ctx2.beginPath();
     ctx2.globalAlpha = up?0.1:1;;
-    ctx2.font = Math.floor((canvasWidth*24)/720) + "px Arial";
-    ctx2.fillStyle = up?"black":"yellow";
-    ctx2.fillText("⤊", 0.73*canvasWidth, 0.3*canvasHeight);
-    ctx2.font = Math.floor((canvasWidth*18)/720) + "px Arial";
-    ctx2.fillText("UP", 0.71*canvasWidth, 0.4*canvasHeight);
+    ctx2.fillStyle = up?"black":"#FFC107";
+    ctx2.drawImage(arru, 0.77*canvasWidth, 0.13*canvasHeight, size,size);
+    
+    ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
+    ctx2.fillText("JUMP", 0.74*canvasWidth, 0.4*canvasHeight);
     ctx2.closePath();
 
-    ctx2.font = Math.floor((canvasWidth*18)/720) + "px Arial";
+    let arrd = new Image();
+    arrd.src = "Arrow icons/Arrow 8-down.png"
+    
+    ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
     ctx2.globalAlpha = up?1:0.1;
-    ctx2.fillStyle = up?"black":"yellow";
-    ctx2.fillText("SQUAT", 0.71*canvasWidth, 0.5*canvasHeight);
-    ctx2.font = Math.floor((canvasWidth*24)/720) + "px Arial";
-    ctx2.fillText("⤋", 0.73*canvasWidth, 0.62*canvasHeight);
+    ctx2.fillStyle = up?"#FFC107":"black";
+    ctx2.fillText("SQUAT", 0.74*canvasWidth, 0.53*canvasHeight);
+    ctx2.drawImage(arrd, 0.77*canvasWidth, 0.54*canvasHeight, size, size);
 
     
 }

@@ -254,7 +254,7 @@ function game(x){
             $.getScript("punch.js");
             exerciseName='Punching Bag';
             functionVar=1;
-            initialized=1;
+            initialized=0;
             openNav();
             break;
             
@@ -331,7 +331,7 @@ function game(x){
             $.getScript("jumpSquat.js");
             exerciseName='Squat Jumps';
             functionVar=1;
-            initialized=1;
+            initialized=0;
             openNav();
             break;
 
