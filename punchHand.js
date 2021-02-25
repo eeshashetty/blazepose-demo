@@ -128,16 +128,29 @@ function Exercise(results) {
         ctx1, [poses[19]],
         {color: 'red', fillColor: 'red', lineWidth: 4, radius: 15});
     
+    ctx2.beginPath();
+    ctx2.rect(0.76*canvasWidth, 0.3*canvasHeight, 0.15*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = red?0.6:0;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
     ctx2.globalAlpha = red?1:0.1;
     ctx2.fillStyle = red?"red":"black";
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
-    ctx2.fillText("RED", 0.77*canvasWidth, 0.4*canvasHeight);
+    ctx2.fillText("RED", 0.78*canvasWidth, 0.4*canvasHeight);
+    ctx2.closePath();
+
+    ctx2.beginPath();
+    ctx2.rect(0.76*canvasWidth, 0.43*canvasHeight, 0.15*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = red?0:0.3;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
     ctx2.closePath();
 
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
     ctx2.globalAlpha = red?0.1:1;
     ctx2.fillStyle = red?"black":"blue";
-    ctx2.globalAlpha = red?0.1:1;
     ctx2.fillText("BLUE", 0.77*canvasWidth, 0.53*canvasHeight);
 
 }
