@@ -528,7 +528,7 @@ function onResults(results) {
     ctx2.fillRect(0,canvasHeight*0.9,canvasWidth,canvasHeight*0.1);
     var clr='blue';
     if (functionVar!=null){
-        if (!initialized){
+        if (initialized){
             var txt='';
             ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
             ctx1.drawImage(results.image, 0, 0, canvas1.width, canvas1.height);

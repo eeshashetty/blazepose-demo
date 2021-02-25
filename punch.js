@@ -31,7 +31,7 @@ function Exercise(results) {
     // X coordinate keeps on moving down
     ctx1.beginPath();
     ctx1.globalAlpha = 1;
-    ctx1.rect(xcc*canvasWidth, (ycc + count/4)*canvasHeight, canvasWidth/10, (0.78 - count/4)*canvasHeight);
+    ctx1.rect(xcc*canvasWidth, ((ycc + (count/10*0.78))*canvasHeight), canvasWidth/10, (0.78 - 0.78 * count/10)*canvasHeight);
     ctx1.fillStyle = "red";
     ctx1.fill();
     ctx1.closePath();
@@ -51,7 +51,7 @@ function Exercise(results) {
                 punch = false;
             }
         }
-        if(count==4) {
+        if(count==10) {
             count = 0;
         }
        
