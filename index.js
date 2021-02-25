@@ -287,7 +287,7 @@ function game(x){
             $.getScript("sideKick.js");
             exerciseName='Squat and Sidekick';
             functionVar=1;
-            initialized=0;
+            initialized=1;
             openNav();
             break;
         

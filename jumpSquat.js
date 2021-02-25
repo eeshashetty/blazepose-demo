@@ -75,13 +75,7 @@ function Exercise(results) {
     // draw keypoints
     color = progress?"red":(up?"white":(down?"#00ff00":"red"));
     
-    ctx2.beginPath();
-    ctx2.rect(0.71*canvasWidth, 0.15*canvasHeight, 0.22*canvasWidth, 0.57*canvasHeight)
-    ctx2.globalAlpha = 0.6;
-    ctx2.fillStyle = "black";
-    ctx2.fill();
-    ctx2.closePath();
-
+   
     let arru = new Image();
     arru.src = "Arrow icons/Arrow 8-up.png"
     let size = (canvasWidth*80)/720;

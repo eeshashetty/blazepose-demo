@@ -44,7 +44,7 @@ function Exercise(results) {
         ctx1.beginPath();
         ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
         stroke = "black";
-        fill = "yellow";
+        fill = "#e68214";
         
         // check if leg collides with circle
         // first - check if ankles are visible
@@ -75,7 +75,7 @@ function Exercise(results) {
         ctx1.strokeStyle = stroke;
         ctx1.stroke();
         ctx1.globalAlpha = 0.6;
-        ctx1.fillStyle = fill; // yellow if not kicked, green once kicked
+        ctx1.fillStyle = fill; // #e68214 if not kicked, green once kicked
         ctx1.fill();
         ctx1.closePath();
 
@@ -83,7 +83,7 @@ function Exercise(results) {
         // draw keypoints only for ankles
         drawLandmarks(
             ctx1, [poses[31], poses[32]],
-            {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 15});
+            {color: '#e68214', fillColor: '#e68214', lineWidth: 4, radius: 15});
     } 
     
     // check squat
@@ -97,17 +97,31 @@ function Exercise(results) {
     draw(color, ctx1, poses);
 
     let size = (canvasWidth*80)/720;
+    
+    ctx2.beginPath();
+    ctx2.rect(0.72*canvasWidth, 0.25*canvasHeight, 0.2*canvasWidth, 0.15*canvasHeight)
+    ctx2.globalAlpha = down?0.6:0;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
 
     ctx2.beginPath();
     ctx2.globalAlpha = down?1:0.1;;
     ctx2.fillStyle = down?"#FFC107":"black";
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
-    ctx2.fillText("KICK", 0.74*canvasWidth, 0.4*canvasHeight);
+    ctx2.fillText("KICK", 0.755*canvasWidth, 0.35*canvasHeight);
     ctx2.closePath();
 
     let arrd = new Image();
     arrd.src = "Arrow icons/Arrow 8-down.png"
     
+    ctx2.beginPath();
+    ctx2.rect(0.72*canvasWidth, 0.43*canvasHeight, 0.2*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = down?0:0.6;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
     ctx2.globalAlpha = down?0.1:1;
     ctx2.fillStyle = down?"black":"#FFC107";
