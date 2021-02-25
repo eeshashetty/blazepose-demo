@@ -41,7 +41,7 @@ function Exercise(results) {
         }
 
         ctx1.rect(xc ,yc, 0.18*canvasWidth, 0.05*canvasHeight);
-        fill = "yellow";
+        fill = "#e68214";
 
         // Blazepose returns coordinates in a scale of 0 -1, so reduce rectangle coordinates to a scale of 0 to 1 as well
         let xcc =  xc/canvasWidth;

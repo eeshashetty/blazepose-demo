@@ -34,7 +34,7 @@ export function KickSquat(poses, ctx) {
         ctx.beginPath();
         ctx.globalAlpha = 0.6;
         ctx.arc(xc, yc, radius, 0, 2 * Math.PI);
-        ctx.fillStyle = kick?'#00ff00':'yellow'; // yellow if not kicked, green once kicked
+        ctx.fillStyle = kick?'#00ff00':'#e68214'; // #e68214 if not kicked, green once kicked
         ctx.fill();
         ctx.closePath();
 
@@ -68,7 +68,7 @@ export function KickSquat(poses, ctx) {
         // draw keypoints only for ankles
         drawLandmarks(
             ctx, [poses[31], poses[32]],
-            {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 20});
+            {color: '#e68214', fillColor: '#e68214', lineWidth: 4, radius: 20});
     } 
     
     // check squat

@@ -40,7 +40,7 @@ function Exercise(results) {
         ctx1.beginPath();
         ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
         stroke = "black";
-        fill = "yellow";
+        fill = "#e68214";
 
         // check if leg collides with circle
         // first - check if ankles are visible
@@ -69,13 +69,13 @@ function Exercise(results) {
         // draw keypoints only for ankles
         drawLandmarks(
             ctx1, [poses[31], poses[32]],
-            {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 15});
+            {color: '#e68214', fillColor: '#e68214', lineWidth: 4, radius: 15});
 
         ctx1.lineWidth = 8;
         ctx1.strokeStyle = stroke;
         ctx1.stroke();
         ctx1.globalAlpha = 0.6;
-        ctx1.fillStyle = fill; // yellow if not kicked, green once kicked
+        ctx1.fillStyle = fill; // #e68214 if not kicked, green once kicked
         ctx1.fill();
         ctx1.closePath();
 

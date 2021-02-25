@@ -27,7 +27,7 @@ function Exercise(results) {
     ctx1.beginPath();
     ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
     stroke = "black";
-    fill = "yellow";
+    fill = "#e68214";
     
     let l = 19;
     let r = 20;

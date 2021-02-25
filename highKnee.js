@@ -6,6 +6,7 @@ let wait = 0;
 let p;
 let s = true;
 let start = new Audio('Audio files/Instructions/Great-Lets start.mp3');
+let bump = new Audio('Audio files/Instructions/Gamebump.mp3');
 
 // squat+jump
 function Exercise(results) {
@@ -40,6 +41,7 @@ function Exercise(results) {
             wait++;
             touch = true;
             if(wait>3) {
+                bump.play();
                 count++;
                 play(count);
                 wait = 0;

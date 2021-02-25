@@ -22,7 +22,7 @@ function Exercise(results) {
     // draw keypoints only for ankles
     drawLandmarks(
         ctx1, [poses[31], poses[32]],
-        {color: 'yellow', fillColor: 'yellow', lineWidth: 4, radius: 15});
+        {color: '#e68214', fillColor: '#e68214', lineWidth: 4, radius: 15});
 
     if(upc == 0) {
         yc = 1.3*(poses[23].y)*canvasHeight;
@@ -45,7 +45,7 @@ function Exercise(results) {
     ctx1.strokeStyle = raise?'#00ff00':'black';
     ctx1.stroke();
     ctx1.globalAlpha = 0.6;
-    ctx1.fillStyle = raise?'#00ff00':'yellow'; // yellow if not kicked, green once kicked
+    ctx1.fillStyle = raise?'#00ff00':'#e68214'; // #e68214 if not kicked, green once kicked
     ctx1.fill();
     ctx1.closePath();
 

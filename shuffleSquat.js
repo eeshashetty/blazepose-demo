@@ -36,8 +36,6 @@ function Exercise(results) {
         ycc = 0.15;
 
         ctx1.beginPath();
-        ctx1.font = Math.floor((canvasWidth*30)/720) + "px Arial";
-        ctx1.fillText("↓", 0.3*canvasWidth, 0.14*canvasHeight)
         ctx1.rect(0.22 * canvasWidth, 0.05 * canvasHeight, 0.2*canvasWidth, 0.06 * canvasHeight);
         ctx1.globalAlpha = 0.6;
         ctx1.fillStyle = "black";
@@ -56,8 +54,6 @@ function Exercise(results) {
         ycc = 0.15;
 
         ctx1.beginPath();
-        ctx1.font = Math.floor((canvasWidth*30)/720) + "px Arial";
-        ctx1.fillText("↓", 0.66*canvasWidth, 0.14*canvasHeight)
         ctx1.rect(0.58 * canvasWidth, 0.05 * canvasHeight, 0.2*canvasWidth, 0.06 * canvasHeight);
         ctx1.globalAlpha = 0.6;
         ctx1.fillStyle = "black";    

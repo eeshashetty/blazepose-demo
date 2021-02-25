@@ -62,6 +62,7 @@ function Exercise(results) {
             
             }
     
+            ctx1.globalAlpha = 1;
             ctx1.lineWidth = 8;
             ctx1.strokeStyle = stroke;
             ctx1.stroke();

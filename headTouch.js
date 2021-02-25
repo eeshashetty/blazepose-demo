@@ -35,7 +35,7 @@ function Exercise(results) {
     ctx1.beginPath();
     
     ctx1.rect(xc,yc, 0.18*canvasWidth, 0.05*canvasHeight);
-    fill = "yellow"; 
+    fill = "#e68214"; 
     
     let xcc =  xc/canvasWidth;
     let ycc = yc/canvasHeight;
