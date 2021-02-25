@@ -33,7 +33,7 @@ function Exercise(results) {
     ctx1.beginPath();
     ctx1.arc(xc, yc, radius, 0, 2 * Math.PI);
     stroke = "black";
-    fill = "yellow";
+    fill = "#e68214";
 
     let l = 31;
     let r = 32;
@@ -41,16 +41,23 @@ function Exercise(results) {
     // draw keypoints
     drawLandmarks(
     ctx1, [poses[l], poses[r]],
-    {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 15});
+    {color: '#e68214', fillColor: '#e68214', lineWidth: 4, radius: 15});
     
     // check if hand/leg collides with circle
     if(poses[l].visibility > 0.9 || poses[r].visibility > 0.9) {    
         let xcc =  xc/canvasWidth;
         let ycc = yc/canvasHeight;
-        let distr = Math.pow((xcc-poses[l].x),2) + Math.pow((ycc-poses[l].y),2);
-        let distl = Math.pow((xcc-poses[r].x),2) + Math.pow((ycc-poses[r].y),2);
+    
+        let distr = Math.pow((xcc-poses[31].x),2) + Math.pow((ycc-poses[31].y),2); // check distance of right ankle from circle
+        let distr1 = Math.pow((xcc-poses[29].x),2) + Math.pow((ycc-poses[29].y),2); // check distance of right ankle from circle
+        let distr2 = Math.pow((xcc-poses[27].x),2) + Math.pow((ycc-poses[27].y),2); // check distance of right ankle from circle
         
-        if(distl <= Math.pow(radius/canvasHeight, 2) || distr <= Math.pow(radius/canvasHeight, 2)) {
+        let distl = Math.pow((xcc-poses[32].x),2) + Math.pow((ycc-poses[32].y),2); // check distance of left ankle from circle
+        let distl1 = Math.pow((xcc-poses[30].x),2) + Math.pow((ycc-poses[30].y),2); // check distance of left ankle from circle
+        let distl2 = Math.pow((xcc-poses[28].x),2) + Math.pow((ycc-poses[28].y),2); // check distance of left ankle from circle
+        
+    
+        if(distl <= Math.pow(radius/canvasHeight, 2) || distr <= Math.pow(radius/canvasHeight, 2) || distl1 <= Math.pow(radius/canvasHeight, 2) || distr1 <= Math.pow(radius/canvasHeight, 2) || distl2 <= Math.pow(radius/canvasHeight, 2) || distr2 <= Math.pow(radius/canvasHeight, 2)) {
             bump.play();
             count++;
             play(count);

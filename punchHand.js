@@ -23,32 +23,34 @@ function Exercise(results) {
         s = false;
       }
 
-    if(upc==0 || !showl && !showr){
+    if(upc==0){
         
         // fix x coordinate as the distance of difference between both shoudlers from each shoulder
-        xc = (poses[12].x + poses[11].x)/2
-        xcr = 0.7*xc*canvasWidth;
-        xcl = 1.3*xc*canvasWidth;
+        xr = 0.9*(2*poses[12].x - poses[11].x);
+        xl = 1.1*(2*poses[11].x - poses[12].x);
         
-        sl = 0.9*poses[11].x;
-        sr = 1.1*poses[12].x;
+        sr = 0.7*poses[11].x;
+        sl = 1.3*poses[12].x;
 
         // y coordinate is that of shoulder
-        yc = poses[12].y*canvasHeight;
-
-        showl = true;
-        showr = true;
+        y = poses[12].y;
 
         upc++;
     }
 
-    // let a = genShape(xr, xl, sr, sl, y, newc);
-    // xcr = a[0];
-    // xcl = a[1];
-    // yc = a[2];
-    // newc = a[3];
 
-    // console.log(xcr,xcl,yc,newc);
+    if(!showr && !showl){
+        showr = true;
+        showl = true;
+    }
+
+    let a = genShape(xr, xl, sr, sl, y, newc);
+    xcr = a[0];
+    xcl = a[1];
+    yc = a[2];
+    newc = a[3];
+
+    console.log(xcr,xcl,yc,newc);
     
     // generate circles for punch if in squat
     // create circle on both sides
@@ -79,7 +81,7 @@ function Exercise(results) {
         ctx1.lineWidth = 8;
         ctx1.strokeStyle = stroke;
         ctx1.stroke();
-        ctx1.globalAlpha = 0.6;       
+        ctx1.globalAlpha = 0.8;       
         ctx1.fillStyle = fill;
         ctx1.fill();
         ctx1.closePath();
@@ -110,7 +112,7 @@ function Exercise(results) {
         ctx1.lineWidth = 8;
         ctx1.strokeStyle = stroke;
         ctx1.stroke();
-        ctx1.globalAlpha = 0.6;       
+        ctx1.globalAlpha = 0.8;       
         ctx1.fillStyle = fill;
         ctx1.fill();
         ctx1.closePath();
@@ -147,7 +149,7 @@ function genShape(xr, xl, sr, sl, y, newc) {
         xcr = Math.floor((sr + Math.random()*(xr-sr)) * canvasWidth)
         xcl = Math.floor((xl - Math.random()*(sl-xl)) * canvasWidth)
         
-        yc = Math.floor((0.15 + Math.random()*(1.5*y - 0.15)) * canvasHeight);
+        yc = Math.floor((0.16 + Math.random()*(1.8*y - 0.16)) * canvasHeight);
         
         newc = false;
     }

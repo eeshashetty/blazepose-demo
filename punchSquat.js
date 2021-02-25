@@ -25,7 +25,7 @@ function Exercise(results) {
         s = false;
       }
 
-      if(upc == 0 || !showl & !showr) {
+      if(upc == 0) {
         // fix x coordinate as the distance of difference between both shoudlers from each shoulder
         xc = (poses[12].x + poses[11].x)/2
         xcr = 0.7*xc*canvasWidth;
@@ -33,8 +33,6 @@ function Exercise(results) {
         
         // y coordinate is that of mouth
         yc = poses[12].y*canvasHeight;
-        showl = true;
-        showr = true;
         upc++;
     }
 
@@ -66,7 +64,7 @@ function Exercise(results) {
             ctx1.lineWidth = 8;
             ctx1.strokeStyle = stroke;
             ctx1.stroke();
-            ctx1.globalAlpha = 0.6;       
+            ctx1.globalAlpha = 0.8;       
             ctx1.fillStyle = fill;
             ctx1.fill();
             ctx1.closePath();
@@ -96,7 +94,7 @@ function Exercise(results) {
             ctx1.lineWidth = 8;
             ctx1.strokeStyle = stroke;
             ctx1.stroke();
-            ctx1.globalAlpha = 0.6;       
+            ctx1.globalAlpha = 0.8;       
             ctx1.fillStyle = fill;
             ctx1.fill();
             ctx1.closePath();
@@ -105,6 +103,8 @@ function Exercise(results) {
         if(c==2) {
             c = 0;
             down = false;
+            showl = true;
+            showr = true;
             count++;
             play(count);
         }
@@ -136,15 +136,29 @@ function Exercise(results) {
     let size = (canvasWidth*80)/720;
 
     ctx2.beginPath();
+    ctx2.rect(0.72*canvasWidth, 0.25*canvasHeight, 0.2*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = down?0.6:0;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
+    ctx2.beginPath();
     ctx2.globalAlpha = down?1:0.1;;
     ctx2.fillStyle = down?"#FFC107":"black";
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
-    ctx2.fillText("PUNCH", 0.74*canvasWidth, 0.4*canvasHeight);
+    ctx2.fillText("PUNCH", 0.74*canvasWidth, 0.35*canvasHeight);
     ctx2.closePath();
 
     let arrd = new Image();
     arrd.src = "Arrow icons/Arrow 8-down.png"
     
+    ctx2.beginPath();
+    ctx2.rect(0.72*canvasWidth, 0.43*canvasHeight, 0.2*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = down?0:0.6;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
     ctx2.globalAlpha = down?0.1:1;
     ctx2.fillStyle = down?"black":"#FFC107";

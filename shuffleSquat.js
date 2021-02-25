@@ -40,7 +40,7 @@ function Exercise(results) {
         ctx1.globalAlpha = 0.6;
         ctx1.fillStyle = "black";
         ctx1.fill();
-        ctx1.font = Math.floor((canvasWidth*18)/720) + "px Arial";
+        ctx1.font = Math.floor((canvasWidth*18)/720) + "px Algerian";
         ctx1.globalAlpha = 1;
         ctx1.fillStyle = "yellow";
         ctx1.fillText("Squat Here", 0.25*canvasWidth, 0.095*canvasHeight)
@@ -58,7 +58,7 @@ function Exercise(results) {
         ctx1.globalAlpha = 0.6;
         ctx1.fillStyle = "black";    
         ctx1.fill();
-        ctx1.font = Math.floor((canvasWidth*18)/720) + "px Arial";
+        ctx1.font = Math.floor((canvasWidth*18)/720) + "px Algerian";
         ctx1.globalAlpha = 1;
         ctx1.fillStyle = "yellow";
         ctx1.fillText("Squat Here", 0.61*canvasWidth, 0.095*canvasHeight)
@@ -109,7 +109,7 @@ function Exercise(results) {
     }
 
     ctx1.strokeStyle = stroke;
-    ctx1.lineWidth = "5";
+    ctx1.lineWidth = "8";
     ctx1.stroke();
     ctx1.closePath();
 

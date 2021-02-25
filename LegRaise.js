@@ -44,7 +44,7 @@ function Exercise(results) {
     ctx1.lineWidth = 8;
     ctx1.strokeStyle = raise?'#00ff00':'black';
     ctx1.stroke();
-    ctx1.globalAlpha = 0.6;
+    ctx1.globalAlpha = 0.8;
     ctx1.fillStyle = raise?'#00ff00':'#e68214'; // #e68214 if not kicked, green once kicked
     ctx1.fill();
     ctx1.closePath();

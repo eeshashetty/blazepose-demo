@@ -17,6 +17,7 @@ function Exercise(results) {
         s = false;
       }
  
+    // fix head point everytime on reset
     if(frame == 0)
     {
       yc = (2*poses[33].y - poses[0].y);

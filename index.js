@@ -427,7 +427,7 @@ function checkSquat(poses) {
               }
               
               // squat angle is <=100
-              else if(a<=140 && b<=140) {
+              else if(a<=140 && b<=140 && a>=50 && b>=50) {
                   down = true;
                   up = false;
                   progress = false;

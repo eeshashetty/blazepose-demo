@@ -40,24 +40,38 @@ function Exercise(results) {
     let arru = new Image();
     arru.src = "Arrow icons/Arrow 8-up.png"
     let size = (canvasWidth*80)/720;
-    
+
     ctx2.beginPath();
-    ctx2.globalAlpha = up?0.1:1;;
+    ctx2.rect(0.72*canvasWidth, 0.25*canvasHeight, 0.2*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = up?0:0.6;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
+    ctx2.beginPath();
+    ctx2.globalAlpha = up?0.1:1;
     ctx2.fillStyle = up?"black":"#FFC107";
-    ctx2.drawImage(arru, 0.77*canvasWidth, 0.13*canvasHeight, size,size);
+    ctx2.drawImage(arru, 0.76*canvasWidth, 0.05*canvasHeight, size,size);
     
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
-    ctx2.fillText("UP", 0.74*canvasWidth, 0.4*canvasHeight);
+    ctx2.fillText("UP", 0.78*canvasWidth, 0.35*canvasHeight);
     ctx2.closePath();
 
     let arrd = new Image();
     arrd.src = "Arrow icons/Arrow 8-down.png"
     
+    ctx2.rect(0.72*canvasWidth, 0.43*canvasHeight, 0.2*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = up?0.6:0;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
+
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
     ctx2.globalAlpha = up?1:0.1;
     ctx2.fillStyle = up?"#FFC107":"black";
     ctx2.fillText("SQUAT", 0.74*canvasWidth, 0.53*canvasHeight);
-    ctx2.drawImage(arrd, 0.77*canvasWidth, 0.54*canvasHeight, size, size);
+    ctx2.drawImage(arrd, 0.76*canvasWidth, 0.54*canvasHeight, size, size);
 
     
 }

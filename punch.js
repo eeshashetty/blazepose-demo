@@ -59,7 +59,7 @@ function Exercise(results) {
     // draw keypoints only for hands
     drawLandmarks(
         ctx1, [rightHand, leftHand],
-        {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 15});
+        {color: '#e68214', fillColor: '#e68214', lineWidth: 4, radius: 15});
     
 
 

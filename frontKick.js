@@ -50,12 +50,19 @@ function Exercise(results) {
             let ycc = yc/canvasHeight;
 
             let distr = Math.pow((xcc-poses[31].x),2) + Math.pow((ycc-poses[31].y),2); // check distance of right ankle from circle
+            let distr1 = Math.pow((xcc-poses[29].x),2) + Math.pow((ycc-poses[29].y),2); // check distance of right ankle from circle
+            let distr2 = Math.pow((xcc-poses[27].x),2) + Math.pow((ycc-poses[27].y),2); // check distance of right ankle from circle
+            
             let distl = Math.pow((xcc-poses[32].x),2) + Math.pow((ycc-poses[32].y),2); // check distance of left ankle from circle
+            let distl1 = Math.pow((xcc-poses[30].x),2) + Math.pow((ycc-poses[30].y),2); // check distance of left ankle from circle
+            let distl2 = Math.pow((xcc-poses[28].x),2) + Math.pow((ycc-poses[28].y),2); // check distance of left ankle from circle
             
             // a point (x1,y1) is inside a circle if (x-x1)^2 + (y-y1)^2 <= radius^2
             let dist = (count%2==0) ? distr : distl;
+            let dist1 = (count%2==0) ? distr1 : distl1;
+            let dist2 = (count%2==0) ? distr2 : distl2;
 
-            if(dist <= Math.pow(radius/canvasHeight, 2)) {
+            if(dist <= Math.pow(radius/canvasHeight, 2)||dist1 <= Math.pow(radius/canvasHeight, 2)||dist2 <= Math.pow(radius/canvasHeight, 2)) {
                 bump.play();
                 count++;
                 play(count);
@@ -74,7 +81,7 @@ function Exercise(results) {
         ctx1.lineWidth = 8;
         ctx1.strokeStyle = stroke;
         ctx1.stroke();
-        ctx1.globalAlpha = 0.6;
+        ctx1.globalAlpha = 0.8;
         ctx1.fillStyle = fill; // #e68214 if not kicked, green once kicked
         ctx1.fill();
         ctx1.closePath();
@@ -94,15 +101,29 @@ function Exercise(results) {
     let size = (canvasWidth*80)/720;
 
     ctx2.beginPath();
+    ctx2.rect(0.72*canvasWidth, 0.25*canvasHeight, 0.2*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = down?0.6:0;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
+    ctx2.beginPath();
     ctx2.globalAlpha = down?1:0.1;;
     ctx2.fillStyle = down?"#FFC107":"black";
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
-    ctx2.fillText("KICK", 0.74*canvasWidth, 0.4*canvasHeight);
+    ctx2.fillText("KICK", 0.755*canvasWidth, 0.35*canvasHeight);
     ctx2.closePath();
 
     let arrd = new Image();
     arrd.src = "Arrow icons/Arrow 8-down.png"
     
+    ctx2.beginPath();
+    ctx2.rect(0.72*canvasWidth, 0.43*canvasHeight, 0.2*canvasWidth, 0.14*canvasHeight)
+    ctx2.globalAlpha = down?0:0.6;
+    ctx2.fillStyle = "black";
+    ctx2.fill();
+    ctx2.closePath();
+
     ctx2.font = Math.floor((canvasWidth*40)/720) + "px Algerian";
     ctx2.globalAlpha = down?0.1:1;
     ctx2.fillStyle = down?"black":"#FFC107";

@@ -35,7 +35,7 @@ function Exercise(results) {
     // draw keypoints
     drawLandmarks(
     ctx1, [poses[l], poses[r]],
-    {color: '#00FF00', fillColor: '#FF0000', lineWidth: 4, radius: 20});
+    {color: '#e68214', fillColor: '#e68214', lineWidth: 4, radius: 15});
     
     // check if hand/leg collides with circle
     if(poses[l].visibility > 0.9 || poses[r].visibility > 0.9) {    
@@ -57,7 +57,7 @@ function Exercise(results) {
     ctx1.lineWidth = 8;
     ctx1.strokeStyle = stroke;
     ctx1.stroke();
-    ctx1.globalAlpha = 0.6;
+    ctx1.globalAlpha = 0.8;
     ctx1.fillStyle = fill;
     ctx1.fill();
     ctx1.closePath();
